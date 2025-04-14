@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
@@ -24,7 +24,7 @@ const TickIcon = ({ className }: { className?: string }) => (
 );
 
 const AiAgentBadge = () => (
-  <span className="ml-1.5 px-1.5 py-0.5 bg-gradient-to-r from-[rgb(var(--color-digital-lavender))] to-[rgb(var(--color-tranquil-blue))] text-white text-[9px] leading-tight rounded-full font-medium">AI Agent</span>
+  <span className="ml-1.5 px-1.5 py-0.5 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white text-[9px] leading-tight rounded-full font-medium">AI Agent</span>
 );
 
 const TenYearsBadge = () => (
@@ -34,6 +34,20 @@ const TenYearsBadge = () => (
 export default function Home() {
   // 状态管理
   const [activeIndustry, setActiveIndustry] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  // 设置鼠标位置追踪
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
   
   // 动画变体
   const containerVariants = {
@@ -78,7 +92,22 @@ export default function Home() {
       <div className="bg-blob-5"></div>
 
       {/* --- Hero Section --- */}
-      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50">
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
+        {/* 背景装饰模糊圆形 - 增强毛玻璃效果的视觉层次感 */}
+        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-purple-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-blue-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-cyan-400/20 rounded-full filter blur-3xl"></div>
+        
+        {/* 跟随鼠标移动的交互光效 */}
+        <motion.div
+          className="absolute w-64 h-64 bg-white/10 rounded-full filter blur-3xl pointer-events-none"
+          animate={{
+            x: mousePosition.x - 150,
+            y: mousePosition.y - 250,
+          }}
+          transition={{ type: "spring", damping: 30, stiffness: 200 }}
+        />
+        
         <div className="container mx-auto px-4 relative z-10 max-w-4xl">
           <motion.h2 
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight md:leading-tight text-center whitespace-nowrap"
@@ -86,8 +115,8 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="inline-block">每一次回复,</span>
-            <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent">都是一次升级</span>
+            <span className="inline-block">让企业轻松拥有</span>
+            <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent">智能客服</span><AiAgentBadge />
           </motion.h2>
           
           <motion.div 
@@ -97,7 +126,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              让更多企业轻松拥有智能客服 <span className="ml-1.5 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full">AI agent</span>
+              每一次回复,都是一次升级
             </p>
           </motion.div>
           
@@ -107,13 +136,13 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Link href="/demo" className="px-5 py-2.5 text-sm font-medium text-[#4e90cc] rounded-md border border-[#4e90cc] bg-white hover:bg-gray-50 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
+            <Link href="/demo" className="btn-glass group px-5 py-2.5 text-sm font-medium flex items-center justify-center">
               预约演示
-              <ArrowRightIcon className="ml-2 h-4 w-4" />
+              <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
-            <Link href="/free-trial" className="px-5 py-2.5 text-sm font-medium text-white rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] hover:opacity-90 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
+            <Link href="/free-trial" className="btn-glass-blue group px-5 py-2.5 text-sm font-medium flex items-center justify-center">
               免费试用
-              <ArrowRightIcon className="ml-2 h-4 w-4" />
+              <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </motion.div>
           
@@ -142,30 +171,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Client Logos Section --- */}
-      <motion.section 
-        className="py-8 md:py-12 glass-morphism glass-frost relative z-10"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4">
-          <div className="space-y-4 md:space-y-6">
-            {/* Two rows of logos */}
-            {[0, 1].map((row) => (
-              <div key={row} className="flex justify-center items-center flex-wrap gap-x-6 gap-y-3 md:gap-x-10 filter grayscale opacity-60">
-                {['logo_pg', 'logo_alibaba', 'logo_globalEducation', 'logo_audi', 'logo_shunfeng', 'logo_hero_xindongfang', 'logo_hero_jindie', 'logo_qiaoWai', 'logo_zaiLaiRen'].slice(row === 0 ? 0 : 5, row === 0 ? 5 : 9).map((logo) => (
-                  <div key={logo} className="h-5 md:h-6 flex-shrink-0 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                    <div className="text-gray-400 text-xs italic whitespace-nowrap">{logo.replace('logo_', '')}</div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-      
       {/* --- AI Dialogue Demo Section --- */}
       <motion.section 
         className="py-14 md:py-20 bg-gradient-to-br from-blue-50/70 via-indigo-50/50 to-purple-50/80 relative"

@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
         <Navbar />
         <main className="flex-grow">
-          {children}
+        {children}
         </main>
         <footer className="glass py-12 relative mt-auto">
           <div className="container mx-auto px-4">
