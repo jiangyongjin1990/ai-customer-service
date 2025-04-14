@@ -1,0 +1,832 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* 基础颜色变量 */
+  --foreground-rgb: 51, 51, 66;
+  --background-start-rgb: 252, 252, 255;
+  --background-end-rgb: 248, 248, 252;
+
+  /* 2024 流行色彩 - 精选主题色 */
+  --color-primary: 78, 144, 204;         /* 主题蓝 - 更深沉的静谧蓝 */
+  --color-secondary: 148, 120, 240;      /* 次要色 - 优化的数字薰衣草 */
+  --color-accent: 245, 135, 110;         /* 强调色 - 优化的桃子绒毛 */
+  --color-success: 125, 200, 165;        /* 成功色 - 优化的新薄荷绿 */
+  --color-warning: 235, 195, 85;         /* 警告色 - 优化的黄油黄 */
+  --color-error: 240, 110, 100;          /* 错误色 - 优化的舒缓珊瑚 */
+  
+  /* 2024 流行色彩 - 原始色集 */
+  --color-tranquil-blue: 78, 144, 204;     /* 静谧蓝 - 调整深度 */
+  --color-digital-lavender: 148, 120, 240; /* 数字薰衣草 - 稍微调暗 */
+  --color-neo-mint: 125, 200, 165;         /* 新薄荷绿 - 更协调 */
+  --color-peach-fuzz: 245, 135, 110;       /* 桃子绒毛 - 2024年度潘通色微调 */
+  --color-butter-yellow: 235, 195, 85;     /* 黄油黄 - 降低明度 */
+  --color-calming-coral: 240, 110, 100;    /* 舒缓珊瑚 - 调整深度 */
+  --color-cantaloupe: 250, 170, 90;        /* 哈密瓜 - 调整饱和度 */
+  --color-aqua-sky: 115, 205, 225;         /* 水天蓝 - 调整平衡 */
+  
+  /* 扩展2024趋势色彩 - 调整后更和谐 */
+  --color-sage-green: 165, 195, 165;       /* 鼠尾草绿 - 更柔和 */
+  --color-terracotta: 195, 105, 75;        /* 赤陶土 - 更平衡 */
+  --color-powder-blue: 165, 205, 225;      /* 粉蓝 - 更协调 */
+  --color-lilac: 195, 155, 195;            /* 丁香紫 - 更柔和 */
+  --color-mojito: 145, 200, 150;           /* 莫吉托绿 - 更协调 */
+  --color-ocean-teal: 70, 150, 145;        /* 海洋蓝绿 - 更深沉 */
+  --color-soft-pink: 245, 175, 185;        /* 柔粉 - 调整饱和度 */
+  --color-cosmic-purple: 130, 45, 190;     /* 宇宙紫 - 调整平衡 */
+  
+  /* 扩展色彩 - 中性色系 */
+  --color-gray-50: 250, 250, 252;
+  --color-gray-100: 240, 240, 245;
+  --color-gray-200: 228, 228, 236;
+  --color-gray-300: 215, 215, 225;
+  --color-gray-400: 180, 180, 195;
+  --color-gray-500: 145, 145, 165;
+  --color-gray-600: 110, 110, 135;
+  --color-gray-700: 75, 75, 100;
+  --color-gray-800: 45, 45, 65;
+  --color-gray-900: 30, 30, 48;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* 通用渐变文本样式 - 精简清晰 */
+.gradient-text {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-secondary))] inline-block;
+}
+
+.gradient-text-2 {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-secondary))] to-[rgb(var(--color-cosmic-purple))] inline-block;
+}
+
+.gradient-text-mint {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-ocean-teal))] to-[rgb(var(--color-success))] inline-block;
+}
+
+/* 2024年流行色彩渐变文本 - 主题风格 */
+.gradient-text-2024 {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-primary))] via-[rgb(var(--color-secondary))] to-[rgb(var(--color-success))] inline-block;
+}
+
+.gradient-text-warm {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-accent))] via-[rgb(var(--color-cantaloupe))] to-[rgb(var(--color-warning))] inline-block;
+}
+
+.gradient-text-cool {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-aqua-sky))] via-[rgb(var(--color-primary))] to-[rgb(var(--color-secondary))] inline-block;
+}
+
+/* 特色渐变文本样式 */
+.gradient-text-earth {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-sage-green))] via-[rgb(var(--color-mojito))] to-[rgb(var(--color-ocean-teal))] inline-block;
+}
+
+.gradient-text-sunset {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-accent))] via-[rgb(var(--color-terracotta))] to-[rgb(var(--color-error))] inline-block;
+}
+
+.gradient-text-cosmic {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-secondary))] via-[rgb(var(--color-lilac))] to-[rgb(var(--color-cosmic-purple))] inline-block;
+}
+
+.gradient-text-pastel {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgb(var(--color-powder-blue))] via-[rgb(var(--color-soft-pink))] to-[rgb(var(--color-lilac))] inline-block;
+}
+
+/* 动画背景 - 提升对比度和生动性 */
+.bg-gradient-animated {
+  @apply relative;
+  background: linear-gradient(45deg, 
+    rgba(var(--color-primary), 0.07), 
+    rgba(var(--color-secondary), 0.07), 
+    rgba(var(--color-success), 0.07));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+.bg-gradient-animated-cool {
+  @apply relative;
+  background: linear-gradient(45deg, 
+    rgba(var(--color-primary), 0.12), 
+    rgba(var(--color-secondary), 0.08), 
+    rgba(var(--color-aqua-sky), 0.10));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+.bg-gradient-animated-warm {
+  @apply relative;
+  background: linear-gradient(45deg, 
+    rgba(var(--color-accent), 0.09), 
+    rgba(var(--color-warning), 0.07), 
+    rgba(var(--color-cantaloupe), 0.09));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+.bg-gradient-animated-vibrant {
+  @apply relative;
+  background: linear-gradient(45deg, 
+    rgba(var(--color-primary), 0.07),
+    rgba(var(--color-secondary), 0.07),
+    rgba(var(--color-success), 0.07),
+    rgba(var(--color-accent), 0.07));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 增强现有毛玻璃效果和添加新变体 */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.glass-card-intense {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* 新增毛玻璃效果变体 */
+.glass-blue {
+  background: rgba(219, 234, 254, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(219, 234, 254, 0.4);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+}
+
+.glass-purple {
+  background: rgba(237, 233, 254, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(237, 233, 254, 0.4);
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.1);
+}
+
+.glass-amber {
+  background: rgba(254, 243, 199, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(254, 243, 199, 0.4);
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.1);
+}
+
+.glass-teal {
+  background: rgba(204, 251, 241, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(204, 251, 241, 0.4);
+  box-shadow: 0 4px 16px rgba(20, 184, 166, 0.1);
+}
+
+.glass-dark {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(31, 41, 55, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+.glass-frost {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+/* 添加悬浮效果增强 */
+.glass-hover:hover {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* 毛玻璃按钮 */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(78, 144, 204, 0.5);
+  color: rgba(0, 0, 0, 0.7);
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+  border: 1px solid rgba(78, 144, 204, 0.8);
+}
+
+.btn-glass-blue {
+  background: rgba(96, 165, 250, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(96, 165, 250, 0.6);
+  color: rgb(30, 64, 175);
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-glass-blue:hover {
+  background: rgba(96, 165, 250, 0.4);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  transform: translateY(-1px);
+  border: 1px solid rgba(37, 99, 235, 0.8);
+}
+
+/* 毛玻璃卡片悬浮变换 */
+.glass-card-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+.glass-card-transition:hover {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.85);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* 彩色毛玻璃卡片 - 色彩更协调 */
+.glass-card-blue {
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--color-primary), 0.12) 0%, 
+    rgba(255, 255, 255, 0.75) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(var(--color-primary), 0.15);
+  box-shadow: 
+    0 4px 12px rgba(var(--color-primary), 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.glass-card-lavender {
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--color-secondary), 0.12) 0%, 
+    rgba(255, 255, 255, 0.75) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(var(--color-secondary), 0.15);
+  box-shadow: 
+    0 4px 12px rgba(var(--color-secondary), 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.glass-card-mint {
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--color-success), 0.12) 0%, 
+    rgba(255, 255, 255, 0.75) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(var(--color-success), 0.15);
+  box-shadow: 
+    0 4px 12px rgba(var(--color-success), 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.glass-card-peach {
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--color-accent), 0.12) 0%, 
+    rgba(255, 255, 255, 0.75) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(var(--color-accent), 0.15);
+  box-shadow: 
+    0 4px 12px rgba(var(--color-accent), 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.glass-card-yellow {
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--color-warning), 0.12) 0%, 
+    rgba(255, 255, 255, 0.75) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(var(--color-warning), 0.15);
+  box-shadow: 
+    0 4px 12px rgba(var(--color-warning), 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+/* 卡片悬停动画 - 更精细 */
+.hover-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.08),
+    0 8px 10px -6px rgba(0, 0, 0, 0.03);
+}
+
+/* 按钮样式 - 更现代化 */
+.btn-primary {
+  @apply px-5 py-2.5 rounded-lg font-medium text-white transition-all shadow-sm hover:shadow-md;
+  background: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-secondary)));
+  background-size: 150% 100%;
+  background-position: left center;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-primary:hover {
+  background-position: right center;
+  @apply shadow-md opacity-95;
+}
+
+.btn-secondary {
+  @apply px-5 py-2.5 rounded-lg font-medium text-[rgb(var(--color-gray-700))] bg-white border border-[rgb(var(--color-gray-200))] hover:bg-[rgb(var(--color-gray-50))] transition-all shadow-sm hover:shadow-md;
+}
+
+/* 自定义滚动条 - 更精致 */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(var(--color-gray-100), 0.5);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--color-gray-400), 0.5);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--color-gray-500), 0.7);
+}
+
+/* 消除水平滚动条 */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* 文字渐变效果 */
+.gradient-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 按钮过渡效果 - 更流畅 */
+.button-transition {
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 下拉菜单淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.animate-fadeInFast {
+  animation: fadeIn 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 毛玻璃效果样式 - 协调统一 */
+.glass-morphism {
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.glass-morphism-dark {
+  backdrop-filter: blur(12px);
+  background-color: rgba(var(--color-gray-900), 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* 导航栏专用毛玻璃效果 - 增强版 */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.8) !important;  /* 降低透明度，增加不透明度 */
+  backdrop-filter: blur(20px) !important;            /* 增加高斯模糊效果 */
+  -webkit-backdrop-filter: blur(20px) !important;
+  -moz-backdrop-filter: blur(20px) !important; 
+  -o-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;  /* 增强边框可见度 */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08) !important;        /* 增强阴影效果 */
+  transition: all 0.3s ease !important;
+  z-index: 100 !important;
+}
+
+.glass-nav:hover {
+  background: rgba(255, 255, 255, 0.85) !important;  /* 悬停时降低更多透明度 */
+}
+
+/* 兼容性支持 */
+@supports not (backdrop-filter: blur(20px)) {
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.95) !important;  /* 不支持高斯模糊时显示更不透明的背景 */
+  }
+}
+
+/* 暗色导航栏效果，供将来使用 */
+.glass-nav-dark {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 230, 230, 240;
+    --background-start-rgb: 24, 24, 36;
+    --background-end-rgb: 18, 18, 30;
+  }
+  
+  .glass-card, .glass-card-intense {
+    background: rgba(30, 30, 45, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-nav {
+    background: rgba(24, 24, 36, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .glass-card-blue, .glass-card-lavender, .glass-card-mint, .glass-card-peach {
+    background: rgba(30, 30, 45, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* 动态背景色调 - 色彩更和谐 */
+.bg-gradient-2024 {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-primary), 0.08) 0%, 
+    rgba(var(--color-secondary), 0.08) 100%
+  );
+}
+
+.bg-gradient-lavender {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-secondary), 0.08) 0%, 
+    rgba(var(--color-success), 0.08) 100%
+  );
+}
+
+.bg-gradient-peach {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-accent), 0.08) 0%, 
+    rgba(var(--color-error), 0.08) 100%
+  );
+}
+
+.bg-gradient-mint {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-success), 0.08) 0%, 
+    rgba(var(--color-aqua-sky), 0.08) 100%
+  );
+}
+
+/* 特色背景渐变色 */
+.bg-gradient-sage {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-sage-green), 0.08) 0%, 
+    rgba(var(--color-mojito), 0.08) 100%
+  );
+}
+
+.bg-gradient-cosmic {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-secondary), 0.08) 0%, 
+    rgba(var(--color-cosmic-purple), 0.08) 100%
+  );
+}
+
+.bg-gradient-terracotta {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-terracotta), 0.08) 0%, 
+    rgba(var(--color-error), 0.08) 100%
+  );
+}
+
+.bg-gradient-ocean {
+  background: linear-gradient(135deg, 
+    rgba(var(--color-powder-blue), 0.08) 0%, 
+    rgba(var(--color-ocean-teal), 0.08) 100%
+  );
+}
+
+/* 动态背景渐变 - 更流畅 */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* 动态背景渐变动画 - 色彩更协调 */
+.bg-gradient-animated {
+  background: linear-gradient(-45deg, 
+    rgba(var(--color-primary), 0.15), 
+    rgba(var(--color-success), 0.15), 
+    rgba(var(--color-secondary), 0.15), 
+    rgba(var(--color-accent), 0.15)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.bg-gradient-animated-vibrant {
+  background: linear-gradient(-45deg, 
+    rgba(var(--color-accent), 0.2), 
+    rgba(var(--color-warning), 0.2), 
+    rgba(var(--color-error), 0.2), 
+    rgba(var(--color-cantaloupe), 0.2)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.bg-gradient-animated-cool {
+  background: linear-gradient(-45deg, 
+    rgba(var(--color-primary), 0.2), 
+    rgba(var(--color-aqua-sky), 0.2), 
+    rgba(var(--color-secondary), 0.2), 
+    rgba(var(--color-success), 0.2)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* 特色动态背景渐变动画 */
+.bg-gradient-animated-earth {
+  background: linear-gradient(-45deg, 
+    rgba(var(--color-sage-green), 0.2), 
+    rgba(var(--color-mojito), 0.2), 
+    rgba(var(--color-ocean-teal), 0.2), 
+    rgba(var(--color-success), 0.2)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.bg-gradient-animated-cosmic {
+  background: linear-gradient(-45deg, 
+    rgba(var(--color-secondary), 0.2), 
+    rgba(var(--color-lilac), 0.2), 
+    rgba(var(--color-cosmic-purple), 0.2), 
+    rgba(var(--color-secondary), 0.15)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.bg-gradient-animated-sunset {
+  background: linear-gradient(-45deg, 
+    rgba(var(--color-accent), 0.2), 
+    rgba(var(--color-terracotta), 0.2), 
+    rgba(var(--color-error), 0.2), 
+    rgba(var(--color-warning), 0.15)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* 3D悬浮卡片效果 - 更精细 */
+.hover-card-3d {
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.hover-card-3d:hover {
+  transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+  box-shadow: 
+    15px 15px 30px rgba(0, 0, 0, 0.05),
+    5px 5px 15px rgba(0, 0, 0, 0.025);
+}
+
+/* 按钮样式 - 优化版 */
+.btn-2024 {
+  @apply rounded-full px-6 py-2 text-sm font-medium;
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply btn-2024 text-white;
+  background: linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-secondary)));
+  background-size: 150% 100%;
+  background-position: left center;
+  @apply hover:shadow-md hover:opacity-95 focus:ring-[rgb(var(--color-primary))];
+}
+
+.btn-secondary {
+  @apply btn-2024 bg-white;
+  @apply border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))];
+  @apply hover:bg-[rgba(var(--color-primary),0.08)] focus:ring-[rgb(var(--color-primary))];
+}
+
+.btn-accent {
+  @apply btn-2024 text-white;
+  background: linear-gradient(to right, rgb(var(--color-accent)), rgb(var(--color-error)));
+  background-size: 150% 100%;
+  background-position: left center;
+  @apply hover:shadow-md hover:opacity-95 focus:ring-[rgb(var(--color-accent))];
+}
+
+/* 特色按钮样式 */
+.btn-earth {
+  @apply btn-2024 text-white;
+  background: linear-gradient(to right, rgb(var(--color-sage-green)), rgb(var(--color-ocean-teal)));
+  background-size: 150% 100%;
+  background-position: left center;
+  @apply hover:shadow-md hover:opacity-95 focus:ring-emerald-500;
+}
+
+.btn-cosmic {
+  @apply btn-2024 text-white;
+  background: linear-gradient(to right, rgb(var(--color-secondary)), rgb(var(--color-cosmic-purple)));
+  background-size: 150% 100%;
+  background-position: left center;
+  @apply hover:shadow-md hover:opacity-95 focus:ring-purple-500;
+}
+
+.btn-sunset {
+  @apply btn-2024 text-white;
+  background: linear-gradient(to right, rgb(var(--color-terracotta)), rgb(var(--color-error)));
+  background-size: 150% 100%;
+  background-position: left center;
+  @apply hover:shadow-md hover:opacity-95 focus:ring-red-500;
+}
+
+/* 装饰背景形状 - 色彩更协调 */
+.bg-blob {
+  position: absolute;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.5;
+  border-radius: 50%;
+}
+
+.bg-blob-1 {
+  @apply bg-blob;
+  background: rgba(var(--color-secondary), 0.35);
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  right: -100px;
+}
+
+.bg-blob-2 {
+  @apply bg-blob;
+  background: rgba(var(--color-success), 0.35);
+  width: 400px;
+  height: 400px;
+  bottom: -200px;
+  left: -150px;
+}
+
+.bg-blob-3 {
+  @apply bg-blob;
+  background: rgba(var(--color-accent), 0.35);
+  width: 350px;
+  height: 350px;
+  bottom: 20%;
+  right: -150px;
+}
+
+/* 特色装饰形状 */
+.bg-blob-4 {
+  @apply bg-blob;
+  background: rgba(var(--color-cosmic-purple), 0.25);
+  width: 250px;
+  height: 250px;
+  top: 30%;
+  left: -120px;
+}
+
+.bg-blob-5 {
+  @apply bg-blob;
+  background: rgba(var(--color-ocean-teal), 0.25);
+  width: 280px;
+  height: 280px;
+  top: 60%;
+  right: -130px;
+}
+
+/* 导航栏按钮样式 - 参考图片设计 */
+.btn-nav {
+  @apply px-5 py-2.5 text-sm font-medium text-[#4e90cc] rounded-md 
+  border border-[#4e90cc] bg-white hover:bg-gray-50 
+  transition-all duration-300 shadow-sm;
+}
+
+.btn-nav-blue {
+  @apply px-5 py-2.5 text-sm font-medium text-white rounded-md 
+  bg-gradient-to-r from-[#4e90cc] to-[#9478f0] hover:opacity-90
+  transition-all duration-300 shadow-sm;
+}
+
+.btn-nav-outline {
+  background-color: transparent;
+  color: #6b7280;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-nav-outline:hover {
+  color: #4e90cc;
+  background-color: #f0f4fa;
+  transform: translateY(-1px);
+} 
