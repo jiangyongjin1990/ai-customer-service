@@ -1,32 +1,25 @@
-# 智能客服官网
+# 维普特AI客服系统 - v5.0.0
 
-这是一个使用Next.js构建的智能客服产品官网，提供了产品展示、演示、价格和联系等功能页面。
+基于Next.js 15构建的现代化AI客服解决方案，为企业提供智能、高效的客户服务体验。
 
-## 功能特性
+## 功能特点
 
-- 响应式设计，适配移动端和桌面端
-- 产品功能展示
-- 智能客服演示页面
-- 价格方案展示
-- 联系表单
-- 简单的API路由
+- 智能对话机器人，处理常见客户问题
+- 全渠道在线客服支持，实现无缝沟通
+- 直观的用户界面，提供卓越的用户体验
+- 数据分析与洞察，优化客户服务流程
+- AI驱动的智能回复建议
 
 ## 技术栈
 
-- [Next.js](https://nextjs.org/) - React框架
-- [React](https://reactjs.org/) - JavaScript UI库
-- [TypeScript](https://www.typescriptlang.org/) - 类型安全的JavaScript
-- [Tailwind CSS](https://tailwindcss.com/) - CSS框架
-- [Vercel](https://vercel.com/) - 部署平台（推荐）
+- **前端框架**: Next.js 15, React 19
+- **样式**: TailwindCSS 4
+- **动画**: Framer Motion
+- **部署**: Docker, GitHub Actions, Vercel/自托管服务器
 
-## 本地开发
+## 快速开始
 
-### 前提条件
-
-- Node.js 18.x 或更高版本
-- npm 或 yarn
-
-### 安装步骤
+### 开发环境
 
 1. 克隆仓库
 ```bash
@@ -37,95 +30,105 @@ cd ai-customer-service
 2. 安装依赖
 ```bash
 npm install
-# 或
-yarn install
 ```
 
-3. 启动开发服务器
+3. 复制环境变量
+```bash
+cp .env.example .env.local
+```
+
+4. 启动开发服务器
 ```bash
 npm run dev
-# 或
-yarn dev
 ```
 
-4. 打开浏览器访问 http://localhost:3000
+### 使用Docker部署
 
-## 部署到Vercel
-
-### 方法一：GitHub集成
-
-1. 将代码推送到GitHub仓库
-2. 在Vercel上注册账号并连接GitHub
-3. 导入项目并自动部署
-
-### 方法二：Vercel CLI
-
-1. 安装Vercel CLI
+1. 构建Docker镜像
 ```bash
-npm install -g vercel
+docker build -t weiput-ai-customer-service .
 ```
 
-2. 登录Vercel
+2. 运行容器
 ```bash
-vercel login
+docker run -p 3000:3000 weiput-ai-customer-service
 ```
 
-3. 部署项目
+或者使用docker-compose:
 ```bash
-vercel
+docker-compose up -d
 ```
 
-## 项目结构
+### 生产环境部署
 
-```
-ai-customer-service/
-├── src/                  # 源代码目录
-│   ├── app/              # 应用路由
-│   │   ├── page.tsx      # 首页
-│   │   ├── layout.tsx    # 全局布局
-│   │   ├── features/     # 功能页面
-│   │   ├── pricing/      # 价格页面
-│   │   ├── demo/         # 演示页面
-│   │   ├── contact/      # 联系页面
-│   │   └── api/          # API路由
-│   └── components/       # 共享组件
-│       └── Navbar.tsx    # 导航栏组件
-├── public/               # 静态资源
-├── next.config.ts        # Next.js配置
-└── package.json          # 项目依赖
+#### 方式1: 使用Vercel
+
+1. 导入GitHub仓库到Vercel
+2. 配置环境变量
+3. 部署
+
+#### 方式2: 自托管部署
+
+1. 克隆仓库并安装依赖
+```bash
+git clone https://github.com/jiangyongjin1990/ai-customer-service.git
+cd ai-customer-service
+npm install
 ```
 
-## 自定义域名设置
+2. 构建应用
+```bash
+npm run build
+```
 
-若要使用自定义域名（如 ai.cicicraft.xyz），请按照以下步骤操作：
+3. 启动生产服务器
+```bash
+npm start
+```
 
-1. 在Vercel项目设置中添加域名
-   - 进入项目 > Settings > Domains
-   - 添加域名：ai.cicicraft.xyz
+或使用PM2进行进程管理:
+```bash
+pm2 start npm --name "ai-customer-service" -- start
+```
 
-2. 在域名服务商（如火山引擎）设置DNS记录
-   - 添加CNAME记录
-   - 主机记录：ai
-   - 记录值：cname.vercel-dns.com
-   - TTL：600秒（或默认值）
+4. 配置Nginx代理（可选）
+   - 使用项目中提供的`nginx.conf`配置文件
 
-3. 等待DNS生效（通常需要几分钟到几小时）
+## 配置说明
 
-## 后续开发建议
+本项目支持多种配置选项，可通过环境变量进行设置:
 
-1. 添加用户认证系统
-2. 集成实际的AI服务
-3. 创建完整的管理后台
-4. 添加多语言支持
-5. 改进SEO优化
+- `PORT`: 应用端口，默认3000
+- `API_KEY`: API密钥（如需要）
+- `NODE_ENV`: 环境设置（development/production）
 
-## 贡献指南
+更多配置选项请参考`.env.example`文件。
 
-1. Fork项目
-2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
-3. 提交更改 (`git commit -m 'Add some amazing feature'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 创建Pull Request
+## CI/CD流程
+
+项目配置了完整的CI/CD流程:
+
+1. 代码推送到GitHub触发自动化工作流
+2. 运行测试和构建验证
+3. 成功后根据分支/标签自动部署
+   - 标签版本部署到生产环境
+   - 主分支部署到测试/预览环境
+
+## 性能优化
+
+- 使用Next.js的静态生成和服务器组件
+- 图片和资源优化
+- 缓存策略优化
+- 代码拆分和懒加载
+
+## 开发团队
+
+- 姜永进(@jiangyongjin1990) - 项目负责人
 
 ## 许可证
-本项目采用MIT许可证 - 详见 [LICENSE](LICENSE) 文件
+
+[MIT](LICENSE)
+
+---
+
+© 2025 维普特AI。保留所有权利。

@@ -1,0 +1,101 @@
+name: 维普特AI客服系统部署
+
+on:
+  push:
+    branches: [main, release-*]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: 构建和测试
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+        
+      - name: 设置Node.js环境
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: 安装依赖
+        run: npm ci
+        
+      - name: 运行Lint检查
+        run: npm run lint || true
+        
+      - name: 构建项目
+        run: npm run build
+        
+      - name: 缓存构建产物
+        uses: actions/cache@v3
+        with:
+          path: |
+            .next
+            node_modules
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+  
+  deploy:
+    name: 部署应用
+    needs: build-and-test
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+        
+      - name: 设置Node.js环境
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: 恢复缓存
+        uses: actions/cache@v3
+        with:
+          path: |
+            .next
+            node_modules
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ github.sha }}
+          
+      - name: 安装依赖（如果缓存丢失）
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+        
+      - name: 重新构建（如果缓存丢失）
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm run build
+      
+      # 部署到Vercel（示例）
+      - name: 部署到Vercel
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+      
+      # 或者部署到自己的服务器
+      - name: 部署到服务器
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "将部署到自己的服务器"
+          # 这里添加您的部署脚本
+          # 例如： rsync -avz --delete .next user@your-server:/path/to/app
+          
+      - name: 创建发布版本
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          name: 维普特AI客服系统 ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true 
