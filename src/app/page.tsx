@@ -4,15 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, animate } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
-import TestimonialsSection from "@/components/TestimonialsSection";
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import {
-  RocketLaunchIcon,
-  ComputerDesktopIcon,
-  SparklesIcon,
   UserGroupIcon,
-  ShieldCheckIcon,
-  CodeBracketIcon,
   SquaresPlusIcon,
   AcademicCapIcon,
   CpuChipIcon,
@@ -36,8 +30,18 @@ const TickIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+/**
+ * AI Agent徽章组件
+ * @returns {JSX.Element} 渲染的AI Agent徽章
+ */
 const AiAgentBadge = () => (
-  <span className="inline-flex px-1.5 py-0.5 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white text-[9px] leading-none rounded-full font-medium items-center">AI Agent</span>
+  <div className="flex items-center px-2 py-1 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] shadow-md transform scale-75">
+    <svg className="h-3 w-3 text-white mr-1" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" />
+    </svg>
+    <span className="text-white text-xs font-medium">AI Agent</span>
+  </div>
 );
 
 // Animated Number Component
@@ -107,9 +111,12 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
     );
 };
 
+/**
+ * 首页组件
+ * @returns {JSX.Element} 渲染的首页组件
+ */
 export default function Home() {
   // 状态管理
-  // const [activeIndustry, setActiveIndustry] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   // 设置鼠标位置追踪
@@ -125,34 +132,12 @@ export default function Home() {
     };
   }, []);
   
-  // 动画变体
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
-  };
-
   const sectionVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1, 
       transition: { duration: 0.7 } 
     }
-  };
-  
-  const cardHoverVariants = {
-    initial: { scale: 1 },
-    hover: { scale: 1.02, transition: { duration: 0.3 } }
   };
   
   return (
@@ -184,24 +169,6 @@ export default function Home() {
           transition={{ type: "spring", damping: 30, stiffness: 200 }}
         />
         
-        {/* AI Agent标签 - 右上角 (移到 container 外) */}
-        {/* 
-        <motion.div
-          className="absolute top-8 right-8 md:top-10 md:right-10 z-20"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          <div className="flex items-center px-2 py-1 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] shadow-md">
-            <svg className="h-3 w-3 text-white mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" />
-            </svg>
-            <span className="text-white text-xs font-medium">AI Agent</span>
-          </div>
-        </motion.div>
-        */}
-
         <div className="container mx-auto px-4 relative z-10 max-w-7xl">
           <motion.h2 
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight md:leading-tight text-center whitespace-nowrap"
@@ -219,24 +186,6 @@ export default function Home() {
               </span>
             </span>
           </motion.h2>
-
-          {/* AI Agent标签 - 原位置已注释 */}
-          {/* 
-          <motion.div
-            className="absolute top-8 right-8 md:top-10 md:right-10"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            <div className="flex items-center px-2 py-1 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] shadow-md">
-              <svg className="h-3 w-3 text-white mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" />
-              </svg>
-              <span className="text-white text-xs font-medium">AI Agent</span>
-            </div>
-          </motion.div>
-          */}
           
           <motion.div 
             className="relative mb-10 text-center"
@@ -544,12 +493,15 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {/* 智能辅助模式 */}
             <motion.div 
-              className="bg-blue-50/70 rounded-2xl overflow-hidden shadow-lg border border-blue-100/50"
+              className="bg-blue-50/70 rounded-2xl overflow-hidden shadow-lg border border-blue-100/50 relative h-[320px]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
+              {/* 添加下边缘收缩效果 */}
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-blue-50/70 to-transparent z-30"></div>
+              
               <div className="p-6 md:p-8">
                 <div className="flex items-start mb-4">
                   <h3 className="text-xl md:text-2xl font-bold text-gray-900 mr-3">智能辅助模式</h3>
@@ -580,25 +532,25 @@ export default function Home() {
                   </div>
                   
                   <div className="w-1/2">
-                    <div className="relative h-[250px]">
-                      {/* 底层图片 - 绿色zhinengfuzhu4 */}
-                      <div className="absolute top-[20px] right-0 left-5 z-10">
+                    <div className="relative h-[420px] overflow-visible">
+                      {/* 底层图片 - 调整位置 */}
+                      <div className="absolute top-[-40px] right-[-35%] left-5 z-10">
                         <Image 
                           src="/images/zhinengfuzhu4.png" 
                           alt="智能辅助功能详情" 
-                          width={350} 
-                          height={240}
+                          width={500} 
+                          height={350}
                           className="object-contain transform rotate-[-8deg]" 
                         />
                       </div>
                       
-                      {/* 上层图片 - 橘色zhinengfuzhu1 */}
-                      <div className="absolute top-[90px] left-0 right-5 z-20">
+                      {/* 上层图片 - 调整位置使底部刚好被截断五分之一 */}
+                      <div className="absolute top-[30px] left-0 right-[-35%] z-20">
                         <Image 
                           src="/images/zhinengfuzhu1.png" 
                           alt="智能辅助模式界面" 
-                          width={350} 
-                          height={240}
+                          width={500} 
+                          height={350}
                           className="object-contain transform rotate-[2deg]" 
                         />
                       </div>
@@ -610,12 +562,15 @@ export default function Home() {
             
             {/* 独立客服模式 */}
             <motion.div 
-              className="bg-indigo-50/70 rounded-2xl overflow-hidden shadow-lg border border-indigo-100/50"
+              className="bg-indigo-50/70 rounded-2xl overflow-hidden shadow-lg border border-indigo-100/50 relative h-[320px]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
             >
+              {/* 添加下边缘收缩效果 */}
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-indigo-50/70 to-transparent z-30"></div>
+              
               <div className="p-6 md:p-8">
                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">独立客服模式</h3>
                 <p className="text-gray-600 mb-6 text-sm md:text-base">
@@ -640,25 +595,25 @@ export default function Home() {
                   </div>
                   
                   <div className="w-1/2">
-                    <div className="relative h-[250px]">
+                    <div className="relative h-[420px] overflow-visible">
                       {/* 底层图片 */}
-                      <div className="absolute top-[20px] right-0 left-5 z-10">
+                      <div className="absolute top-[-40px] right-[-35%] left-5 z-10">
                         <Image 
                           src="/images/zhinengfuzhu3.png" 
                           alt="独立客服功能详情" 
-                          width={350} 
-                          height={240}
+                          width={500} 
+                          height={350}
                           className="object-contain transform rotate-[-8deg]" 
                         />
                       </div>
                       
                       {/* 上层图片 */}
-                      <div className="absolute top-[90px] left-0 right-5 z-20">
+                      <div className="absolute top-[30px] left-0 right-[-35%] z-20">
                         <Image 
                           src="/images/zhinengfuzhu2.png" 
                           alt="独立客服模式界面" 
-                          width={350} 
-                          height={240}
+                          width={500} 
+                          height={350}
                           className="object-contain transform rotate-[2deg]" 
                         />
                       </div>
@@ -703,4 +658,27 @@ export default function Home() {
     </main>
   );
 }
+
+/**
+ * 统计数字组件
+ * @param {Object} props - 组件属性
+ * @param {number} props.value - 统计数值 (内部将传递给 AnimatedNumber 的 targetNumber)
+ * @param {string} props.label - 标签文本
+ * @param {string} props.prefix - 前缀符号
+ * @param {string} props.suffix - 后缀符号
+ * @returns {JSX.Element} 渲染的统计数字组件
+ */
+const StatNumber = ({ value, label, prefix = '', suffix = '' }: { 
+  value: number; 
+  label: string; 
+  prefix?: string;
+  suffix?: string;
+}) => (
+  <div className="text-center">
+    <div className="text-3xl sm:text-4xl font-bold mb-2 text-gradient-blue-purple">
+      {prefix}<AnimatedNumber targetNumber={value} />{suffix} 
+    </div>
+    <p className="text-gray-600">{label}</p>
+  </div>
+);
 

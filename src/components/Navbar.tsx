@@ -137,10 +137,10 @@ export default function Navbar() {
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link href="/" className="flex items-center">
               <span className="sr-only">维普特AI</span>
-              <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white font-bold text-xl px-3 rounded-md flex items-center">
+              <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold text-xl px-3 rounded-md flex items-center">
                 维普特
               </div>
-              <span className="ml-2 text-xl font-bold bg-gradient-to-r from-[#4e90cc] via-[#7a85e0] to-[#9478f0] bg-clip-text text-transparent">
+              <span className="ml-2 text-xl font-bold bg-gradient-to-r from-blue-500 via-violet-500 to-purple-500 bg-clip-text text-transparent">
                 AI
               </span>
             </Link>
@@ -221,7 +221,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="#"
-              className="px-4 py-2 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white text-sm font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-[#5a9ed5] hover:to-[#a289f5]"
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
             >
               <span>免费试用</span>
               <svg
@@ -362,7 +362,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                       href="#"
-                      className="col-span-1 px-4 py-3 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white text-base font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-[#5a9ed5] hover:to-[#a289f5]"
+                      className="col-span-1 px-4 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-base font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
                     >
                       <span>免费试用</span>
                       <svg
