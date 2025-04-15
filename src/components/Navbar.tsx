@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
+// import Image from 'next/image'; // Comment out
+// import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi'; // Comment out
 import { usePathname } from 'next/navigation';
 
 /**
@@ -18,9 +18,9 @@ const AiAgentBadge = () => (
  * @description 10年标签组件
  * @returns {JSX.Element} 标签组件
  */
-const TenYearsBadge = () => (
-   <span className="ml-1 px-1.5 py-0.5 bg-[#4e90cc] text-white text-[9px] leading-tight rounded-full font-medium">10years</span>
-);
+// const TenYearsBadge = () => ( // Comment out
+//    <span className="ml-1 px-1.5 py-0.5 bg-[#4e90cc] text-white text-[9px] leading-tight rounded-full font-medium">10years</span>
+// );
 
 /**
  * @description 导航栏组件
@@ -29,8 +29,7 @@ const TenYearsBadge = () => (
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const [activeDropdown, setActiveDropdown] = useState<string | null>(null); // Comment out
   const [dropdowns, setDropdowns] = useState({
     products: false,
     solutions: false,
@@ -64,7 +63,7 @@ export default function Navbar() {
   // 点击其他区域关闭下拉菜单
   useEffect(() => {
     const handleClickOutside = () => {
-      setActiveDropdown(null);
+      // setActiveDropdown(null); // Comment out if activeDropdown is commented
     };
 
     document.addEventListener('click', handleClickOutside);
@@ -74,37 +73,35 @@ export default function Navbar() {
   }, []);
 
   // 阻止下拉菜单点击事件冒泡
-  const handleDropdownClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+  // const handleDropdownClick = (e: React.MouseEvent) => { // Comment out
+  //   e.stopPropagation();
+  // };
 
   // 导航项数据
-  const navItems = {
-    products: [
-      { name: '全渠道在线客服', description: '跨平台的客户沟通解决方案' },
-      { name: 'AI智能客服', description: '高效处理常见问题与咨询' },
-      { name: '知识库管理', description: '集中管理企业常见问题解答' },
-      { name: '会话协作', description: '团队沟通与任务分配系统' }
-    ],
-    solutions: [
-      { name: '电子商务', description: '提升购物体验和客户满意度' },
-      { name: '金融服务', description: '安全高效的客户服务解决方案' },
-      { name: '教育培训', description: '优化学习体验和学员支持' },
-      { name: '医疗健康', description: '提供专业的患者服务体验' }
-    ],
-    resources: [
-      { name: '帮助中心', description: '查找常见问题与使用指南' },
-      { name: 'API文档', description: '开发者资源与接口说明' },
-      { name: '视频教程', description: '学习如何最大化使用小嘉AI' },
-      { name: '最新资讯', description: '了解产品更新与行业动态' }
-    ]
-  };
+  // const navItems = { // Comment out
+  //   products: [
+  //     { name: '全渠道在线客服', description: '跨平台的客户沟通解决方案' },
+  //     { name: 'AI智能客服', description: '高效处理常见问题与咨询' },
+  //     { name: '知识库管理', description: '集中管理企业常见问题解答' },
+  //     { name: '会话协作', description: '团队沟通与任务分配系统' }
+  //   ],
+  //   solutions: [
+  //     { name: '电子商务', description: '提升购物体验和客户满意度' },
+  //     { name: '金融服务', description: '安全高效的客户服务解决方案' },
+  //     { name: '教育培训', description: '优化学习体验和学员支持' },
+  //     { name: '医疗健康', description: '提供专业的患者服务体验' }
+  //   ],
+  //   resources: [
+  //     { name: '帮助中心', description: '查找常见问题与使用指南' },
+  //     { name: 'API文档', description: '开发者资源与接口说明' },
+  //     { name: '视频教程', description: '学习如何最大化使用小嘉AI' },
+  //     { name: '最新资讯', description: '了解产品更新与行业动态' }
+  //   ]
+  // };
 
   useEffect(() => {
-    // 关闭移动菜单当页面改变时
-    setMobileMenuOpen(false);
     // 关闭下拉菜单当页面改变时
-    setActiveDropdown(null);
+    // setActiveDropdown(null); // Comment out if activeDropdown is commented
   }, [pathname]);
 
   // 直接定义内联样式对象

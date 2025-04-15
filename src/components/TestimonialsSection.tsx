@@ -1,22 +1,22 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion'; // Comment out
 
 // 简化动画变体
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1, 
-    transition: { duration: 0.4 }
-  }
-};
+// const sectionVariants = { // Comment out
+//   hidden: { opacity: 0 },
+//   visible: { 
+//     opacity: 1, 
+//     transition: { duration: 0.4 }
+//   }
+// };
 
-const itemVariants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1,
-    transition: { duration: 0.3 }
-  }
-};
+// const itemVariants = { // Comment out
+//   hidden: { opacity: 0 },
+//   visible: { 
+//     opacity: 1,
+//     transition: { duration: 0.3 }
+//   }
+// };
 
 // 客户证言数据
 const testimonials = [

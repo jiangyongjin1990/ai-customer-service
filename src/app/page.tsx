@@ -63,7 +63,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
                     entries.forEach((entry) => {
                         if (entry.isIntersecting && !hasAnimated.current) {
                             hasAnimated.current = true; // Mark as animated
-                            const controls = animate(0, targetNumber, {
+                            /* const controls = */ animate(0, targetNumber, {
                                 duration: duration,
                                 ease: "easeOut",
                                 onUpdate(value: number) {
@@ -104,7 +104,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
 
 export default function Home() {
   // 状态管理
-  const [activeIndustry, setActiveIndustry] = useState(0);
+  // const [activeIndustry, setActiveIndustry] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   // 设置鼠标位置追踪
