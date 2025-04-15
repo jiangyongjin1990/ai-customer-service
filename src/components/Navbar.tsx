@@ -129,7 +129,7 @@ export default function Navbar() {
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.03)',
     zIndex: 100
   };
-
+  
   return (
     <div
       className={`fixed w-full top-0 z-50 transition-all duration-500`}
@@ -304,8 +304,8 @@ export default function Navbar() {
                             智能精准识别意向，自动定位产品，提高转化率
                           </p>
                         </div>
-                      </Link>
-
+        </Link>
+        
                       {/* 大模型电话客服 */}
                       <Link
                         href="/products/ai-voice"
@@ -335,7 +335,7 @@ export default function Navbar() {
                             声音听不出是机器人的电话客服，提高通话质量
                           </p>
                         </div>
-                      </Link>
+          </Link>
                     </div>
                   </div>
                 </div>
@@ -347,21 +347,21 @@ export default function Navbar() {
               className="text-base font-medium text-gray-700 hover:text-[#4e90cc]"
             >
               客户案例
-            </Link>
+          </Link>
 
             <Link
               href="/pricing"
               className="text-base font-medium text-gray-700 hover:text-[#4e90cc]"
             >
               定价
-            </Link>
+          </Link>
 
             <Link
               href="/support"
               className="text-base font-medium text-gray-700 hover:text-[#4e90cc]"
             >
               支持
-            </Link>
+          </Link>
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-3">
             <Link
@@ -369,8 +369,8 @@ export default function Navbar() {
               className="text-base font-medium text-gray-600 hover:text-[#4e90cc] transition-colors duration-300"
               onClick={() => setIsLoggedIn(!isLoggedIn)}
             >
-              登录
-            </Link>
+            登录
+          </Link>
             <Link
               href="#"
               className="px-4 py-2 rounded-full glass-card-transition glass-frost bg-white/30 backdrop-blur-sm text-[#4e90cc] text-sm font-medium shadow-sm border border-white/20 flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300"
@@ -408,11 +408,11 @@ export default function Navbar() {
                   d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
                 />
               </svg>
-            </Link>
+          </Link>
           </div>
         </div>
-      </div>
-
+        </div>
+        
       {/* 移动端菜单 */}
       <div
         className={`${
@@ -434,7 +434,7 @@ export default function Navbar() {
                         AI
                       </span>
                     </div>
-                    <button
+        <button
                       className="ml-3 h-7 flex items-center justify-center glass-card p-2 rounded-md"
                       onClick={() => setIsOpen(false)}
                     >
@@ -453,8 +453,8 @@ export default function Navbar() {
                           strokeWidth="2"
                           d="M6 18L18 6M6 6l12 12"
                         />
-                      </svg>
-                    </button>
+          </svg>
+        </button>
                   </div>
                 </div>
                 <div className="mt-6 relative flex-1 px-4 sm:px-6">
@@ -506,7 +506,7 @@ export default function Navbar() {
                           </div>
                           <div className="ml-4 text-base font-medium text-gray-900">支持</div>
                         </a>
-                      </nav>
+      </nav>
                     </div>
                   </div>
                 </div>
@@ -517,8 +517,8 @@ export default function Navbar() {
                       className="text-center text-gray-600 hover:text-[#4e90cc] font-medium transition-colors duration-300"
                       onClick={() => setIsLoggedIn(!isLoggedIn)}
                     >
-                      登录
-                    </Link>
+            登录
+          </Link>
                     <Link
                       href="#"
                       className="px-4 py-2 rounded-full glass-card-transition glass-frost bg-white/30 backdrop-blur-sm text-[#4e90cc] text-sm font-medium shadow-sm border border-white/20 flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300"
@@ -556,7 +556,7 @@ export default function Navbar() {
                           d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
                         />
                       </svg>
-                    </Link>
+          </Link>
                   </div>
                 </div>
               </div>

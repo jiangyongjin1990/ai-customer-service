@@ -2,18 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, animate } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import {
-  RocketLaunchIcon,
-  ComputerDesktopIcon,
-  SparklesIcon,
-  UserGroupIcon,
-  ShieldCheckIcon,
-  CodeBracketIcon
-} from '@heroicons/react/24/outline';
 
 // 组件与图标
 const TickIcon = ({ className }: { className?: string }) => (
@@ -34,73 +26,6 @@ const TickIcon = ({ className }: { className?: string }) => (
 const AiAgentBadge = () => (
   <span className="inline-flex px-1.5 py-0.5 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white text-[9px] leading-none rounded-full font-medium items-center">AI Agent</span>
 );
-
-// Animated Number Component
-interface AnimatedNumberProps {
-    targetNumber: number;
-    duration?: number;
-    className?: string;
-    suffixElement?: React.ReactNode;
-}
-
-const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
-    targetNumber,
-    duration = 1.5, // Default 1.5 seconds
-    className,
-    suffixElement,
-}) => {
-    const numberRef = useRef<HTMLSpanElement>(null);
-    const hasAnimated = useRef(false); // Track if animation ran
-    const nodeRef = useRef<HTMLDivElement>(null); // Ref for the container div to check visibility
-
-    useEffect(() => {
-        const node = numberRef.current;
-        const containerNode = nodeRef.current;
-
-        if (node && containerNode) {
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting && !hasAnimated.current) {
-                            hasAnimated.current = true; // Mark as animated
-                            const controls = animate(0, targetNumber, {
-                                duration: duration,
-                                ease: "easeOut",
-                                onUpdate(value: number) {
-                                    // Ensure node still exists during animation frame
-                                    if(numberRef.current) {
-                                        numberRef.current.textContent = Math.round(value).toString();
-                                    }
-                                },
-                            });
-                            // No need to return controls.stop() from here as we rely on hasAnimated flag
-                        }
-                    });
-                },
-                {
-                    threshold: 0.3, // Trigger when 30% visible
-                }
-            );
-
-            observer.observe(containerNode);
-
-            // Cleanup observer on component unmount
-            return () => {
-                if (containerNode) {
-                    observer.unobserve(containerNode);
-                }
-            };
-        }
-    }, [targetNumber, duration]); // Dependencies
-
-    return (
-        <div className={className} ref={nodeRef}> {/* Attach ref to the container */}
-            {/* Initialize display to 0 */}
-            <span ref={numberRef}>0</span>
-            {suffixElement}
-        </div>
-    );
-};
 
 export default function Home() {
   // 状态管理
@@ -255,9 +180,11 @@ export default function Home() {
             <div className="aspect-w-16 aspect-h-9 bg-transparent">
               <video
                 className="w-full h-full object-cover rounded-t-xl"
+                controls
                 autoPlay
                 muted
                 loop
+                playsInline
               >
                 <source src="/images/美洽官网视频.webm" type="video/webm" />
                 您的浏览器不支持视频播放，请更换浏览器或更新版本。
@@ -334,47 +261,47 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-gray-900">
-            超过 <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">400,000</span> 家企业使用小嘉获得客户增长
+            超过 <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">400</span> 家企业使用小嘉智能客服
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 md:gap-x-6 max-w-4xl mx-auto">
             <motion.div 
-              className="glass-blue glass-card-transition p-3 rounded-xl border border-blue-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              className="bg-white/80 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
             >
-              <AnimatedNumber
-                targetNumber={30}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1"
-                suffixElement={<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">+</span>}
-              />
-              <div className="text-xs sm:text-sm text-gray-500">月服务时长</div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1">10<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">+</span></div>
+              <div className="text-xs sm:text-sm text-gray-500">年服务时长</div>
             </motion.div>
             <motion.div 
-              className="glass-purple glass-card-transition p-3 rounded-xl border border-purple-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              className="bg-white/80 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
             >
-              <AnimatedNumber
-                targetNumber={40}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-600 mb-1"
-                suffixElement={<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">万+</span>}
-              />
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-600 mb-1">40<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">万+</span></div>
               <div className="text-xs sm:text-sm text-gray-500">注册账号数</div>
             </motion.div>
             <motion.div 
-              className="glass-teal glass-card-transition p-3 rounded-xl border border-teal-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              className="bg-white/80 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
             >
-              <AnimatedNumber
-                targetNumber={100}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-teal-600 mb-1"
-                suffixElement={<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">亿+</span>}
-              />
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-teal-600 mb-1">100<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">亿+</span></div>
               <div className="text-xs sm:text-sm text-gray-500">年消息收发量</div>
             </motion.div>
             <motion.div 
-              className="glass-amber glass-card-transition p-3 rounded-xl border border-amber-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              className="bg-white/80 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
             >
-              <AnimatedNumber
-                targetNumber={99}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-amber-600 mb-1"
-                suffixElement={<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">%</span>}
-              />
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-amber-600 mb-1">99<span className="text-2xl sm:text-3xl md:text-4xl font-medium relative -top-1">%</span></div>
               <div className="text-xs sm:text-sm text-gray-500">客户满意度</div>
             </motion.div>
           </div>
@@ -409,7 +336,7 @@ export default function Home() {
             ].map((item, index) => (
               <motion.div 
                 key={index} 
-                className={`glass-${item.color} glass-card-transition p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105 flex items-center bg-opacity-60 backdrop-blur-sm`}
+                className={`bg-white/80 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -424,25 +351,22 @@ export default function Home() {
           {/* Bottom row of icons/features - Enhanced for mobile */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 sm:gap-6 max-w-6xl mx-auto text-center">
              {[
-                { title: "极速接入", desc: "全渠道一键集成", Icon: RocketLaunchIcon, color: "blue" },
-                { title: "多端操作", desc: "网页/PC/移动端", Icon: ComputerDesktopIcon, color: "purple" },
-                { title: "流畅体验", desc: "功能合一，称心趁手", Icon: SparklesIcon, color: "teal" },
-                { title: "专业服务", desc: "7x24 服务支持", Icon: UserGroupIcon, color: "amber" },
-                { title: "稳定安全", desc: "全球加速，数据隔离", Icon: ShieldCheckIcon, color: "green" },
-                { title: "开放拓展", desc: "开放 API，高度自定义", Icon: CodeBracketIcon, color: "indigo" },
+                { title: "极速接入", desc: "全渠道一键集成", icon: "🚀" }, // Replace with actual icons/images
+                { title: "多端操作", desc: "网页/PC/移动端", icon: "💻" },
+                { title: "流畅体验", desc: "功能合一，称心趁手", icon: "✨" },
+                { title: "专业服务", desc: "7x24 服务支持", icon: "🤝" },
+                { title: "稳定安全", desc: "全球加速，数据隔离", icon: "🔒" },
+                { title: "开放拓展", desc: "开放 API，高度自定义", icon: "🔌" }
              ].map((item, index) => (
-               <motion.div
-                 key={index}
-                 className="p-3 sm:p-4 hover:bg-white/60 rounded-lg transition-colors duration-200 cursor-default flex flex-col items-center bg-opacity-60 backdrop-blur-sm"
-                 initial={{ opacity: 0, scale: 0.9 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 transition={{ duration: 0.4, delay: index * 0.05 }}
+               <motion.div 
+                 key={index} 
+                 className="glass-card-transition bg-white/50 backdrop-blur-md rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col"
+                 initial="hidden"
+                 whileInView="visible"
+                 transition={{ duration: 0.5, delay: index * 0.05 }}
                  viewport={{ once: true }}
                >
-                  {/* Icon container with new styling */}
-                  <div className={`mb-3 sm:mb-4 p-3 rounded-full bg-gradient-to-br from-${item.color}-100 to-${item.color}-200 bg-opacity-60 backdrop-blur-sm inline-block shadow-sm`}>
-                    <item.Icon className={`h-6 w-6 sm:h-8 sm:w-8 text-${item.color}-600`} />
-                  </div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-3">{item.icon}</div>
                   <h4 className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1 text-gray-800">{item.title}</h4>
                   <p className="text-xs text-gray-500">{item.desc}</p>
                </motion.div>
@@ -687,7 +611,7 @@ export default function Home() {
             ].map((item, index) => (
               <motion.div 
                 key={index} 
-                className={`glass-${item.color} glass-card-transition p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105 flex items-center bg-opacity-60 backdrop-blur-sm`}
+                className={`bg-white/80 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/50 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -742,23 +666,23 @@ export default function Home() {
                 color: "indigo"
               }
             ].map((feature, index) => (
-              <motion.div 
-                key={index} 
-                className={`glass-${feature.color} glass-card-transition rounded-xl p-6 text-center shadow-md hover:shadow-xl hover:scale-105 cursor-pointer backdrop-blur-md`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  transition: { duration: 0.3 }
-                }}
+              <motion.div
+                key={index}
+                className="bg-gradient-to-br from-white/70 via-gray-50/50 to-white/70 backdrop-blur-lg rounded-xl p-6 shadow-md border border-gray-100/30 hover:shadow-lg flex flex-col transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ delay: index * 0.08 }}
               >
-                <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-gradient-to-br from-${feature.color}-200 to-${feature.color}-100 text-${feature.color}-600 mb-4 transform transition-transform duration-300 group-hover:rotate-3`}>
-                  {feature.icon}
+                {/* Top row for Title and Icon */}
+                <div className="flex justify-between items-center mb-3"> 
+                  <h3 className="text-base font-medium text-gray-900 text-left whitespace-nowrap">{feature.title}</h3>
+                  {/* Icon container using color gradient again */}
+                  <div className={`p-1.5 rounded-lg bg-gradient-to-br from-${feature.color}-100 to-${feature.color}-200 flex-shrink-0 shadow-sm`}>
+                    <feature.icon className={`h-6 w-6 text-${feature.color}-600`} />
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-gray-900">{feature.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
