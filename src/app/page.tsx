@@ -12,7 +12,12 @@ import {
   SparklesIcon,
   UserGroupIcon,
   ShieldCheckIcon,
-  CodeBracketIcon
+  CodeBracketIcon,
+  SquaresPlusIcon,
+  AcademicCapIcon,
+  CpuChipIcon,
+  ClockIcon,
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 
 // 组件与图标
@@ -197,7 +202,7 @@ export default function Home() {
         </motion.div>
         */}
 
-        <div className="container mx-auto px-4 relative z-10 max-w-4xl">
+        <div className="container mx-auto px-4 relative z-10 max-w-7xl">
           <motion.h2 
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight md:leading-tight text-center whitespace-nowrap"
             initial={{ opacity: 0, y: 20 }}
@@ -324,6 +329,106 @@ export default function Home() {
         </div>
       </section>
 
+      {/* --- 新增模块：电商客服特性 --- */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+            比人工客服效率提升<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-500 font-semibold">10倍</span>，成本节省<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-500 font-semibold">90%</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-12 max-w-6xl mx-auto">
+            {[ // Feature data array - START MODIFICATION - Update Copywriting (Option 1)
+              { // Moved from index 3 to 0
+                icon: CpuChipIcon,
+                title: "百店同管，AI客服超强引擎", // Updated Title
+                desc: "专为电商优化的大模型 AI，一台电脑轻松管理超百家店铺，7x24小时自动回复，外包团队必备。", // Updated Description
+                badge: "外包必用",
+                iconBgClass: "bg-gradient-to-r from-amber-500 to-amber-600",
+                titleTextClass: "text-amber-700",
+                badgeBgClass: "bg-amber-100",
+                badgeTextClass: "text-amber-800"
+              },
+              { // Original index 0, now 1
+                icon: SquaresPlusIcon,
+                title: "多平台店铺，一处搞定", // Updated Title
+                desc: "一键聚合淘宝、拼多多、抖音等多平台店铺，告别繁琐切换，统一高效管理。", // Updated Description
+                badge: "店群必用",
+                iconBgClass: "bg-gradient-to-r from-blue-500 to-blue-600",
+                titleTextClass: "text-blue-700",
+                badgeBgClass: "bg-blue-100",
+                badgeTextClass: "text-blue-800"
+              },
+              { // Original index 1, now 2
+                icon: AcademicCapIcon,
+                title: "AI秒懂商品，自动回复专家", // Updated Title
+                desc: "AI 自动学习商品详情、规格、库存，7x24小时精准回答客户咨询，提升转化率。", // Updated Description
+                iconBgClass: "bg-gradient-to-r from-purple-500 to-purple-600",
+                titleTextClass: "text-purple-700",
+              },
+              { // Original index 2, now 3
+                icon: UserGroupIcon,
+                title: "团队协作，权限灵活分配", // Updated Title
+                desc: "支持多人同时在线协作，主账号灵活分配子账号权限，精细化管理店铺，提升团队效率。", // Updated Description
+                iconBgClass: "bg-gradient-to-r from-teal-500 to-teal-600",
+                titleTextClass: "text-teal-700",
+              },
+              { // Original index 4, now 4
+                icon: ClockIcon,
+                title: "3分钟响应，平台指标必达", // Keep concise title
+                desc: "AI 全天候在线，确保 3 分钟内响应客户，轻松满足各大电商平台考核指标，避免超时处罚。", // Restore Description
+                badge: "满足平台指标",
+                iconBgClass: "bg-gradient-to-r from-green-500 to-green-600",
+                titleTextClass: "text-green-700",
+              },
+              { // Original index 5, now 5
+                icon: ExclamationTriangleIcon,
+                title: "AI火眼金睛：智能识别恶意行为", // Updated Title
+                desc: "AI 智能识别潜在的恶意用户、差评师，提前预警，帮助客服规避风险，保护店铺声誉。", // Updated Description
+                iconBgClass: "bg-gradient-to-r from-red-500 to-red-600",
+                titleTextClass: "text-red-700",
+              }
+              // END MODIFICATION
+            ].map((feature, index) => (
+              <motion.div 
+                key={index} 
+                className={`bg-white/60 backdrop-blur-lg border border-white/30 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col relative overflow-hidden`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.03, y: -5, transition: { duration: 0.2 } }}
+              >
+                {/* Diagonal Banner - Apply to the three specified cards - Use correct titles */}
+                {feature.badge && (feature.title === "百店同管，AI客服超强引擎" || feature.title === "3分钟响应，平台指标必达" || feature.title === "多平台店铺，一处搞定") && (
+                  <div className={`absolute top-0 right-0 w-28 h-28 overflow-hidden rounded-tr-lg`}>
+                     <span 
+                        className={`absolute block w-36 transform rotate-45 text-center -right-8 top-[22px] px-1 py-0.5 text-xs font-semibold uppercase text-white shadow-md ${feature.iconBgClass} opacity-75`}
+                     >
+                        {feature.badge}
+                     </span>
+                  </div>
+                )}
+
+                <div className="flex items-center mb-4">
+                  <div className={`flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg ${feature.iconBgClass} text-white shadow-md`}> {/* Use iconBgClass */}
+                    <feature.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className={`ml-4 text-lg font-semibold ${feature.titleTextClass}`}>{feature.title}</h3> {/* Use titleTextClass */}
+                </div>
+                <p className="text-gray-600 text-sm mb-4 flex-grow">{feature.desc}</p>
+                
+                {/* Badge for other cards (non-diagonal) - Exclude the ones with diagonal banner - Use correct titles */}
+                {feature.badge && feature.title !== "百店同管，AI客服超强引擎" && feature.title !== "3分钟响应，平台指标必达" && feature.title !== "多平台店铺，一处搞定" && (
+                  <span className={`self-start inline-block ${feature.badgeBgClass} ${feature.badgeTextClass} text-xs font-medium px-2.5 py-0.5 rounded-full mt-auto`}> {/* Use badge classes */}
+                    {feature.badge}
+                  </span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* --- Customer Growth Stats Section --- */}
       <motion.section 
         className="py-14 md:py-20 relative overflow-hidden bg-gradient-to-br from-white via-blue-50/20 to-indigo-50/30"
@@ -332,7 +437,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         variants={sectionVariants}
       >
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="container mx-auto px-4 text-center relative z-10 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-gray-900">
             超过 <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">400</span>家企业使用小嘉智能客服
           </h2>
@@ -393,7 +498,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.1 }}
         variants={sectionVariants}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-900">
             为什么选择<span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">小嘉</span>
           </h2>
@@ -459,7 +564,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.1 }}
         variants={sectionVariants}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-7xl">
           {/* Heading for first feature */}
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-gray-900 text-center">
             用小嘉 AI，释放更多获客潜能
@@ -527,7 +632,11 @@ export default function Home() {
       </motion.section>
 
       {/* --- Customer Testimonials Section --- */}
-      <TestimonialsSection />
+      <section className="bg-gradient-to-b from-purple-50/30 via-white to-blue-50/30 py-16 md:py-24">
+        <div className="container mx-auto px-4 max-w-7xl">
+           <TestimonialsSection />
+        </div>
+      </section>
 
       {/* --- Why Choose Us Section --- */}
       <motion.section 
@@ -537,7 +646,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 md:mb-4 text-gray-900">为什么选择<span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">小嘉</span></h2>
           <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 md:mb-16">
             简单、易用、强大，不断进化的 AI 能力
@@ -646,7 +755,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
       >
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center max-w-7xl">
            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-900">
              携手全行业优秀企业，与 AI <span className="bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 bg-clip-text text-transparent">共进化</span>
            </h2>
@@ -675,7 +784,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         variants={sectionVariants}
       >
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center max-w-7xl">
           <div className="max-w-3xl mx-auto glass-card-intense glass-card-transition rounded-2xl px-6 py-10 md:p-10 shadow-xl border border-indigo-100/40 bg-white/80">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
               拥抱小嘉，拥抱 AI
