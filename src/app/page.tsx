@@ -343,49 +343,55 @@ export default function Home() {
                 title: "百店同管，AI客服超强引擎", // Updated Title
                 desc: "专为电商优化的大模型 AI，一台电脑轻松管理超百家店铺，7x24小时自动回复，外包团队必备。", // Updated Description
                 badge: "外包必用",
-                iconBgClass: "bg-gradient-to-r from-amber-500 to-amber-600",
-                titleTextClass: "text-amber-700",
-                badgeBgClass: "bg-amber-100",
-                badgeTextClass: "text-amber-800"
+                iconBgClass: "bg-gradient-to-r from-[#3E50E0] to-[#3343c0]",
+                titleTextClass: "text-[#3E50E0]",
+                badgeBgClass: "bg-[#3E50E0]/10",
+                badgeTextClass: "text-[#3E50E0]",
+                iconImage: "/images/icons/cpu-icon.png" // 添加图标图片路径
               },
               { // Original index 0, now 1
                 icon: SquaresPlusIcon,
                 title: "多平台店铺，一处搞定", // Updated Title
                 desc: "一键聚合淘宝、拼多多、抖音等多平台店铺，告别繁琐切换，统一高效管理。", // Updated Description
                 badge: "店群必用",
-                iconBgClass: "bg-gradient-to-r from-blue-500 to-blue-600",
-                titleTextClass: "text-blue-700",
-                badgeBgClass: "bg-blue-100",
-                badgeTextClass: "text-blue-800"
+                iconBgClass: "bg-gradient-to-r from-orange-500 to-orange-600",
+                titleTextClass: "text-orange-700",
+                badgeBgClass: "bg-orange-100",
+                badgeTextClass: "text-orange-800",
+                iconImage: "/images/icons/squares-icon.png" // 添加图标图片路径
               },
               { // Original index 1, now 2
                 icon: AcademicCapIcon,
                 title: "AI秒懂商品，自动回复专家", // Updated Title
                 desc: "AI 自动学习商品详情、规格、库存，7x24小时精准回答客户咨询，提升转化率。", // Updated Description
-                iconBgClass: "bg-gradient-to-r from-purple-500 to-purple-600",
-                titleTextClass: "text-purple-700",
+                iconBgClass: "bg-gradient-to-r from-[#F7CA36] to-[#e6b82c]",
+                titleTextClass: "text-[#F7CA36]",
+                iconImage: "/images/icons/academic-icon.png" // 添加图标图片路径
               },
-              { // Original index 2, now 3
-                icon: UserGroupIcon,
-                title: "团队协作，权限灵活分配", // Updated Title
-                desc: "支持多人同时在线协作，主账号灵活分配子账号权限，精细化管理店铺，提升团队效率。", // Updated Description
-                iconBgClass: "bg-gradient-to-r from-teal-500 to-teal-600",
-                titleTextClass: "text-teal-700",
+              { // Original index 5, now 3 - 交换位置
+                icon: ExclamationTriangleIcon,
+                title: "AI火眼金睛：智能识别恶意行为", // Updated Title
+                desc: "AI 智能识别潜在的恶意用户、差评师，提前预警，帮助客服规避风险，保护店铺声誉。", // Updated Description
+                iconBgClass: "bg-gradient-to-r from-green-500 to-green-600",
+                titleTextClass: "text-green-700",
+                iconImage: "/images/icons/warning-icon.png" // 添加图标图片路径
               },
               { // Original index 4, now 4
                 icon: ClockIcon,
                 title: "3分钟响应，平台指标必达", // Keep concise title
                 desc: "AI 全天候在线，确保 3 分钟内响应客户，轻松满足各大电商平台考核指标，避免超时处罚。", // Restore Description
-                badge: "满足平台指标",
-                iconBgClass: "bg-gradient-to-r from-green-500 to-green-600",
-                titleTextClass: "text-green-700",
+                badge: "小商家必用",
+                iconBgClass: "bg-gradient-to-r from-purple-500 to-purple-600",
+                titleTextClass: "text-purple-700",
+                iconImage: "/images/icons/clock-icon.png" // 添加图标图片路径
               },
-              { // Original index 5, now 5
-                icon: ExclamationTriangleIcon,
-                title: "AI火眼金睛：智能识别恶意行为", // Updated Title
-                desc: "AI 智能识别潜在的恶意用户、差评师，提前预警，帮助客服规避风险，保护店铺声誉。", // Updated Description
-                iconBgClass: "bg-gradient-to-r from-red-500 to-red-600",
-                titleTextClass: "text-red-700",
+              { // Original index 3, now 5 - 交换位置
+                icon: UserGroupIcon,
+                title: "团队协作，权限灵活分配", // Updated Title
+                desc: "支持多人同时在线协作，主账号灵活分配子账号权限，精细化管理店铺，提升团队效率。", // Updated Description
+                iconBgClass: "bg-gradient-to-r from-[#6AA8FA] to-[#5897e6]",
+                titleTextClass: "text-[#6AA8FA]",
+                iconImage: "/images/icons/user-group-icon.png" // 添加图标图片路径
               }
               // END MODIFICATION
             ].map((feature, index) => (
@@ -409,17 +415,27 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="flex items-center mb-4">
-                  <div className={`flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg ${feature.iconBgClass} text-white shadow-md`}> {/* Use iconBgClass */}
-                    <feature.icon className="h-6 w-6" />
+                <div className="flex items-start mb-4 group">
+                  {/* 超现代风格的图标容器 - 全新设计 */}
+                  <div className="flex-shrink-0 mr-4 transform transition-all duration-300 group-hover:scale-105">
+                    <div className="relative w-14 h-14">
+                      {/* 使用Image组件加载图标图片 */}
+                      <Image
+                        src={feature.iconImage || "/images/icons/default-icon.png"} 
+                        alt={feature.title}
+                        width={feature.title === "AI秒懂商品，自动回复专家" ? 64 : 56}
+                        height={feature.title === "AI秒懂商品，自动回复专家" ? 64 : 56}
+                        className={feature.title === "AI秒懂商品，自动回复专家" ? "object-cover scale-110" : "object-contain"}
+                      />
+                    </div>
                   </div>
-                  <h3 className={`ml-4 text-lg font-semibold ${feature.titleTextClass}`}>{feature.title}</h3> {/* Use titleTextClass */}
+                  <h3 className={`text-lg font-semibold ${feature.titleTextClass} pt-1 group-hover:translate-x-0.5 transition-transform duration-300`}>{feature.title}</h3>
                 </div>
-                <p className="text-gray-600 text-sm mb-4 flex-grow">{feature.desc}</p>
+                <p className={`text-gray-600 text-sm mb-4 flex-grow`}>{feature.desc}</p>
                 
                 {/* Badge for other cards (non-diagonal) - Exclude the ones with diagonal banner - Use correct titles */}
                 {feature.badge && feature.title !== "百店同管，AI客服超强引擎" && feature.title !== "3分钟响应，平台指标必达" && feature.title !== "多平台店铺，一处搞定" && (
-                  <span className={`self-start inline-block ${feature.badgeBgClass} ${feature.badgeTextClass} text-xs font-medium px-2.5 py-0.5 rounded-full mt-auto`}> {/* Use badge classes */}
+                  <span className={`self-start inline-block ${feature.badgeBgClass} ${feature.badgeTextClass} text-xs font-medium px-2.5 py-0.5 rounded-full mt-auto`}>
                     {feature.badge}
                   </span>
                 )}
