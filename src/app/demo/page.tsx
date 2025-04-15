@@ -21,6 +21,7 @@ export default function DemoPage() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [fontSize, setFontSize] = useState(14);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   
   // 自动滚动到最新消息
@@ -43,6 +44,9 @@ export default function DemoPage() {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    
+    // 每次对话后增加字体大小
+    setFontSize(prevSize => Math.min(prevSize + 2, 28));
     
     try {
       // 调用API获取回复
@@ -117,6 +121,7 @@ export default function DemoPage() {
                     ? 'bg-blue-600 text-white'
                     : 'bg-white border border-gray-200'
                 }`}
+                style={{ fontSize: `${fontSize}px` }}
               >
                 {message.text}
               </div>
