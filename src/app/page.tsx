@@ -280,7 +280,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-2">
-                    <h3 className="text-xs font-semibold text-gray-800">AI客服小嘉</h3>
+                    <h3 className="text-xs font-semibold text-gray-800">AI客服维普特</h3>
                     <p className="text-xs text-gray-500">18400000011</p>
                   </div>
                 </div>
@@ -474,7 +474,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 text-center relative z-10 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-gray-900">
-            超过 <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">400</span>家企业使用小嘉智能客服
+            超过 <span className="text-3xl font-bold bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">400</span>家企业使用维普特智能客服
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 md:gap-x-6 max-w-4xl mx-auto">
             <motion.div 
@@ -525,431 +525,149 @@ export default function Home() {
         <div className="absolute -bottom-32 -left-20 w-96 h-96 rounded-full bg-purple-200/10 filter blur-3xl"></div>
       </motion.section>
 
-      {/* --- 新增模块：从智能辅助到独立客服 --- */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50">
+      {/* --- 从智能辅助到独立客服 Section --- */}
+      <motion.section 
+        className="py-16 md:py-24 bg-gradient-to-br from-white via-blue-50/20 to-indigo-50/20 relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="container mx-auto px-4 max-w-7xl">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 md:mb-6 text-gray-900">
             从智能辅助到独立客服
           </h2>
+          <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 md:mb-12">
+            根据业务需求选择适合的模式，灵活部署，高效运营
+          </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {/* 左侧卡片 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* 智能辅助模式 */}
             <motion.div 
-              className="rounded-2xl overflow-hidden bg-[#f7fbff] shadow-lg relative"
+              className="bg-blue-50/70 rounded-2xl overflow-hidden shadow-lg border border-blue-100/50"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              {/* 经验标签 */}
-              <div className="absolute top-0 left-0 bg-blue-600 text-white py-1 px-4 rounded-br-lg z-10">
-                <span className="text-sm font-medium">智能模式</span>
-              </div>
-              
-              <div className="p-8 pb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">智能辅助模式</h3>
-                <p className="text-gray-600 mb-6">辅助人工客服，提升工作效率</p>
-                
-                <div className="space-y-4 mb-10">
-                  <div className="flex items-start">
-                    <TickIcon className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">全部渠道，全部消息类型</p>
-                  </div>
-                  <div className="flex items-start">
-                    <TickIcon className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">可集成 AI，高效获线</p>
-                  </div>
-                  <div className="flex items-start">
-                    <TickIcon className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">智能分配，团队协同</p>
-                  </div>
-                  <div className="flex items-start">
-                    <TickIcon className="text-blue-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">多维数据，实时监控</p>
-                  </div>
+              <div className="p-6 md:p-8">
+                <div className="flex items-start mb-4">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mr-3">智能辅助模式</h3>
+                  <span className="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded-full">
+                    智能模式
+                  </span>
                 </div>
                 
-                <Link 
-                  href="/consult/assistant" 
-                  className="inline-block py-2.5 px-6 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors duration-300"
-                >
-                  立即咨询
-                </Link>
-              </div>
-              
-              {/* 修改图片区域为叠放布局 */}
-              <div className="relative h-56 md:h-64 mt-auto p-3"> {/* 使用mt-auto将图片推到底部, 设定高度 */}
-                {/* 背景大图 */}
-                <Image 
-                  src="/images/zhinengfuzhu1.png" 
-                  alt="智能辅助主图" 
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-                {/* 右下角叠加小图 */}
-                <div className="absolute bottom-5 right-5 w-2/5 z-10 overflow-hidden rounded-md shadow-lg border border-gray-200/50"> 
-                  <Image 
-                    src="/images/zhinengfuzhu4.png"
-                    alt="智能辅助叠加图" 
-                    layout="responsive" // 使用 responsive 保持比例
-                    width={200} // 提供基础宽度
-                    height={150} // 提供基础高度
-                    objectFit="cover"
-                  />
+                <p className="text-gray-600 mb-6 text-sm md:text-base">
+                  AI辅助人工客服，提高效率和服务质量
+                </p>
+                
+                <div className="flex">
+                  <div className="w-1/2">
+                    <ul className="space-y-3 mb-4">
+                      {[
+                        "智能回复推荐，快速响应",
+                        "自动分类标记，降低工作量",
+                        "知识库智能匹配，减少重复劳动",
+                        "客服绩效分析，持续优化服务"
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-start">
+                          <TickIcon className="text-blue-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700 text-sm">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="w-1/2">
+                    <div className="relative h-[250px]">
+                      {/* 底层图片 - 绿色zhinengfuzhu4 */}
+                      <div className="absolute top-[20px] right-0 left-5 z-10">
+                        <Image 
+                          src="/images/zhinengfuzhu4.png" 
+                          alt="智能辅助功能详情" 
+                          width={350} 
+                          height={240}
+                          className="object-contain transform rotate-[-8deg]" 
+                        />
+                      </div>
+                      
+                      {/* 上层图片 - 橘色zhinengfuzhu1 */}
+                      <div className="absolute top-[90px] left-0 right-5 z-20">
+                        <Image 
+                          src="/images/zhinengfuzhu1.png" 
+                          alt="智能辅助模式界面" 
+                          width={350} 
+                          height={240}
+                          className="object-contain transform rotate-[2deg]" 
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
             
-            {/* 右侧卡片 */}
+            {/* 独立客服模式 */}
             <motion.div 
-              className="rounded-2xl overflow-hidden bg-[#f8f6fe] shadow-lg flex flex-col" // 保持 flex flex-col
+              className="bg-indigo-50/70 rounded-2xl overflow-hidden shadow-lg border border-indigo-100/50"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="p-8 pb-6 flex-grow"> {/* 保持 flex-grow */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">独立客服模式</h3>
-                <p className="text-gray-600 mb-6">独立解决 90% 以上的常见问题</p>
+              <div className="p-6 md:p-8">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">独立客服模式</h3>
+                <p className="text-gray-600 mb-6 text-sm md:text-base">
+                  独立解决90%以上的常见问题，节省人力成本
+                </p>
                 
-                <div className="space-y-4 mb-10">
-                  <div className="flex items-start">
-                    <TickIcon className="text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">7x24 小时自动化</p>
+                <div className="flex">
+                  <div className="w-1/2">
+                    <ul className="space-y-3 mb-4">
+                      {[
+                        "7×24小时不间断服务",
+                        "多轮对话理解，一问多答",
+                        "深度集成知识库，持续学习",
+                        "人机无缝协作，复杂问题转人工"
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-start">
+                          <TickIcon className="text-indigo-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700 text-sm">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <div className="flex items-start">
-                    <TickIcon className="text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">意图识别，自动标记</p>
+                  
+                  <div className="w-1/2">
+                    <div className="relative h-[250px]">
+                      {/* 底层图片 */}
+                      <div className="absolute top-[20px] right-0 left-5 z-10">
+                        <Image 
+                          src="/images/zhinengfuzhu3.png" 
+                          alt="独立客服功能详情" 
+                          width={350} 
+                          height={240}
+                          className="object-contain transform rotate-[-8deg]" 
+                        />
+                      </div>
+                      
+                      {/* 上层图片 */}
+                      <div className="absolute top-[90px] left-0 right-5 z-20">
+                        <Image 
+                          src="/images/zhinengfuzhu2.png" 
+                          alt="独立客服模式界面" 
+                          width={350} 
+                          height={240}
+                          className="object-contain transform rotate-[2deg]" 
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-start">
-                    <TickIcon className="text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">辅助人工，人机协同</p>
-                  </div>
-                  <div className="flex items-start">
-                    <TickIcon className="text-purple-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">多轮对话，一问多答</p>
-                  </div>
-                </div>
-                
-                <Link 
-                  href="/consult/independent" 
-                  className="inline-block py-2.5 px-6 bg-purple-600 text-white font-medium rounded-md hover:bg-purple-700 transition-colors duration-300"
-                >
-                  立即咨询
-                </Link>
-              </div>
-              
-              {/* 修改图片区域为叠放布局 */}
-              <div className="relative h-56 md:h-64 mt-auto p-3"> {/* 使用mt-auto将图片推到底部, 设定高度 */}
-                {/* 背景大图 */}
-                <Image 
-                  src="/images/zhinengfuzhu2.png" 
-                  alt="独立客服主图" 
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-                {/* 右下角叠加小图 */}
-                <div className="absolute bottom-5 right-5 w-2/5 z-10 overflow-hidden rounded-md shadow-lg border border-gray-200/50"> 
-                  <Image 
-                    src="/images/zhinengfuzhu3.png"
-                    alt="独立客服叠加图" 
-                    layout="responsive" // 使用 responsive 保持比例
-                    width={200} // 提供基础宽度
-                    height={150} // 提供基础高度
-                    objectFit="cover"
-                  />
                 </div>
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* --- Why Choose Section - 优化移动端显示 --- */}
-      <motion.section 
-        className="py-16 md:py-28 bg-gradient-to-b from-teal-50/30 via-blue-50/50 to-cyan-50/30"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 max-w-7xl">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-900">
-            为什么选择<span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">小嘉</span>
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 text-center mb-8 md:mb-12 max-w-xl mx-auto">简单、易用、强大，不断进化的 AI 能力</p>
-          
-          {/* Top row of benefits - Enhanced for mobile */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 md:mb-12 max-w-5xl mx-auto">
-            {[
-              { title: "用小嘉 AI 可快速构建与升级企业知识库", color: "blue" },
-              { title: "简单易用，快速配置，轻量维护", color: "purple" },
-              { title: "获线转化、效率提升，效果看得见", color: "teal" },
-              { title: "不断迭代的 AI 能力，持续为业务赋能", color: "indigo" },
-            ].map((item, index) => (
-              <motion.div 
-                key={index} 
-                className={`glass-${item.color} glass-card-transition p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105 flex items-center bg-opacity-60 backdrop-blur-sm`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <TickIcon className={`text-${item.color}-500 mr-2 sm:mr-3 flex-shrink-0`} />
-                <span className="text-gray-700 text-sm sm:text-base">{item.title}</span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Bottom row of icons/features - Enhanced for mobile */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 sm:gap-6 max-w-6xl mx-auto text-center">
-             {[
-                { title: "极速接入", desc: "全渠道一键集成", Icon: RocketLaunchIcon, color: "blue" },
-                { title: "多端操作", desc: "网页/PC/移动端", Icon: ComputerDesktopIcon, color: "purple" },
-                { title: "流畅体验", desc: "功能合一，称心趁手", Icon: SparklesIcon, color: "teal" },
-                { title: "专业服务", desc: "7x24 服务支持", Icon: UserGroupIcon, color: "amber" },
-                { title: "稳定安全", desc: "全球加速，数据隔离", Icon: ShieldCheckIcon, color: "green" },
-                { title: "开放拓展", desc: "开放 API，高度自定义", Icon: CodeBracketIcon, color: "indigo" },
-             ].map((item, index) => (
-               <motion.div
-                 key={index}
-                 className="p-3 sm:p-4 hover:bg-white/60 rounded-lg transition-colors duration-200 cursor-default flex flex-col items-center bg-opacity-60 backdrop-blur-sm"
-                 initial={{ opacity: 0, scale: 0.9 }}
-                 whileInView={{ opacity: 1, scale: 1 }}
-                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                 viewport={{ once: true }}
-               >
-                  {/* Icon container with new styling */}
-                  <div className={`mb-3 sm:mb-4 p-3 rounded-full bg-gradient-to-br from-${item.color}-100 to-${item.color}-200 bg-opacity-60 backdrop-blur-sm inline-block shadow-sm`}>
-                    <item.Icon className={`h-6 w-6 sm:h-8 sm:w-8 text-${item.color}-600`} />
-                  </div>
-                  <h4 className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1 text-gray-800">{item.title}</h4>
-                  <p className="text-xs text-gray-500">{item.desc}</p>
-               </motion.div>
-             ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* --- Product Features Section --- */}
-      <motion.section 
-        className="py-16 md:py-20 bg-gradient-to-b from-white via-indigo-50/20 to-white"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* Heading for first feature */}
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-gray-900 text-center">
-            用小嘉 AI，释放更多获客潜能
-          </h3>
-          
-          {/* Feature 1: 大模型获客机器人 */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-20 max-w-5xl mx-auto">
-            <motion.div 
-              className="md:pr-6 order-2 md:order-1"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <motion.h4 
-                className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight flex items-center"
-                variants={itemVariants}
-              >
-                <span className="flex items-center">
-                  大模型获客机器人 
-                  <AiAgentBadge />
-                </span>
-              </motion.h4>
-              <motion.p 
-                className="text-gray-600 mb-5 text-sm md:text-base leading-relaxed"
-                variants={itemVariants}
-              >
-                对话自然流畅，获线行云流水。<br/>如同一位 7x24 小时在线的专业售前经理，灵活追问，随机应变引导留资，高效获线。
-              </motion.p>
-              <motion.ul 
-                className="space-y-2.5 text-gray-700 mb-6 text-sm md:text-base"
-                variants={containerVariants}
-              >
-                <motion.li variants={itemVariants} className="flex items-center"><TickIcon className="text-black"/>意图识别，更精准</motion.li>
-                <motion.li variants={itemVariants} className="flex items-center"><TickIcon className="text-black"/>情绪分析，更细致</motion.li>
-                <motion.li variants={itemVariants} className="flex items-center"><TickIcon className="text-black"/>对话沟通，更自然</motion.li>
-                <motion.li variants={itemVariants} className="flex items-center"><TickIcon className="text-black"/>线索获取，更高效</motion.li>
-              </motion.ul>
-              <motion.div variants={itemVariants}>
-                <Link href="/products/ai-agent" className="text-blue-600 hover:text-blue-800 font-medium text-sm md:text-base group inline-flex items-center">
-                  立即咨询 <span className="transition-transform duration-200 group-hover:translate-x-1.5 ml-1.5 text-lg">→</span>
-                </Link>
-              </motion.div>
-            </motion.div>
-            {/* 替换第二张图片 - AI机器人配置界面 */} 
-            <motion.div 
-              className="bg-white p-1 md:p-2 rounded-lg shadow-md border border-gray-100/60 order-1 md:order-2 overflow-hidden"
-              initial="initial"
-              whileHover="hover"
-              variants={cardHoverVariants}
-            >
-              <div className="aspect-w-4 aspect-h-3">
-          <Image
-                   src="/images/ai-robot-config.png" 
-                   alt="AI聊天机器人配置界面" 
-                   width={500} 
-                   height={400}
-                   className="object-cover rounded-md transform transition-transform duration-700 hover:scale-105" 
-                 />
-              </div>
-            </motion.div>
-          </div>
-
-        </div>
-      </motion.section>
-
-      {/* --- Customer Testimonials Section --- */}
-      <section className="bg-gradient-to-b from-purple-50/30 via-white to-blue-50/30 py-16 md:py-24">
-        <div className="container mx-auto px-4 max-w-7xl">
-           <TestimonialsSection />
-        </div>
-      </section>
-
-      {/* --- Why Choose Us Section --- */}
-      <motion.section 
-        className="py-14 md:py-20 bg-gradient-to-br from-white via-cyan-50/30 to-blue-50/20 relative overflow-hidden"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 max-w-7xl">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 md:mb-4 text-gray-900">为什么选择<span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">小嘉</span></h2>
-          <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 md:mb-16">
-            简单、易用、强大，不断进化的 AI 能力
-          </p>
-          
-          {/* Top row of benefits */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 md:mb-12 max-w-5xl mx-auto">
-            {[
-              { title: "用小嘉 AI 可快速构建与升级企业知识库", color: "blue" },
-              { title: "简单易用，快速配置，轻量维护", color: "purple" },
-              { title: "获线转化、效率提升，效果看得见", color: "teal" },
-              { title: "不断迭代的 AI 能力，持续为业务赋能", color: "indigo" },
-            ].map((item, index) => (
-              <motion.div 
-                key={index} 
-                className={`glass-${item.color} glass-card-transition p-3 sm:p-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105 flex items-center bg-opacity-60 backdrop-blur-sm`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <TickIcon className={`text-${item.color}-500 mr-2 sm:mr-3 flex-shrink-0`} />
-                <span className="text-gray-700 text-sm sm:text-base">{item.title}</span>
-              </motion.div>
-            ))}
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {[
-              {
-                title: "极速接入",
-                description: "全渠道一键集成，3分钟完成网站代码部署，无需下载，注册即用，操作简单上手容易",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                ),
-                color: "blue"
-              },
-              {
-                title: "多端操作",
-                description: "网页端工作台，PC客户端(Mac/Windows)，移动端App(iOS/Android)，多方式消息提醒",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                ),
-                color: "purple"
-              },
-              {
-                title: "流畅体验",
-                description: "功能合一，称心趁手，工作台个性自定义，专属操作体验，追求效率，企业内部高效沟通与协作",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                ),
-                color: "teal"
-              },
-              {
-                title: "开放拓展",
-                description: "开放API接口，widget高度自定义，iframe嵌入，服务数据双向同步",
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-                  </svg>
-                ),
-                color: "indigo"
-              }
-            ].map((feature, index) => (
-              <motion.div 
-                key={index} 
-                className={`glass-${feature.color} glass-card-transition rounded-xl p-6 text-center shadow-md hover:shadow-xl hover:scale-105 cursor-pointer backdrop-blur-md`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-gradient-to-br from-${feature.color}-200 to-${feature.color}-100 text-${feature.color}-600 mb-4 transform transition-transform duration-300 group-hover:rotate-3`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-gray-900">{feature.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        
-        {/* 背景装饰元素 - 增强视觉效果 */}
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-100/40 rounded-full blur-3xl animate-pulse" style={{animationDuration: '8s'}}></div>
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-100/40 rounded-full blur-3xl animate-pulse" style={{animationDuration: '10s'}}></div>
-        <div className="absolute top-1/3 right-10 w-32 h-32 bg-teal-100/30 rounded-full blur-2xl animate-pulse" style={{animationDuration: '7s'}}></div>
-        <div className="absolute bottom-1/4 left-10 w-40 h-40 bg-indigo-100/30 rounded-full blur-2xl animate-pulse" style={{animationDuration: '9s'}}></div>
-      </motion.section>
-
-      {/* --- Brand Wall Section --- */}
-      <motion.section 
-        className="py-12 md:py-16 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={sectionVariants}
-      >
-        <div className="container mx-auto px-4 text-center max-w-7xl">
-           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-900">
-             携手全行业优秀企业，与 AI <span className="bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 bg-clip-text text-transparent">共进化</span>
-           </h2>
-           {/* 品牌墙 */}
-           <div className="relative h-48 md:h-56 bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg flex items-center justify-center overflow-hidden shadow-sm border border-gray-100">
-             <p className="text-gray-400 italic z-10">品牌墙图片占位</p>
-             {/* 背景图片 - 使用渐变代替图片 */}
-             <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/40 to-teal-50/40"></div>
-             <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/40 to-indigo-50/40"></div>
-             
-             {/* 添加品牌标志装饰元素 */}
-             <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-10 p-6 opacity-20">
-               {Array(12).fill(0).map((_, i) => (
-                 <div key={i} className="w-16 h-8 bg-gray-300 rounded"></div>
-               ))}
-             </div>
-           </div>
         </div>
       </motion.section>
 
@@ -964,7 +682,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center max-w-7xl">
           <div className="max-w-3xl mx-auto glass-card-intense glass-card-transition rounded-2xl px-6 py-10 md:p-10 shadow-xl border border-indigo-100/40 bg-white/80">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
-              拥抱小嘉，拥抱 AI
+              拥抱维普特，拥抱 AI
             </h2>
             <p className="text-base text-gray-600 mb-8 max-w-xl mx-auto">
               90% 以上的决策者希望在更多客服场景中引入 AI Agent
@@ -980,7 +698,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-    </div>
+        </div>
       </motion.section>
     </main>
   );
