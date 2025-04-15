@@ -201,7 +201,7 @@ export default function Navbar() {
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-3">
             <Link
-              href="#"
+              href="/demo"
               className="px-4 py-2 rounded-full glass-card-transition glass-frost bg-white/30 backdrop-blur-sm text-[#4e90cc] text-sm font-medium shadow-sm border border-white/20 flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300"
             >
               <span>预约演示</span>
@@ -220,7 +220,7 @@ export default function Navbar() {
               </svg>
             </Link>
             <Link
-              href="#"
+              href="/demo"
               className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
             >
               <span>免费试用</span>
@@ -342,7 +342,7 @@ export default function Navbar() {
                 <div className="p-6 border-t border-gray-200">
                   <div className="grid grid-cols-2 gap-6">
                     <Link
-                      href="#"
+                      href="/demo"
                       className="col-span-1 px-4 py-3 rounded-full glass-card-transition glass-frost bg-white/30 backdrop-blur-sm text-[#4e90cc] text-base font-medium shadow-sm border border-white/20 flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300"
                     >
                       <span>预约演示</span>
@@ -361,7 +361,7 @@ export default function Navbar() {
                       </svg>
                     </Link>
                     <Link
-                      href="#"
+                      href="/demo"
                       className="col-span-1 px-4 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-base font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
                     >
                       <span>免费试用</span>

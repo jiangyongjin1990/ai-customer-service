@@ -109,7 +109,7 @@ export default function PricingPage() {
               </ul>
               
               <Link 
-                href={plan.cta === '联系我们' ? '/contact' : '/signup'}
+                href={plan.cta === '联系我们' ? '/contact' : '/demo'}
                 className={`block w-full text-center py-3 px-4 rounded-lg font-medium ${
                   plan.popular
                     ? 'bg-blue-600 hover:bg-blue-700 text-white'

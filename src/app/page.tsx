@@ -13,6 +13,7 @@ import {
   ClockIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
+import Footer from '../components/Footer';
 
 // 组件与图标
 const TickIcon = ({ className }: { className?: string }) => (
@@ -131,7 +132,7 @@ export default function Home() {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
-  
+
   const sectionVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -212,8 +213,9 @@ export default function Home() {
                 autoPlay
                 muted
                 loop
+                playsInline
               >
-                <source src="/images/美洽官网视频.webm" type="video/webm" />
+                <source src="/images/维普特官网视频.webm" type="video/webm" />
                 您的浏览器不支持视频播放，请更换浏览器或更新版本。
               </video>
             </div>
@@ -247,7 +249,7 @@ export default function Home() {
               预约演示
               <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
-            <Link href="/free-trial" className="btn-glass-blue group px-5 py-2.5 text-base font-medium flex items-center justify-center">
+            <Link href="/demo" className="btn-glass-blue group px-5 py-2.5 text-base font-medium flex items-center justify-center">
               免费试用
               <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
@@ -365,7 +367,14 @@ export default function Home() {
             ].map((feature, index) => (
               <motion.div 
                 key={index} 
-                className={`bg-white/60 backdrop-blur-lg border border-white/30 px-7 pt-7 pb-4 md:px-8 md:pt-8 md:pb-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col relative overflow-hidden`}
+                className={`backdrop-blur-lg border border-white/30 px-7 pt-7 pb-4 md:px-8 md:pt-8 md:pb-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col relative overflow-hidden ${
+                  feature.title === "百店同管，AI客服超强引擎" ? "bg-gradient-to-br from-[#3E50E0]/5 via-white/70 to-white/80" :
+                  feature.title === "多平台店铺，一处搞定" ? "bg-gradient-to-br from-orange-500/5 via-white/70 to-white/80" :
+                  feature.title === "AI秒懂商品，自动回复专家" ? "bg-gradient-to-br from-[#F7CA36]/5 via-white/70 to-white/80" :
+                  feature.title === "智能识别恶意行为" ? "bg-gradient-to-br from-green-500/5 via-white/70 to-white/80" :
+                  feature.title === "3分钟响应，平台指标必达" ? "bg-gradient-to-br from-purple-500/5 via-white/70 to-white/80" :
+                  "bg-gradient-to-br from-[#6AA8FA]/5 via-white/70 to-white/80"
+                }`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
@@ -425,7 +434,7 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-gray-900">
             超过 <span className="text-3xl font-bold bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 bg-clip-text text-transparent">400</span>家企业使用维普特智能客服
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 md:gap-x-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-4 md:gap-x-6 max-w-6xl mx-auto">
             <motion.div 
               className="glass-blue glass-card-transition p-3 rounded-xl border border-blue-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
             >
@@ -484,7 +493,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 md:mb-6 text-gray-900">
-            从智能辅助到独立客服
+            从智能辅助到<span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">独立客服</span>
           </h2>
           <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 md:mb-12">
             根据业务需求选择适合的模式，灵活部署，高效运营
@@ -498,6 +507,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
+              whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
             >
               {/* 添加下边缘收缩效果 */}
               <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-blue-50/70 to-transparent z-30"></div>
@@ -507,7 +517,7 @@ export default function Home() {
                   <h3 className="text-xl md:text-2xl font-bold text-gray-900 mr-3">智能辅助模式</h3>
                   <span className="px-3 py-1 bg-blue-500 text-white text-xs font-medium rounded-full">
                     智能模式
-                  </span>
+                </span>
                 </div>
                 
                 <p className="text-gray-600 mb-6 text-sm md:text-base">
@@ -529,33 +539,83 @@ export default function Home() {
                         </li>
                       ))}
                     </ul>
-                  </div>
-                  
+            </div>
+            
                   <div className="w-1/2">
-                    <div className="relative h-[420px] overflow-visible">
+                    <motion.div 
+                      className="relative h-[420px] overflow-visible"
+                      whileHover={{ scale: 1.02 }}
+                    >
                       {/* 底层图片 - 调整位置 */}
-                      <div className="absolute top-[-40px] right-[-35%] left-5 z-10">
+                      <motion.div 
+                        className="absolute top-[-40px] right-[-35%] left-5 z-10"
+                        initial={{ y: 100, opacity: 0, rotate: -8, scale: 0.8 }}
+                        whileInView={{ 
+                          y: 0, 
+                          opacity: 1,
+                          rotate: -8, 
+                          scale: 1,
+                          transition: { 
+                            type: "spring", 
+                            stiffness: 300, 
+                            damping: 15, 
+                            delay: 0.2,
+                            bounce: 0.4
+                          } 
+                        }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        whileHover={{ 
+                          rotate: 10,
+                          scale: 1.05,
+                          transition: { duration: 0.3, ease: "easeOut" } 
+                        }}
+                      >
                         <Image 
                           src="/images/zhinengfuzhu4.png" 
                           alt="智能辅助功能详情" 
                           width={500} 
                           height={350}
-                          className="object-contain transform rotate-[-8deg]" 
+                          className="object-contain transform" 
+                          priority
                         />
-                      </div>
+                      </motion.div>
                       
                       {/* 上层图片 - 调整位置使底部刚好被截断五分之一 */}
-                      <div className="absolute top-[30px] left-0 right-[-35%] z-20">
+                      <motion.div 
+                        className="absolute top-[30px] left-0 right-[-35%] z-20"
+                        initial={{ y: 80, opacity: 0, rotate: 2, scale: 0.8 }}
+                        whileInView={{ 
+                          y: 0, 
+                          opacity: 1,
+                          rotate: 2, 
+                          scale: 1,
+                          transition: { 
+                            type: "spring", 
+                            stiffness: 300, 
+                            damping: 15, 
+                            delay: 0.4,
+                            bounce: 0.4
+                          } 
+                        }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        whileHover={{ 
+                          rotate: 4,
+                          scale: 1.05,
+                          y: -5,
+                          transition: { duration: 0.3, ease: "easeOut" } 
+                        }}
+                      >
                         <Image 
                           src="/images/zhinengfuzhu1.png" 
                           alt="智能辅助模式界面" 
                           width={500} 
                           height={350}
-                          className="object-contain transform rotate-[2deg]" 
+                          className="object-contain transform"
+                          priority
                         />
-                      </div>
-                    </div>
-                  </div>
+                      </motion.div>
+                    </motion.div>
+                </div>
                 </div>
               </div>
             </motion.div>
@@ -567,6 +627,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
+              whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
             >
               {/* 添加下边缘收缩效果 */}
               <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-indigo-50/70 to-transparent z-30"></div>
@@ -592,69 +653,122 @@ export default function Home() {
                         </li>
                       ))}
                     </ul>
-                  </div>
-                  
+          </div>
+          
                   <div className="w-1/2">
-                    <div className="relative h-[420px] overflow-visible">
+                    <motion.div 
+                      className="relative h-[420px] overflow-visible"
+                      whileHover={{ scale: 1.02 }}
+                    >
                       {/* 底层图片 */}
-                      <div className="absolute top-[-40px] right-[-35%] left-5 z-10">
+                      <motion.div 
+                        className="absolute top-[-40px] right-[-35%] left-5 z-10"
+                        initial={{ y: 100, opacity: 0, rotate: -8, scale: 0.8 }}
+                        whileInView={{ 
+                          y: 0, 
+                          opacity: 1,
+                          rotate: -8, 
+                          scale: 1,
+                          transition: { 
+                            type: "spring", 
+                            stiffness: 300, 
+                            damping: 15, 
+                            delay: 0.2,
+                            bounce: 0.4
+                          } 
+                        }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        whileHover={{ 
+                          rotate: 10,
+                          scale: 1.05,
+                          transition: { duration: 0.3, ease: "easeOut" } 
+                        }}
+                      >
                         <Image 
                           src="/images/zhinengfuzhu3.png" 
                           alt="独立客服功能详情" 
                           width={500} 
                           height={350}
-                          className="object-contain transform rotate-[-8deg]" 
+                          className="object-contain transform"
+                          priority
                         />
-                      </div>
+                      </motion.div>
                       
                       {/* 上层图片 */}
-                      <div className="absolute top-[30px] left-0 right-[-35%] z-20">
+              <motion.div 
+                        className="absolute top-[30px] left-0 right-[-35%] z-20"
+                        initial={{ y: 80, opacity: 0, rotate: 2, scale: 0.8 }}
+                        whileInView={{ 
+                          y: 0, 
+                          opacity: 1,
+                          rotate: 2, 
+                          scale: 1,
+                          transition: { 
+                            type: "spring", 
+                            stiffness: 300, 
+                            damping: 15, 
+                            delay: 0.4,
+                            bounce: 0.4
+                          } 
+                        }}
+                        viewport={{ once: true, amount: 0.1 }}
+                whileHover={{ 
+                          rotate: 4,
+                          scale: 1.05,
+                  y: -5,
+                          transition: { duration: 0.3, ease: "easeOut" } 
+                        }}
+                      >
                         <Image 
                           src="/images/zhinengfuzhu2.png" 
                           alt="独立客服模式界面" 
                           width={500} 
                           height={350}
-                          className="object-contain transform rotate-[2deg]" 
+                          className="object-contain transform"
+                          priority
                         />
-                      </div>
-                    </div>
+                      </motion.div>
+                    </motion.div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
+              </motion.div>
+           </div>
         </div>
       </motion.section>
 
       {/* --- CTA Section --- */}
       <motion.section 
-        className="py-14 md:py-20 bg-gradient-to-b from-blue-50/30 via-indigo-50/50 to-purple-50/30"
+        className="py-10 md:py-16 bg-gradient-to-b from-blue-50/30 via-indigo-50/50 to-purple-50/30"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={sectionVariants}
       >
         <div className="container mx-auto px-4 text-center max-w-7xl">
-          <div className="max-w-3xl mx-auto glass-card-intense glass-card-transition rounded-2xl px-6 py-10 md:p-10 shadow-xl border border-indigo-100/40 bg-white/80">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
+          <div className="max-w-3xl mx-auto glass-card-intense glass-card-transition rounded-2xl px-6 py-8 md:px-10 md:py-9 shadow-xl border border-indigo-100/40 bg-white/80">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">
               拥抱维普特，拥抱 AI
             </h2>
-            <p className="text-base text-gray-600 mb-8 max-w-xl mx-auto">
+            <p className="text-base text-gray-600 mb-6 max-w-xl mx-auto">
               90% 以上的决策者希望在更多客服场景中引入 AI Agent
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
               <Link href="/demo" className="px-5 py-2.5 text-base font-medium text-[#4e90cc] rounded-md border border-[#4e90cc] bg-white hover:bg-gray-50 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
                 预约演示
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </Link>
-              <Link href="/free-trial" className="px-5 py-2.5 text-base font-medium text-white rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] hover:opacity-90 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
+              <Link href="/demo" className="px-5 py-2.5 text-base font-medium text-white rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] hover:opacity-90 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
                 免费试用
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </Link>
             </div>
           </div>
-        </div>
+    </div>
       </motion.section>
+
+      {/* 页脚 */}
+      <Footer />
     </main>
   );
 }
