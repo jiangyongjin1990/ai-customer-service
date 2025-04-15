@@ -28,8 +28,10 @@ export default function RootLayout({
     <html lang="zh">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
-        {children}
-        <footer className="bg-gray-800 text-white py-12">
+        <main className="flex-grow">
+          {children}
+        </main>
+        <footer className="glass py-12 relative mt-auto">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-4 gap-8">
               <div>

@@ -54,3 +54,4 @@ function generateSimpleReply(message: string): string {
   // 默认回复
   return '感谢您的咨询！我是智能客服助手，有什么可以帮助您的吗？您可以咨询我们的产品功能、价格、使用方法等问题。';
 } 
+ 
