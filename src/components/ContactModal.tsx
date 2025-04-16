@@ -7,6 +7,7 @@ import Image from 'next/image';
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
 }
 
 /**
@@ -14,8 +15,9 @@ interface ContactModalProps {
  * 
  * @param {boolean} isOpen - 控制弹窗显示状态
  * @param {function} onClose - 关闭弹窗回调函数
+ * @param {string} title - 弹窗标题，默认为"联系我们"
  */
-const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
+const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = '联系我们' }) => {
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -150,7 +152,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1, duration: 0.5 }}
                 >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-2">联系我们</h2>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">{title}</h2>
                   <p className="text-gray-500 text-sm mb-6">填写您的信息，我们将尽快与您取得联系</p>
                 </motion.div>
                 

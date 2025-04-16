@@ -178,12 +178,14 @@ export default function Navbar() {
               <AiAgentBadge />
             </Link>
 
+            {/* 隐藏客户案例按钮
             <Link
               href="/case-studies"
               className="text-lg font-medium text-gray-700 hover:text-[#4e90cc] px-3 py-2 rounded-md hover:bg-gray-50/30 transition-colors duration-200"
             >
               客户案例
             </Link>
+            */}
 
             <Link
               href="/pricing"
@@ -192,12 +194,14 @@ export default function Navbar() {
               定价
             </Link>
 
+            {/* 隐藏支持按钮
             <Link
               href="/support"
               className="text-lg font-medium text-gray-700 hover:text-[#4e90cc] px-3 py-2 rounded-md hover:bg-gray-50/30 transition-colors duration-200"
             >
               支持
             </Link>
+            */}
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-3">
             <Link
@@ -309,6 +313,7 @@ export default function Navbar() {
                           <div className="ml-4 text-lg font-medium text-gray-900">智能对话机器人</div>
                         </Link>
 
+                        {/* 隐藏客户案例按钮
                         <Link href="/case-studies" className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200">
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white">
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -317,6 +322,7 @@ export default function Navbar() {
                           </div>
                           <div className="ml-4 text-lg font-medium text-gray-900">客户案例</div>
                         </Link>
+                        */}
 
                         <Link href="/pricing" className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200">
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white">
@@ -327,6 +333,7 @@ export default function Navbar() {
                           <div className="ml-4 text-lg font-medium text-gray-900">定价</div>
                         </Link>
 
+                        {/* 隐藏支持按钮
                         <Link href="/support" className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200">
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white">
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -335,6 +342,7 @@ export default function Navbar() {
                           </div>
                           <div className="ml-4 text-lg font-medium text-gray-900">支持</div>
                         </Link>
+                        */}
                       </nav>
                     </div>
                   </div>
