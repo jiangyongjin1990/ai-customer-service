@@ -327,3 +327,77 @@ body {
 .custom-pulse {
   animation: custom-pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
+
+/* 水波动画效果 */
+@keyframes shimmer {
+  0% {
+    opacity: 0.02;
+    background-position: -100% 0;
+  }
+  10% {
+    opacity: 0.07;
+  }
+  30% {
+    opacity: 0.05;
+  }
+  70% {
+    opacity: 0.07;
+  }
+  100% {
+    opacity: 0.02;
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 6s ease-in-out infinite;
+  background-size: 200% 100%;
+}
+
+/* 水波效果类 */
+.water-ripple {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.water-ripple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.5s ease, background-color 0.5s ease;
+}
+
+.water-ripple:hover::before {
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: opacity 0.5s ease, background-color 0.5s ease;
+}
+
+.water-ripple:active::before {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 水波文字动画效果 */
+@keyframes wave-text {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-wave-text {
+  background-size: 400% auto;
+  animation: wave-text 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  background-image: linear-gradient(45deg, 
+    #4e90cc, #7d7af9, #9678f4, #4ba3e3, #4e64e3, 
+    #6a80f6, #8878ff, #4ba3e3, #4e90cc);
+}

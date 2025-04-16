@@ -21,7 +21,7 @@ const CTASection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 animate-wave-text text-transparent bg-clip-text"
           >
             拥抱维普特，拥抱 AI
           </motion.h2>
@@ -43,10 +43,10 @@ const CTASection = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Link href="/contact" className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
+            <Link href="/contact" className="water-ripple px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
               预约演示
             </Link>
-            <Link href="/test" className="px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300">
+            <Link href="/test" className="water-ripple px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300">
               免费试用
             </Link>
           </motion.div>
