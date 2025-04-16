@@ -145,10 +145,10 @@ const Footer = () => {
         {/* 底部座右铭 - 现代化设计 */}
         <div className="border-t border-gray-200 pt-6 flex justify-center items-center">
           <div className="relative">
-            <p className="text-gray-400 italic text-xl font-light tracking-wide">
+            <p className="text-gray-400 italic text-2xl font-bold tracking-wide">
               " Less complexity, more intelligence. "
             </p>
-            <div className="absolute w-16 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 bottom-0 left-1/2 transform -translate-x-1/2 -mb-2 opacity-70"></div>
+            <div className="absolute w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 bottom-0 left-1/2 transform -translate-x-1/2 -mb-2 opacity-70"></div>
           </div>
         </div>
       </div>

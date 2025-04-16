@@ -117,6 +117,47 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
  * @returns {JSX.Element} 渲染的首页组件
  */
 export default function Home() {
+  // 错误状态
+  const [hasError, setHasError] = useState(false);
+
+  // 捕获渲染错误
+  useEffect(() => {
+    const errorHandler = (error: ErrorEvent) => {
+      console.error('首页错误被捕获:', error);
+      setHasError(true);
+    };
+
+    window.addEventListener('error', errorHandler);
+    
+    return () => {
+      window.removeEventListener('error', errorHandler);
+    };
+  }, []);
+
+  if (hasError) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+        <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-md text-center">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">加载失败</h2>
+          <p className="text-gray-600 mb-6">
+            网站主页加载失败。请刷新页面重试。
+          </p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors"
+          >
+            刷新页面
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // 状态管理
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
@@ -180,7 +221,7 @@ export default function Home() {
             <span className="inline-block">让企业轻松拥有</span>
             {/* 使用相对定位容器包裹文字和徽章 */}
             <span className="relative inline-block">
-              <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent">智能客服</span>
+              <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent animate-wave-text">智能客服</span>
               {/* 绝对定位徽章到右上角 - 使用 top-0 和 translate-y */}
               <span className="absolute top-0 left-full ml-1 transform -translate-y-1/2">
                 <AiAgentBadge />
@@ -368,12 +409,12 @@ export default function Home() {
               <motion.div 
                 key={index} 
                 className={`backdrop-blur-lg border border-white/30 px-7 pt-7 pb-4 md:px-8 md:pt-8 md:pb-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col relative overflow-hidden ${
-                  feature.title === "百店同管，AI客服超强引擎" ? "bg-gradient-to-br from-[#3E50E0]/5 via-white/70 to-white/80" :
-                  feature.title === "多平台店铺，一处搞定" ? "bg-gradient-to-br from-orange-500/5 via-white/70 to-white/80" :
-                  feature.title === "AI秒懂商品，自动回复专家" ? "bg-gradient-to-br from-[#F7CA36]/5 via-white/70 to-white/80" :
-                  feature.title === "智能识别恶意行为" ? "bg-gradient-to-br from-green-500/5 via-white/70 to-white/80" :
-                  feature.title === "3分钟响应，平台指标必达" ? "bg-gradient-to-br from-purple-500/5 via-white/70 to-white/80" :
-                  "bg-gradient-to-br from-[#6AA8FA]/5 via-white/70 to-white/80"
+                  feature.title === "百店同管，AI客服超强引擎" ? "bg-gradient-to-br from-[#3E50E0]/2 via-white/70 to-white/80" :
+                  feature.title === "多平台店铺，一处搞定" ? "bg-gradient-to-br from-orange-500/2 via-white/70 to-white/80" :
+                  feature.title === "AI秒懂商品，自动回复专家" ? "bg-gradient-to-br from-[#F7CA36]/2 via-white/70 to-white/80" :
+                  feature.title === "智能识别恶意行为" ? "bg-gradient-to-br from-green-500/2 via-white/70 to-white/80" :
+                  feature.title === "3分钟响应，平台指标必达" ? "bg-gradient-to-br from-purple-500/2 via-white/70 to-white/80" :
+                  "bg-gradient-to-br from-[#6AA8FA]/2 via-white/70 to-white/80"
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -381,6 +422,19 @@ export default function Home() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.03, y: -5, transition: { duration: 0.2 } }}
               >
+                {/* 添加卡片闪光边框动画效果 */}
+                <div 
+                  className={`absolute inset-0 rounded-lg bg-gradient-to-r ${
+                    feature.title === "百店同管，AI客服超强引擎" ? "from-[#3E50E0]/15 via-[#3E50E0]/0 to-[#3E50E0]/15" :
+                    feature.title === "多平台店铺，一处搞定" ? "from-orange-500/15 via-orange-500/0 to-orange-500/15" :
+                    feature.title === "AI秒懂商品，自动回复专家" ? "from-[#F7CA36]/15 via-[#F7CA36]/0 to-[#F7CA36]/15" :
+                    feature.title === "智能识别恶意行为" ? "from-green-500/15 via-green-500/0 to-green-500/15" :
+                    feature.title === "3分钟响应，平台指标必达" ? "from-purple-500/15 via-purple-500/0 to-purple-500/15" :
+                    "from-[#6AA8FA]/15 via-[#6AA8FA]/0 to-[#6AA8FA]/15"
+                  } opacity-0 animate-shimmer -z-10`}
+                  style={{animationDelay: `${index * 0.2}s`}}
+                ></div>
+                
                 {/* Diagonal Banner - Apply to the three specified cards - Use correct titles */}
                 {feature.badge && (feature.title === "百店同管，AI客服超强引擎" || feature.title === "3分钟响应，平台指标必达" || feature.title === "多平台店铺，一处搞定") && (
                   <div className={`absolute top-0 right-0 w-28 h-28 overflow-hidden rounded-tr-lg`}>
@@ -437,7 +491,10 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-4 md:gap-x-6 max-w-6xl mx-auto">
             <motion.div 
               className="glass-blue glass-card-transition p-3 rounded-xl border border-blue-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
+              {/* 添加内部脉冲圆形 */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-blue-500/20 rounded-full animate-ping" style={{animationDuration: '3s'}}></div>
               <AnimatedNumber
                 targetNumber={30}
                 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1"
@@ -447,7 +504,10 @@ export default function Home() {
             </motion.div>
             <motion.div 
               className="glass-purple glass-card-transition p-3 rounded-xl border border-purple-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
+              {/* 添加内部脉冲圆形 */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-purple-500/20 rounded-full animate-ping" style={{animationDuration: '3.5s'}}></div>
               <AnimatedNumber
                 targetNumber={40}
                 className="text-3xl sm:text-4xl md:text-5xl font-bold text-purple-600 mb-1"
@@ -457,7 +517,10 @@ export default function Home() {
             </motion.div>
             <motion.div 
               className="glass-teal glass-card-transition p-3 rounded-xl border border-teal-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
+              {/* 添加内部脉冲圆形 */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-teal-500/20 rounded-full animate-ping" style={{animationDuration: '4s'}}></div>
               <AnimatedNumber
                 targetNumber={100}
                 className="text-3xl sm:text-4xl md:text-5xl font-bold text-teal-600 mb-1"
@@ -467,7 +530,10 @@ export default function Home() {
             </motion.div>
             <motion.div 
               className="glass-amber glass-card-transition p-3 rounded-xl border border-amber-200/50 shadow-md hover:shadow-lg transition-shadow duration-300 bg-opacity-60 backdrop-blur-sm"
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
+              {/* 添加内部脉冲圆形 */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-amber-500/20 rounded-full animate-ping" style={{animationDuration: '3.2s'}}></div>
               <AnimatedNumber
                 targetNumber={99}
                 className="text-3xl sm:text-4xl md:text-5xl font-bold text-amber-600 mb-1"
@@ -739,36 +805,117 @@ export default function Home() {
 
       {/* --- CTA Section --- */}
       <motion.section 
-        className="py-10 md:py-16 bg-gradient-to-b from-blue-50/30 via-indigo-50/50 to-purple-50/30"
+        className="py-10 md:py-16 bg-gradient-to-b from-blue-50/30 via-indigo-50/50 to-purple-50/30 relative overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={sectionVariants}
       >
+        {/* 添加装饰性背景元素 */}
+        <div className="absolute top-1/4 right-1/5 w-40 h-40 bg-blue-400/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-1/5 w-52 h-52 bg-purple-400/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-cyan-400/10 rounded-full filter blur-3xl"></div>
+        
         <div className="container mx-auto px-4 text-center max-w-7xl">
-          <div className="max-w-3xl mx-auto glass-card-intense glass-card-transition rounded-2xl px-6 py-8 md:px-10 md:py-9 shadow-xl border border-indigo-100/40 bg-white/80">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">
-              拥抱维普特，拥抱 AI
-            </h2>
-            <p className="text-base text-gray-600 mb-6 max-w-xl mx-auto">
-              90% 以上的决策者希望在更多客服场景中引入 AI Agent
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <Link href="/demo" className="px-5 py-2.5 text-base font-medium text-[#4e90cc] rounded-md border border-[#4e90cc] bg-white hover:bg-gray-50 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
-                预约演示
-                <ArrowRightIcon className="ml-2 h-4 w-4" />
-              </Link>
-              <Link href="/demo" className="px-5 py-2.5 text-base font-medium text-white rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] hover:opacity-90 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center">
-                免费试用
-                <ArrowRightIcon className="ml-2 h-4 w-4" />
-              </Link>
+          <motion.div 
+            className="relative max-w-3xl mx-auto rounded-2xl px-6 py-12 md:px-10 md:py-14 shadow-xl border border-white/40 backdrop-blur-md bg-white/30 overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            {/* 背景装饰元素 */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-300/30 to-indigo-300/20 rounded-full filter blur-2xl"></div>
+            <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-gradient-to-br from-purple-300/20 to-cyan-300/10 rounded-full filter blur-2xl"></div>
+            
+            <div className="relative z-10">
+              <motion.h2 
+                className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent mb-3 animate-wave-text"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                拥抱维普特，拥抱 AI
+              </motion.h2>
+              <motion.p 
+                className="text-base text-gray-700 mb-8"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                90% 以上的决策者希望在更多客服场景中引入 AI Agent
+              </motion.p>
+              <motion.div 
+                className="flex flex-col sm:flex-row justify-center gap-4"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <Link href="/demo" className="px-6 py-3 text-base font-medium text-blue-600 rounded-lg border border-blue-500 bg-white/80 hover:bg-white transition-all duration-300 shadow-sm backdrop-blur-sm w-full sm:w-auto flex items-center justify-center group">
+                  预约演示
+                  <ArrowRightIcon className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link href="/demo" className="px-6 py-3 text-base font-medium text-white rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center group">
+                  免费试用
+                  <ArrowRightIcon className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
             </div>
-          </div>
-    </div>
+          </motion.div>
+        </div>
       </motion.section>
 
       {/* 页脚 */}
       <Footer />
+
+      <style jsx global>{`
+        @keyframes shimmer {
+          0% {
+            opacity: 0;
+            background-position: -100% 0;
+          }
+          10% {
+            opacity: 0.5;
+          }
+          30% {
+            opacity: 0.3;
+          }
+          70% {
+            opacity: 0.5;
+          }
+          100% {
+            opacity: 0;
+            background-position: 200% 0;
+          }
+        }
+        .animate-shimmer {
+          animation: shimmer 4s linear infinite;
+          background-size: 200% 100%;
+        }
+        
+        /* 水波文字动画效果 */
+        @keyframes wave-text {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        .animate-wave-text {
+          background-size: 300% auto;
+          animation: wave-text 5s linear infinite;
+          background-image: linear-gradient(45deg, 
+            #4e90cc, #7d7af9, #9678f4, #4ba3e3, #4e64e3, 
+            #6a80f6, #8878ff, #4ba3e3, #4e90cc);
+        }
+      `}</style>
     </main>
   );
 }

@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { sendMessage, generateFallbackReply } from '@/services/chatService';
 
 interface Message {
   id: number;
@@ -10,7 +12,11 @@ interface Message {
   timestamp: Date;
 }
 
-export default function DemoPage() {
+/**
+ * @description 聊天演示子组件，使用错误边界包裹
+ * @returns {JSX.Element} 聊天演示页面
+ */
+function ChatDemo() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -21,6 +27,7 @@ export default function DemoPage() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   
   // 实现消息滚动到底部
@@ -37,32 +44,60 @@ export default function DemoPage() {
     // 创建用户消息
     const userMessage = {
       id: Date.now(),
-      text: inputValue,
+      text: inputValue.trim(),
       sender: 'user' as const,
       timestamp: new Date()
     };
+    
+    const userMessageText = inputValue.trim();
     
     // 更新消息列表并清空输入框
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    setErrorMessage(null);
     
     try {
-      // 模拟API请求
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // 使用聊天服务发送消息
+      const result = await sendMessage(userMessageText);
       
-      // 添加机器人回复
-      const botMessage = {
+      if (result.success && result.reply) {
+        // 添加机器人回复
+        const botMessage = {
+          id: Date.now() + 1,
+          text: result.reply,
+          sender: 'bot' as const,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, botMessage]);
+      } else {
+        // 显示错误消息并使用备用回复
+        setErrorMessage(result.error || '获取回复失败');
+        
+        const fallbackMessage = {
+          id: Date.now() + 1,
+          text: generateFallbackReply(userMessageText),
+          sender: 'bot' as const,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, fallbackMessage]);
+      }
+    } catch (error) {
+      console.error('发送消息时出错:', error);
+      setErrorMessage(error instanceof Error ? error.message : '发送消息时出错');
+      
+      // 使用备用回复
+      const fallbackMessage = {
         id: Date.now() + 1,
-        text: getRandomResponse(inputValue.trim()),
+        text: generateFallbackReply(userMessageText),
         sender: 'bot' as const,
         timestamp: new Date()
       };
       
-      setMessages(prev => [...prev, botMessage]);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error sending message:', error);
+      setMessages(prev => [...prev, fallbackMessage]);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -73,18 +108,6 @@ export default function DemoPage() {
       e.preventDefault();
       handleSendMessage();
     }
-  };
-  
-  // 添加随机回复函数
-  const getRandomResponse = (query: string) => {
-    const responses = [
-      `您好，关于"${query}"的问题，我们的系统目前正在升级中，稍后将会有更详细的回复。`,
-      `感谢您的提问。关于"${query}"，我们的建议是先查看产品说明书或在线帮助文档。`,
-      `您询问的"${query}"是我们常见的问题。一般情况下，您可以通过重启设备来解决这个问题。`,
-      `关于"${query}"，我们的技术团队正在研发更完善的解决方案，感谢您的耐心等待。`,
-      `您好，"${query}"这个问题比较复杂，建议您联系我们的人工客服获取更专业的帮助。`
-    ];
-    return responses[Math.floor(Math.random() * responses.length)];
   };
   
   return (
@@ -119,6 +142,27 @@ export default function DemoPage() {
               </div>
             </div>
           ))}
+          
+          {errorMessage && (
+            <div className="flex justify-center my-2">
+              <div className="bg-red-50 text-red-600 px-3 py-1 rounded-md text-sm border border-red-100">
+                <span className="font-medium">错误:</span> {errorMessage}
+              </div>
+            </div>
+          )}
+          
+          {isLoading && (
+            <div className="flex">
+              <div className="bg-white border border-gray-200 rounded-lg px-4 py-2 flex items-center">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                </div>
+                <span className="ml-2 text-sm text-gray-500">正在输入...</span>
+              </div>
+            </div>
+          )}
           
           <div ref={endOfMessagesRef} />
         </div>
@@ -157,5 +201,17 @@ export default function DemoPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+/**
+ * @description 演示页面，使用错误边界包裹聊天演示组件
+ * @returns {JSX.Element} 演示页面
+ */
+export default function DemoPage() {
+  return (
+    <ErrorBoundary>
+      <ChatDemo />
+    </ErrorBoundary>
   );
 }
