@@ -39,8 +39,3 @@ export async function GET() {
   console.log('测试API - 收到GET请求');
   return NextResponse.json({ message: '测试API正常工作' });
 } 
-
-export async function GET() {
-  console.log('测试API - 收到GET请求');
-  return NextResponse.json({ message: '测试API正常工作' });
-} 

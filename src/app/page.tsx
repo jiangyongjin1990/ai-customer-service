@@ -14,6 +14,8 @@ import {
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 import Footer from '../components/Footer';
+import AnimatedNumber from "../components/AnimatedNumber";
+import CTASection from "../components/CTASection";
 
 // 组件与图标
 const TickIcon = ({ className }: { className?: string }) => (
@@ -44,73 +46,6 @@ const AiAgentBadge = () => (
     <span className="text-white text-xs font-medium">AI Agent</span>
   </div>
 );
-
-// Animated Number Component
-interface AnimatedNumberProps {
-    targetNumber: number;
-    duration?: number;
-    className?: string;
-    suffixElement?: React.ReactNode;
-}
-
-const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
-    targetNumber,
-    duration = 1.5, // Default 1.5 seconds
-    className,
-    suffixElement,
-}) => {
-    const numberRef = useRef<HTMLSpanElement>(null);
-    const hasAnimated = useRef(false); // Track if animation ran
-    const nodeRef = useRef<HTMLDivElement>(null); // Ref for the container div to check visibility
-
-    useEffect(() => {
-        const node = numberRef.current;
-        const containerNode = nodeRef.current;
-
-        if (node && containerNode) {
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting && !hasAnimated.current) {
-                            hasAnimated.current = true; // Mark as animated
-                            /* const controls = */ animate(0, targetNumber, {
-                                duration: duration,
-                                ease: "easeOut",
-                                onUpdate(value: number) {
-                                    // Ensure node still exists during animation frame
-                                    if(numberRef.current) {
-                                        numberRef.current.textContent = Math.round(value).toString();
-                                    }
-                                },
-                            });
-                            // No need to return controls.stop() from here as we rely on hasAnimated flag
-                        }
-                    });
-                },
-                {
-                    threshold: 0.3, // Trigger when 30% visible
-                }
-            );
-
-            observer.observe(containerNode);
-
-            // Cleanup observer on component unmount
-            return () => {
-                if (containerNode) {
-                    observer.unobserve(containerNode);
-                }
-            };
-        }
-    }, [targetNumber, duration]); // Dependencies
-
-    return (
-        <div className={className} ref={nodeRef}> {/* Attach ref to the container */}
-            {/* Initialize display to 0 */}
-            <span ref={numberRef}>0</span>
-            {suffixElement}
-        </div>
-    );
-};
 
 /**
  * 首页组件
@@ -804,69 +739,7 @@ export default function Home() {
       </motion.section>
 
       {/* --- CTA Section --- */}
-      <motion.section 
-        className="py-10 md:py-16 bg-gradient-to-b from-blue-50/30 via-indigo-50/50 to-purple-50/30 relative overflow-hidden"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
-        {/* 添加装饰性背景元素 */}
-        <div className="absolute top-1/4 right-1/5 w-40 h-40 bg-blue-400/10 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-1/5 w-52 h-52 bg-purple-400/10 rounded-full filter blur-3xl"></div>
-        <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-cyan-400/10 rounded-full filter blur-3xl"></div>
-        
-        <div className="container mx-auto px-4 text-center max-w-7xl">
-          <motion.div 
-            className="relative max-w-3xl mx-auto rounded-2xl px-6 py-12 md:px-10 md:py-14 shadow-xl border border-white/40 backdrop-blur-md bg-white/30 overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            {/* 背景装饰元素 */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-300/30 to-indigo-300/20 rounded-full filter blur-2xl"></div>
-            <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-gradient-to-br from-purple-300/20 to-cyan-300/10 rounded-full filter blur-2xl"></div>
-            
-            <div className="relative z-10">
-              <motion.h2 
-                className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent mb-3 animate-wave-text"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                拥抱维普特，拥抱 AI
-              </motion.h2>
-              <motion.p 
-                className="text-base text-gray-700 mb-8"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                90% 以上的决策者希望在更多客服场景中引入 AI Agent
-              </motion.p>
-              <motion.div 
-                className="flex flex-col sm:flex-row justify-center gap-4"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                viewport={{ once: true }}
-              >
-                <Link href="/demo" className="px-6 py-3 text-base font-medium text-blue-600 rounded-lg border border-blue-500 bg-white/80 hover:bg-white transition-all duration-300 shadow-sm backdrop-blur-sm w-full sm:w-auto flex items-center justify-center group">
-                  预约演示
-                  <ArrowRightIcon className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link href="/demo" className="px-6 py-3 text-base font-medium text-white rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-sm w-full sm:w-auto flex items-center justify-center group">
-                  免费试用
-                  <ArrowRightIcon className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
+      <CTASection />
 
       {/* 页脚 */}
       <Footer />

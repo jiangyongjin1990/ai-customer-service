@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// 移除Google字体
+// 使用系统字体
+const fontClassSans = "font-sans";
+const fontClassMono = "font-mono";
 
 export const metadata: Metadata = {
   title: "智能客服 | AI驱动的客户服务解决方案",
@@ -26,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${fontClassSans} ${fontClassMono} antialiased`}>
         <Navbar />
         <main className="flex-grow">
           {children}
