@@ -215,25 +215,6 @@ function ChatDemo() {
         )}
       </AnimatePresence>
       
-      <div className="mb-8">
-        <motion.h1 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-        >
-          智能客服体验中心
-        </motion.h1>
-        <motion.p 
-          initial={{ y: -10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-lg text-gray-600 leading-relaxed max-w-3xl"
-        >
-          这是我们智能客服系统的实时演示。体验DeepSeek大模型如何智能回答您的问题，提供专业、高效的客户服务。试试提问关于产品、价格或功能的问题！
-        </motion.p>
-      </div>
-      
       {/* 聊天界面 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
         <motion.div 
@@ -244,7 +225,7 @@ function ChatDemo() {
         >
           <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/80 backdrop-blur-md p-0 flex flex-col min-h-[520px]">
             {/* 聊天头部 */}
-            <div className="px-8 py-5 border-b bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-between">
+            <div className="px-8 py-5 bg-gradient-to-r from-gray-50 to-indigo-50/60 flex items-center justify-between shadow-sm">
               <div className="flex items-center">
                 <div className="w-11 h-11 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-4 shadow-lg">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -265,40 +246,58 @@ function ChatDemo() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`max-w-[70%] px-5 py-3 rounded-2xl shadow-md text-base leading-relaxed whitespace-pre-line ${msg.sender === 'user' ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white rounded-br-md' : 'bg-gray-50 text-gray-800 rounded-bl-md border border-blue-100'}`}
+                    className={`max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base leading-relaxed whitespace-pre-line ${msg.sender === 'user' ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white' : 'bg-gray-50 text-gray-800 border border-gray-100'}`}
                   >
                     {msg.text}
                   </motion.div>
                 </div>
               ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base bg-gray-50 text-gray-800 border border-gray-100"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
+                      <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                      <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                    </div>
+                  </motion.div>
+                </div>
+              )}
               <div ref={endOfMessagesRef} />
             </div>
             {/* 输入区 */}
-            <div className="px-8 py-5 border-t bg-white/80 flex items-end gap-3">
-              <div className="flex-1 relative">
-                <textarea
-                  className="w-full resize-none rounded-2xl border border-gray-200 bg-white/80 px-5 py-3 text-base shadow focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all placeholder-gray-400"
-                  rows={1}
-                  maxLength={500}
-                  placeholder="请输入您的问题，按Enter发送..."
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyPress}
-                  disabled={isLoading}
-                  style={{ minHeight: 44, maxHeight: 120, fontSize: '16px', lineHeight: '1.6' }}
-                />
-                {errorMessage && (
-                  <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn">{errorMessage}</div>
-                )}
+            <div className="px-8 py-5 bg-white/80">
+              <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm">
+                <div className="flex-1 relative">
+                  <textarea
+                    className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400"
+                    rows={1}
+                    maxLength={500}
+                    placeholder="请输入您的问题，按Enter发送..."
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyPress}
+                    disabled={isLoading}
+                    style={{ minHeight: 44, maxHeight: 120, fontSize: '16px', lineHeight: '1.6' }}
+                  />
+                  {errorMessage && (
+                    <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn">{errorMessage}</div>
+                  )}
+                </div>
+                <button
+                  className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-md hover:from-blue-600 hover:to-purple-600 focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                  onClick={handleSendMessage}
+                  disabled={isLoading || !inputValue.trim()}
+                  aria-label="发送"
+                >
+                  <FiSend className="w-5 h-5" />
+                </button>
               </div>
-              <button
-                className={`ml-2 flex-shrink-0 rounded-2xl px-6 py-3 text-base font-semibold shadow-lg transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
-                onClick={handleSendMessage}
-                disabled={isLoading || !inputValue.trim()}
-                aria-label="发送"
-              >
-                <FiSend className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </motion.div>
@@ -336,35 +335,6 @@ function ChatDemo() {
           </div>
         </motion.div>
       </div>
-      
-      {/* CTA区域 */}
-      <motion.div 
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 shadow-xl text-white mb-12"
-      >
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">想要在您的网站集成这样的智能客服？</h2>
-          <p className="text-blue-100 mb-6 text-lg leading-relaxed">
-            注册我们的服务，只需几分钟即可在您的网站上添加基于DeepSeek大模型的智能客服功能，提升用户体验，降低客服成本。
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link 
-              href="/pricing" 
-              className="inline-block bg-white text-blue-700 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200 shadow-md"
-            >
-              查看定价方案
-            </Link>
-            <Link 
-              href="/contact" 
-              className="inline-block bg-blue-500 bg-opacity-30 backdrop-blur-sm text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-40 transition-colors duration-200 border border-white border-opacity-20"
-            >
-              联系我们
-            </Link>
-          </div>
-        </div>
-      </motion.div>
     </motion.div>
   );
 }
