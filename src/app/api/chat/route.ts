@@ -57,74 +57,44 @@ export async function POST(req: NextRequest) {
 
 /**
  * @description 调用DeepSeek API获取聊天回复
- * @param {string} message - 用户消息
- * @returns {Promise<string>} API响应
+ * @param {string} message - 用户输入的消息
+ * @returns {Promise<string>} DeepSeek大模型的回复
  */
 async function callDeepseekAPI(message: string): Promise<string> {
-  // 使用硅基流动API进行DeepSeekR1调用
-  const API_KEY = process.env.GUIJI_API_KEY || process.env.DEEPSEEK_API_KEY || "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-  
-  if (!API_KEY || API_KEY === "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx") {
-    console.error("缺少API密钥");
-    throw new Error("服务配置错误：缺少API密钥");
+  // 使用用户提供的API密钥
+  const API_KEY = "sk-vtfsmocgfmxscxwfwikrvntupmykphbkolybsvzvwydubsiv";
+  const API_URL = "https://api.siliconflow.cn/v1/chat/completions";
+
+  // 参考官方文档 https://docs.siliconflow.cn/cn/userguide/capabilities/text-generation
+  const payload = {
+    model: "deepseek-ai/DeepSeek-R1",
+    messages: [
+      { role: "user", content: message }
+    ]
+  };
+
+  const fetchPromise = fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify(payload)
+  });
+
+  // 超时处理
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("请求超时，请稍后重试。")), 20000)
+  );
+
+  const response = await Promise.race([fetchPromise, timeoutPromise]) as Response;
+  if (!response.ok) {
+    throw new Error(`DeepSeek API 响应错误: ${response.status}`);
   }
-  
-  // 硅基流动API端点
-  const API_URL = "https://api.guiji.ai/v1/chat/completions";
-
-  console.log("调用DeepSeekR1 API...");
-
-  try {
-    // 使用Promise.race实现超时控制
-    const timeoutPromise = new Promise<Response>((_, reject) => {
-      setTimeout(() => reject(new Error('请求超时: 15000ms')), 15000);
-    });
-
-    const fetchPromise = fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "deepseek-r1",
-        messages: [
-          {
-            role: "system",
-            content: "你是维普特AI客服，一个专业的AI客服助手。你的任务是礼貌地回答用户关于AI客服产品的问题，提供有关价格、功能、集成方式等信息。保持回答简洁、专业且有帮助。如果不确定某个问题的答案，可以引导用户联系我们的销售团队获取更多信息。"
-          },
-          {
-            role: "user",
-            content: message
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 1000
-      })
-    });
-
-    const response = await Promise.race([fetchPromise, timeoutPromise]) as Response;
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("API 响应错误:", response.status, errorText);
-      throw new Error(`API调用失败: ${response.status} ${errorText}`);
-    }
-
-    const data = await response.json();
-    console.log("API响应:", data);
-
-    // 检查响应结构
-    if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
-      console.error("API响应格式错误:", data);
-      throw new Error("API响应格式错误");
-    }
-
-    return data.choices[0].message.content;
-  } catch (error) {
-    console.error("调用API时出错:", error);
-    throw error;
-  }
+  const data = await response.json();
+  // 兼容DeepSeek返回格式
+  const reply = data.choices?.[0]?.message?.content || "抱歉，AI暂时无法回复您的问题。";
+  return reply;
 }
 
 /**
