@@ -4,13 +4,25 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AiAgentBadge from './AiAgentBadge';
-import { useScrollContext } from '@/contexts/ScrollContext';
+import { useScrollContext, ScrollProvider } from '../contexts/ScrollContext';
 
 /**
- * @description 导航栏组件
- * @returns {JSX.Element} 导航栏组件
+ * @description 导航栏组件包装器
+ * @returns {JSX.Element} 导航栏包装器组件
  */
 const Navbar = () => {
+  return (
+    <ScrollProvider>
+      <NavbarContent />
+    </ScrollProvider>
+  );
+};
+
+/**
+ * @description 导航栏内容组件
+ * @returns {JSX.Element} 导航栏内容组件
+ */
+const NavbarContent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -103,7 +115,7 @@ const Navbar = () => {
           <nav className="hidden md:flex space-x-8">
             <Link
               href="/"
-              className={`text-lg font-medium flex items-center px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+              className={`text-xl font-medium flex items-center px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/' 
                   ? 'text-[#4e90cc] font-bold' 
                   : 'text-gray-700 hover:text-[#4e90cc]'
@@ -116,7 +128,7 @@ const Navbar = () => {
 
             <Link
               href="/pricing"
-              className={`text-lg font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+              className={`text-xl font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/pricing' 
                   ? 'text-[#4e90cc] font-bold' 
                   : 'text-gray-700 hover:text-[#4e90cc]'
@@ -128,7 +140,7 @@ const Navbar = () => {
 
             <Link
               href="/demo"
-              className={`text-lg font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+              className={`text-xl font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/demo' 
                   ? 'text-[#4e90cc] font-bold' 
                   : 'text-gray-700 hover:text-[#4e90cc]'
@@ -285,6 +297,6 @@ const Navbar = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Navbar;

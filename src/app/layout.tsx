@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { ScrollProvider } from "@/contexts/ScrollContext";
+import Navbar from "../components/Navbar";
 
-// 移除Google字体
 // 使用系统字体
 const fontClassSans = "font-sans";
 const fontClassMono = "font-mono";
@@ -21,12 +19,10 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <body className={`${fontClassSans} ${fontClassMono} antialiased`}>
-        <ScrollProvider>
-          <Navbar />
-          <main className="flex-grow">
-            {children}
-          </main>
-        </ScrollProvider>
+        <Navbar />
+        <main className="flex-grow">
+          {children}
+        </main>
       </body>
     </html>
   );
