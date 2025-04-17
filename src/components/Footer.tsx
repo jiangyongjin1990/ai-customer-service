@@ -83,72 +83,76 @@ const AboutModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
 /**
  * 页脚组件
+ * @param {Object} props - 组件属性
+ * @param {boolean} props.isFixed - 是否使用fixed定位（默认为false）
  * @returns {JSX.Element} 渲染的页脚组件
  */
-const Footer = () => {
+const Footer = ({ isFixed = false }: { isFixed?: boolean }) => {
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   
   return (
-    <footer className="bg-gray-100 py-8 md:py-10 border-t border-gray-200">
+    <footer className={`w-full ${isFixed ? 'fixed bottom-0 left-0 right-0 z-10' : ''}`}>
       <AboutModal isOpen={isAboutModalOpen} onClose={() => setIsAboutModalOpen(false)} />
       
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
-          {/* 左侧品牌区域 */}
-          <div className="md:col-span-5 lg:col-span-6">
-            <div className="flex items-center mb-3">
-              <span className="text-xl font-bold text-gray-800 tracking-tight">维普特</span>
-            </div>
-            
-            <p className="text-gray-600 mb-1.5 text-sm">
-              <span className="font-medium">使命：</span>让企业轻松拥有智能客服
-            </p>
-            
-            <p className="text-gray-600 mb-4 text-sm">
-              <span className="font-medium">愿景：</span>成为全球智能客服普惠化进程的引领者
-            </p>
-            
-            <p className="text-gray-500 text-sm">© 2025 维普特 AI</p>
-          </div>
-          
-          {/* 中间空白区域 */}
-          <div className="hidden md:block md:col-span-2 lg:col-span-2"></div>
-          
-          {/* 右侧导航区域 */}
-          <div className="md:col-span-5 lg:col-span-4 flex justify-end">
-            <div className="grid grid-cols-2 gap-8 w-auto">
-              <div>
-                <h4 className="text-gray-800 font-medium mb-3">公司</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <button 
-                      onClick={() => setIsAboutModalOpen(true)} 
-                      className="text-gray-600 hover:text-gray-900 text-sm text-left cursor-pointer"
-                    >
-                      关于我们
-                    </button>
-                  </li>
-                </ul>
+      <div className="w-full bg-gray-100 border-t border-gray-200">
+        <div className={`container mx-auto px-4 max-w-7xl ${isFixed ? 'py-4 md:py-6' : 'py-8 md:py-10'}`}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+            {/* 左侧品牌区域 */}
+            <div className="md:col-span-5 lg:col-span-6">
+              <div className="flex items-center mb-3">
+                <span className="text-xl font-bold text-gray-800 tracking-tight">维普特</span>
               </div>
               
-              <div>
-                <h4 className="text-gray-800 font-medium mb-3">服务条款</h4>
-                <ul className="space-y-2">
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 text-sm">隐私政策</Link></li>
-                  <li><Link href="#" className="text-gray-600 hover:text-gray-900 text-sm">服务条款</Link></li>
-                </ul>
+              <p className="text-gray-600 mb-1.5 text-sm">
+                <span className="font-medium">使命：</span>让企业轻松拥有智能客服
+              </p>
+              
+              <p className="text-gray-600 mb-4 text-sm">
+                <span className="font-medium">愿景：</span>成为全球智能客服普惠化进程的引领者
+              </p>
+              
+              <p className="text-gray-500 text-sm">© 2025 维普特 AI</p>
+            </div>
+            
+            {/* 中间空白区域 */}
+            <div className="hidden md:block md:col-span-2 lg:col-span-2"></div>
+            
+            {/* 右侧导航区域 */}
+            <div className="md:col-span-5 lg:col-span-4 flex justify-end">
+              <div className="grid grid-cols-2 gap-8 w-auto">
+                <div>
+                  <h4 className="text-gray-800 font-medium mb-3">公司</h4>
+                  <ul className="space-y-2">
+                    <li>
+                      <button 
+                        onClick={() => setIsAboutModalOpen(true)} 
+                        className="text-gray-600 hover:text-gray-900 text-sm text-left cursor-pointer"
+                      >
+                        关于我们
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h4 className="text-gray-800 font-medium mb-3">服务条款</h4>
+                  <ul className="space-y-2">
+                    <li><Link href="#" className="text-gray-600 hover:text-gray-900 text-sm">隐私政策</Link></li>
+                    <li><Link href="#" className="text-gray-600 hover:text-gray-900 text-sm">服务条款</Link></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        
-        {/* 底部座右铭 - 现代化设计 */}
-        <div className="border-t border-gray-200 pt-6 flex justify-center items-center">
-          <div className="relative">
-            <p className="text-gray-400 italic text-2xl font-bold tracking-wide">
-              " Less complexity, more intelligence. "
-            </p>
-            <div className="absolute w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 bottom-0 left-1/2 transform -translate-x-1/2 -mb-2 opacity-70"></div>
+          
+          {/* 底部座右铭 - 现代化设计 */}
+          <div className={`border-t border-gray-200 ${isFixed ? 'pt-3 pb-2' : 'pt-6'} flex justify-center items-center`}>
+            <div className="relative">
+              <p className="text-gray-400 italic text-2xl font-bold tracking-wide">
+                " Less complexity, more intelligence. "
+              </p>
+              <div className="absolute w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 bottom-0 left-1/2 transform -translate-x-1/2 -mb-2 opacity-70"></div>
+            </div>
           </div>
         </div>
       </div>

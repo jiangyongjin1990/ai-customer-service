@@ -38,55 +38,29 @@ function ChatDemo() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { setScrollToTop } = useScrollContext();
   
-  // 页面加载时滚动到顶部
+  // 顶栏和底栏高度
+  const HEADER_HEIGHT = 72;
+  const FOOTER_HEIGHT = 220; // 调整为更小的底栏高度，适应减小后的Footer
+  const TOP_GAP = 80; // 增加与顶栏的间距，使主内容区下移
+  const BOTTOM_GAP = 40; // 主内容区与底栏的间距
+  const [mainContentHeight, setMainContentHeight] = useState(0);
+
   useEffect(() => {
-    // 使用setTimeout确保页面完全加载后再滚动到顶部
-    const timer = setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'instant'
-      });
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
-  // 监听滚动，决定是否显示回到顶部按钮
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowScrollButton(true);
-      } else {
-        setShowScrollButton(false);
-      }
+    const calcHeight = () => {
+      const h = window.innerHeight - HEADER_HEIGHT - FOOTER_HEIGHT - TOP_GAP - BOTTOM_GAP - 50; // 减少50px高度
+      setMainContentHeight(h > 0 ? h : 0);
     };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    calcHeight();
+    window.addEventListener('resize', calcHeight);
+    return () => window.removeEventListener('resize', calcHeight);
   }, []);
   
   // 实现消息滚动到底部
   useEffect(() => {
-    if (endOfMessagesRef.current) {
-      endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (endOfMessagesRef.current && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }, [messages]);
-  
-  // 处理返回顶部
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-    setScrollToTop(true);
-  };
-  
-  // 自动调整文本域高度
-  const adjustTextareaHeight = (element: HTMLTextAreaElement) => {
-    element.style.height = 'auto';
-    const newHeight = Math.min(element.scrollHeight, 120); // 最大高度120px
-    element.style.height = `${newHeight}px`;
-  };
   
   // 处理发送消息
   const handleSendMessage = async () => {
@@ -107,12 +81,6 @@ function ChatDemo() {
     setInputValue('');
     setIsLoading(true);
     setErrorMessage(null);
-    
-    // 重置文本域高度
-    const textarea = document.querySelector('textarea');
-    if (textarea) {
-      textarea.style.height = 'auto';
-    }
     
     try {
       // 使用聊天服务发送消息
@@ -170,7 +138,6 @@ function ChatDemo() {
   // 处理输入变化，自动调整高度
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
-    adjustTextareaHeight(e.target);
   };
 
   // 示例问题快速提问
@@ -183,159 +150,137 @@ function ChatDemo() {
   
   const handleExampleClick = (question: string) => {
     setInputValue(question);
-    
-    // 设置文本域高度
-    const textarea = document.querySelector('textarea');
-    if (textarea) {
-      textarea.value = question;
-      adjustTextareaHeight(textarea);
-    }
   };
   
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-5xl mx-auto px-4 pt-24 pb-20"
-    >
-      {/* 返回顶部按钮 */}
-      <AnimatePresence>
-        {showScrollButton && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            className="fixed right-6 bottom-6 p-3 rounded-full bg-blue-600 text-white shadow-lg z-50"
-            onClick={handleScrollToTop}
-            aria-label="返回顶部"
-          >
-            <FiChevronDown className="transform rotate-180 w-5 h-5" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-      
-      {/* 聊天界面 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
-        <motion.div 
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="lg:col-span-2"
-        >
-          <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/80 backdrop-blur-md p-0 flex flex-col min-h-[520px]">
-            {/* 聊天头部 */}
-            <div className="px-8 py-5 bg-gradient-to-r from-gray-50 to-indigo-50/60 flex items-center justify-between shadow-sm">
-              <div className="flex items-center">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-4 shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="font-bold text-lg text-gray-800 flex items-center gap-2">小维智能助手 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">DeepSeek赋能</span></div>
-                  <div className="text-xs text-gray-500 mt-0.5">专业AI客服 · 实时响应</div>
-                </div>
-              </div>
-            </div>
-            {/* 聊天消息区 */}
-            <div ref={messagesContainerRef} className="flex-1 px-8 py-6 space-y-4 overflow-y-auto bg-white/60" style={{ minHeight: 320 }}>
-              {messages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}> 
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={`max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base leading-relaxed whitespace-pre-line ${msg.sender === 'user' ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white' : 'bg-gray-50 text-gray-800 border border-gray-100'}`}
-                  >
-                    {msg.text}
-                  </motion.div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base bg-gray-50 text-gray-800 border border-gray-100"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
-                      <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
-                      <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
-                    </div>
-                  </motion.div>
-                </div>
-              )}
-              <div ref={endOfMessagesRef} />
-            </div>
-            {/* 输入区 */}
-            <div className="px-8 py-5 bg-white/80">
-              <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm">
-                <div className="flex-1 relative">
-                  <textarea
-                    className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400"
-                    rows={1}
-                    maxLength={500}
-                    placeholder="请输入您的问题，按Enter发送..."
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyPress}
-                    disabled={isLoading}
-                    style={{ minHeight: 44, maxHeight: 120, fontSize: '16px', lineHeight: '1.6' }}
-                  />
-                  {errorMessage && (
-                    <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn">{errorMessage}</div>
-                  )}
-                </div>
-                <button
-                  className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-md hover:from-blue-600 hover:to-purple-600 focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
-                  onClick={handleSendMessage}
-                  disabled={isLoading || !inputValue.trim()}
-                  aria-label="发送"
-                >
-                  <FiSend className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-        {/* 右侧信息区 */}
-        <motion.div
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="hidden lg:block"
-        >
-          <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6">
-            <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
-              <span>DeepSeek驱动的客服</span>
-              <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
-            </div>
-            <ul className="text-gray-700 text-sm space-y-2 pl-2">
-              <li>• 7x24小时自动响应客户咨询</li>
-              <li>• 支持多平台集成</li>
-              <li>• 智能分析客户意图和情绪</li>
-            </ul>
-          </div>
-          <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7">
-            <div className="font-bold text-gray-800 text-base mb-3">示例问题</div>
-            <div className="flex flex-col gap-3">
-              {exampleQuestions.map((q, i) => (
-                <button
-                  key={i}
-                  className="text-left px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all"
-                  onClick={() => handleExampleClick(q)}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+    <div className="min-h-screen bg-[#f7f8fa] flex flex-col overflow-hidden">
+      {/* 顶栏 - 固定在顶部 */}
+      <div className="fixed top-0 left-0 right-0 z-10 bg-white shadow-sm" style={{height: HEADER_HEIGHT}}>
+        {/* 顶栏内容 */}
       </div>
-    </motion.div>
+      {/* 主内容区 - 固定高度，保持与顶栏和底栏的间距 */}
+      <div
+        className="w-full flex justify-center items-center"
+        style={{
+          position: 'fixed',
+          top: HEADER_HEIGHT + TOP_GAP,
+          left: 0,
+          right: 0,
+          height: mainContentHeight
+        }}
+      >
+        <div className="w-full max-w-5xl flex gap-8 px-4 h-full">
+          {/* 聊天区 */}
+          <div className="flex-1 flex flex-col h-full">
+            <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/80 backdrop-blur-md p-0 flex flex-col h-full">
+              {/* 聊天头部 */}
+              <div className="px-8 py-5 bg-gradient-to-r from-gray-50 to-indigo-50/60 flex items-center justify-between shadow-sm">
+                <div className="flex items-center">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-4 shadow-lg">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg text-gray-800 flex items-center gap-2">小维智能助手 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">DeepSeek赋能</span></div>
+                    <div className="text-xs text-gray-500 mt-0.5">专业AI客服 · 实时响应</div>
+                  </div>
+                </div>
+              </div>
+              {/* 聊天消息区 - 仅此处可滚动，高度自适应 */}
+              <div ref={messagesContainerRef} className="flex-1 px-8 py-6 space-y-4 overflow-y-auto bg-white/60" style={{ minHeight: 0, height: '100%' }}>
+                {messages.map((msg) => (
+                  <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}> 
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className={`max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base leading-relaxed whitespace-pre-line ${msg.sender === 'user' ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white' : 'bg-gray-50 text-gray-800 border border-gray-100'}`}
+                    >
+                      {msg.text}
+                    </motion.div>
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base bg-gray-50 text-gray-800 border border-gray-100"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
+                        <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                        <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                      </div>
+                    </motion.div>
+                  </div>
+                )}
+                <div ref={endOfMessagesRef} />
+              </div>
+              {/* 输入区 */}
+              <div className="px-8 py-5 bg-white/80">
+                <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm">
+                  <div className="flex-1 relative">
+                    <textarea
+                      className="w-full h-16 resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400 overflow-y-auto"
+                      rows={2}
+                      maxLength={500}
+                      placeholder="请输入您的问题，按Enter发送..."
+                      value={inputValue}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyPress}
+                      disabled={isLoading}
+                      style={{ minHeight: 64, maxHeight: 64, fontSize: '16px', lineHeight: '1.6' }}
+                    />
+                    {errorMessage && (
+                      <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn">{errorMessage}</div>
+                    )}
+                  </div>
+                  <button
+                    className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-md hover:from-blue-600 hover:to-purple-600 focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                    onClick={handleSendMessage}
+                    disabled={isLoading || !inputValue.trim()}
+                    aria-label="发送"
+                  >
+                    <FiSend className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* 右侧信息区 */}
+          <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
+            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6 h-48">
+              <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
+                <span>DeepSeek驱动的客服</span>
+                <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
+              </div>
+              <ul className="text-gray-700 text-sm space-y-2 pl-2">
+                <li>• 7x24小时自动响应客户咨询</li>
+                <li>• 支持多平台集成</li>
+                <li>• 智能分析客户意图和情绪</li>
+              </ul>
+            </div>
+            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7">
+              <div className="font-bold text-gray-800 text-base mb-3">示例问题</div>
+              <div className="flex flex-col gap-3">
+                {exampleQuestions.map((q, i) => (
+                  <button
+                    key={i}
+                    className="text-left px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all"
+                    onClick={() => handleExampleClick(q)}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
