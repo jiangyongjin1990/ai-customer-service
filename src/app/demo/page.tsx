@@ -138,6 +138,11 @@ function ChatDemo() {
   // 处理输入变化，自动调整高度
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
+    // 自动调整输入框高度
+    const textarea = e.target;
+    textarea.style.height = 'auto';
+    const scrollHeight = Math.min(textarea.scrollHeight, 120); // 最大高度120px
+    textarea.style.height = `${scrollHeight}px`;
   };
 
   // 示例问题快速提问
@@ -150,6 +155,16 @@ function ChatDemo() {
   
   const handleExampleClick = (question: string) => {
     setInputValue(question);
+    // 自动聚焦输入框并调整高度
+    setTimeout(() => {
+      const textarea = document.querySelector('textarea');
+      if (textarea) {
+        textarea.focus();
+        textarea.style.height = 'auto';
+        const scrollHeight = Math.min(textarea.scrollHeight, 120);
+        textarea.style.height = `${scrollHeight}px`;
+      }
+    }, 0);
   };
   
   return (
@@ -176,10 +191,26 @@ function ChatDemo() {
               {/* 聊天头部 */}
               <div className="px-8 py-5 bg-gradient-to-r from-gray-50 to-indigo-50/60 flex items-center justify-between shadow-sm">
                 <div className="flex items-center">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-4 shadow-lg">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4 overflow-hidden">
+                    {isLoading ? (
+                      <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+                        <video 
+                          src="/images/ball.webm" 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline
+                          className="transform scale-[2] w-12 h-12 object-contain mix-blend-normal"
+                          style={{ background: 'transparent' }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center shadow-md">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <div className="font-bold text-lg text-gray-800 flex items-center gap-2">小维智能助手 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">DeepSeek赋能</span></div>
@@ -188,54 +219,85 @@ function ChatDemo() {
                 </div>
               </div>
               {/* 聊天消息区 - 仅此处可滚动，高度自适应 */}
-              <div ref={messagesContainerRef} className="flex-1 px-8 py-6 space-y-4 overflow-y-auto bg-white/60" style={{ minHeight: 0, height: '100%' }}>
+              <div 
+                ref={messagesContainerRef} 
+                className="flex-1 px-8 py-6 space-y-4 overflow-y-auto bg-white/60 custom-scrollbar" 
+                style={{ minHeight: 0, height: '100%', scrollBehavior: 'smooth' }}
+              >
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}> 
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className={`max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base leading-relaxed whitespace-pre-line ${msg.sender === 'user' ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white' : 'bg-gray-50 text-gray-800 border border-gray-100'}`}
-                    >
-                      {msg.text}
-                    </motion.div>
+                    <div className="flex flex-col gap-1">
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className={`max-w-[300px] px-5 py-3 rounded-3xl shadow-md text-base leading-relaxed break-words ${
+                          msg.sender === 'user' 
+                            ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white rounded-tr-none' 
+                            : 'bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none'
+                        }`}
+                      >
+                        {msg.text}
+                      </motion.div>
+                      <div className={`text-xs text-gray-400 ${msg.sender === 'user' ? 'text-right mr-1' : 'ml-1'}`}>
+                        {new Intl.DateTimeFormat('zh-CN', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }).format(msg.timestamp)}
+                      </div>
+                    </div>
                   </div>
                 ))}
                 {isLoading && (
-                  <div className="flex justify-start">
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="max-w-[70%] px-5 py-3 rounded-3xl shadow-sm text-base bg-gray-50 text-gray-800 border border-gray-100"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
-                        <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
-                        <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                  <div className="flex justify-start"> 
+                    <div className="flex flex-col gap-1">
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="max-w-[300px] px-5 py-3 rounded-3xl shadow-md text-base bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none"
+                      >
+                        <div className="flex items-center">
+                          <div className="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                        </div>
+                      </motion.div>
+                      <div className="text-xs text-gray-400 ml-1">
+                        {new Intl.DateTimeFormat('zh-CN', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        }).format(new Date())}
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
                 )}
                 <div ref={endOfMessagesRef} />
               </div>
               {/* 输入区 */}
               <div className="px-8 py-5 bg-white/80">
-                <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm">
+                <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300">
                   <div className="flex-1 relative">
                     <textarea
-                      className="w-full h-16 resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400 overflow-y-auto"
-                      rows={2}
-                      maxLength={500}
-                      placeholder="请输入您的问题，按Enter发送..."
+                      className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400 overflow-y-auto"
+                      rows={1}
+                      maxLength={100}
+                      placeholder={isLoading ? "正在生成回复，请稍候..." : "请输入您的问题，按Enter发送..."}
                       value={inputValue}
                       onChange={handleInputChange}
                       onKeyDown={handleKeyPress}
                       disabled={isLoading}
-                      style={{ minHeight: 64, maxHeight: 64, fontSize: '16px', lineHeight: '1.6' }}
+                      style={{ minHeight: 40, maxHeight: 120, fontSize: '16px', lineHeight: '1.6' }}
                     />
+                    <div className="absolute right-2 bottom-2 text-xs text-gray-400 select-none pointer-events-none">
+                      {inputValue.length}/100
+                    </div>
                     {errorMessage && (
-                      <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn">{errorMessage}</div>
+                      <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn bg-white px-2 py-1 rounded shadow-sm">
+                        {errorMessage}
+                      </div>
                     )}
                   </div>
                   <button
