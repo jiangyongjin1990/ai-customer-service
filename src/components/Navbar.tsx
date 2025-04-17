@@ -115,9 +115,9 @@ const NavbarContent = () => {
           <nav className="hidden md:flex space-x-8">
             <Link
               href="/"
-              className={`text-xl font-medium flex items-center px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+              className={`text-2xl font-bold flex items-center px-4 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/' 
-                  ? 'text-[#4e90cc] font-bold' 
+                  ? 'text-[#4e90cc] animate-wave-text' 
                   : 'text-gray-700 hover:text-[#4e90cc]'
               }`}
               onClick={handleNavLinkClick}
@@ -128,9 +128,9 @@ const NavbarContent = () => {
 
             <Link
               href="/pricing"
-              className={`text-xl font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+              className={`text-2xl font-bold px-4 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/pricing' 
-                  ? 'text-[#4e90cc] font-bold' 
+                  ? 'text-[#4e90cc] animate-wave-text' 
                   : 'text-gray-700 hover:text-[#4e90cc]'
               }`}
               onClick={handleNavLinkClick}
@@ -140,9 +140,9 @@ const NavbarContent = () => {
 
             <Link
               href="/demo"
-              className={`text-xl font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+              className={`text-2xl font-bold px-4 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/demo' 
-                  ? 'text-[#4e90cc] font-bold' 
+                  ? 'text-[#4e90cc] animate-wave-text' 
                   : 'text-gray-700 hover:text-[#4e90cc]'
               }`}
               onClick={handleNavLinkClick}
