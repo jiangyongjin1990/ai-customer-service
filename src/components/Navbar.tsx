@@ -123,7 +123,6 @@ const NavbarContent = () => {
               onClick={handleNavLinkClick}
             >
               <span>智能客服</span>
-              <AiAgentBadge />
             </Link>
 
             <Link
@@ -148,6 +147,7 @@ const NavbarContent = () => {
               onClick={handleNavLinkClick}
             >
               线上体验
+              <span className="ml-1 px-1.5 py-0.5 text-[9px] font-semibold bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top" style={{lineHeight: '1.1'}}>AI Agent</span>
             </Link>
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">

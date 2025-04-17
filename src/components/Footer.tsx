@@ -95,7 +95,7 @@ const Footer = ({ isFixed = false }: { isFixed?: boolean }) => {
       <AboutModal isOpen={isAboutModalOpen} onClose={() => setIsAboutModalOpen(false)} />
       
       <div className="w-full bg-gray-100 border-t border-gray-200">
-        <div className={`container mx-auto px-4 max-w-7xl ${isFixed ? 'py-4 md:py-6' : 'py-8 md:py-10'}`}>
+        <div className={`container mx-auto px-4 max-w-7xl ${isFixed ? 'py-4 md:py-6' : 'py-12 md:py-16'}`}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
             {/* 左侧品牌区域 */}
             <div className="md:col-span-5 lg:col-span-6">
@@ -146,7 +146,7 @@ const Footer = ({ isFixed = false }: { isFixed?: boolean }) => {
           </div>
           
           {/* 底部座右铭 - 现代化设计 */}
-          <div className={`border-t border-gray-200 ${isFixed ? 'pt-3 pb-2' : 'pt-6'} flex justify-center items-center`}>
+          <div className={`border-t border-gray-200 ${isFixed ? 'pt-3 pb-2' : 'pt-8 pb-4'} flex justify-center items-center`}>
             <div className="relative">
               <p className="text-gray-400 italic text-2xl font-bold tracking-wide">
                 " Less complexity, more intelligence. "
