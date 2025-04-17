@@ -111,6 +111,41 @@ ai-customer-service/
 
 3. 等待DNS生效（通常需要几分钟到几小时）
 
+## 邮件服务配置
+
+项目包含联系表单功能，需要配置邮件服务以发送通知邮件。
+
+### 配置步骤
+
+1. 复制 `.env.example` 文件为 `.env.local`
+2. 运行邮件配置生成工具生成加密的密码：
+
+```bash
+node scripts/generate-email-config.js
+```
+
+3. 将生成的配置添加到 `.env.local` 文件中
+4. 更新其他邮件相关的环境变量，包括：
+   - `EMAIL_HOST`: SMTP服务器地址
+   - `EMAIL_PORT`: SMTP端口
+   - `EMAIL_USER`: 邮箱地址
+   - `EMAIL_SECURE`: 是否使用SSL/TLS (通常为true)
+   - `ENCRYPTION_KEY`: 自定义的32字符加密密钥（可选）
+   - `NOTIFICATION_EMAIL`: 接收通知的邮箱地址
+
+### 邮件安全性
+
+- 密码使用AES-256-CBC加密存储
+- 默认使用飞书SMTP服务，可根据需要更改为其他邮件服务
+- 支持在生产环境中通过环境变量设置加密密钥，提高安全性
+
+### 相关文件
+
+- `config/emailConfig.ts`: 邮件配置工具，包含加密和配置处理
+- `src/app/api/contact/route.ts`: 联系表单API处理
+- `src/components/ContactModal.tsx`: 联系表单组件
+- `scripts/generate-email-config.js`: 配置生成工具
+
 ## 后续开发建议
 
 1. 添加用户认证系统

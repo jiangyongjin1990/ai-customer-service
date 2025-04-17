@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import ContactModal from '../../components/ContactModal';
 import Footer from '../../components/Footer';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { Check } from 'lucide-react';
 
 // 定义价格方案
 const pricingPlans = [

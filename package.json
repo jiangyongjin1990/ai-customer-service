@@ -6,14 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "deploy": "npm run build && npm run start",
     "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.1",
-    "@heroicons/react": "^2.2.0",
+    "@heroicons/react": "^2.1.1",
     "critters": "^0.0.23",
-    "framer-motion": "^12.7.2",
+    "framer-motion": "^12.7.3",
+    "lucide-react": "^0.292.0",
     "next": "15.3.0",
+    "nodemailer": "^6.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0"
@@ -22,6 +25,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

@@ -2,25 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-// import Image from 'next/image'; // Comment out
-// import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi'; // Comment out
 import { usePathname } from 'next/navigation';
-
-/**
- * @description AI Agent 标签组件
- * @returns {JSX.Element} 标签组件
- */
-const AiAgentBadge = () => (
-  <span className="ml-1.5 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full">AI Agent</span>
-);
-
-/**
- * @description 10年标签组件
- * @returns {JSX.Element} 标签组件
- */
-// const TenYearsBadge = () => ( // Comment out
-//    <span className="ml-1 px-1.5 py-0.5 bg-[#4e90cc] text-white text-[9px] leading-tight rounded-full font-medium">10years</span>
-// );
+import AiAgentBadge from './AiAgentBadge';
+import { useScrollContext } from '@/contexts/ScrollContext';
 
 /**
  * @description 导航栏组件
@@ -29,15 +13,8 @@ const AiAgentBadge = () => (
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // const [activeDropdown, setActiveDropdown] = useState<string | null>(null); // Comment out
-  // const [dropdowns, setDropdowns] = useState({
-  //   products: false,
-  //   solutions: false,
-  //   resources: false,
-  // });
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const pathname = usePathname();
+  const { setScrollToTop } = useScrollContext();
 
   // 检测滚动来改变导航栏样式
   useEffect(() => {
@@ -52,57 +29,11 @@ const Navbar = () => {
     };
   }, []);
 
-  // 处理下拉菜单显示
-  // const toggleDropdown = (dropdown: keyof typeof dropdowns) => {
-  //   setDropdowns((prev) => ({
-  //     ...prev,
-  //     [dropdown]: !prev[dropdown],
-  //   }));
-  // };
-
-  // 点击其他区域关闭下拉菜单
-  useEffect(() => {
-    const handleClickOutside = () => {
-      // setActiveDropdown(null); // Comment out if activeDropdown is commented
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
-  // 阻止下拉菜单点击事件冒泡
-  // const handleDropdownClick = (e: React.MouseEvent) => { // Comment out
-  //   e.stopPropagation();
-  // };
-
-  // 导航项数据
-  // const navItems = { // Comment out
-  //   products: [
-  //     { name: '全渠道在线客服', description: '跨平台的客户沟通解决方案' },
-  //     { name: 'AI智能客服', description: '高效处理常见问题与咨询' },
-  //     { name: '知识库管理', description: '集中管理企业常见问题解答' },
-  //     { name: '会话协作', description: '团队沟通与任务分配系统' }
-  //   ],
-  //   solutions: [
-  //     { name: '电子商务', description: '提升购物体验和客户满意度' },
-  //     { name: '金融服务', description: '安全高效的客户服务解决方案' },
-  //     { name: '教育培训', description: '优化学习体验和学员支持' },
-  //     { name: '医疗健康', description: '提供专业的患者服务体验' }
-  //   ],
-  //   resources: [
-  //     { name: '帮助中心', description: '查找常见问题与使用指南' },
-  //     { name: 'API文档', description: '开发者资源与接口说明' },
-  //     { name: '视频教程', description: '学习如何最大化使用小嘉AI' },
-  //     { name: '最新资讯', description: '了解产品更新与行业动态' }
-  //   ]
-  // };
-
-  useEffect(() => {
-    // 关闭下拉菜单当页面改变时
-    // setActiveDropdown(null); // Comment out if activeDropdown is commented
-  }, [pathname]);
+  // 点击链接时滚动到顶部
+  const handleNavLinkClick = () => {
+    setIsOpen(false);
+    setScrollToTop(true);
+  };
 
   // 直接定义内联样式对象
   const initialStyle = {
@@ -135,7 +66,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center py-3 md:py-4 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center" onClick={handleNavLinkClick}>
               <span className="sr-only">维普特AI</span>
               <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold text-xl px-3 rounded-md flex items-center">
                 维普特
@@ -172,11 +103,12 @@ const Navbar = () => {
           <nav className="hidden md:flex space-x-8">
             <Link
               href="/"
-              className={`text-lg font-medium flex items-center px-3 py-2 rounded-lg transition-colors duration-200 ${
+              className={`text-lg font-medium flex items-center px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/' 
-                  ? 'text-[#4e90cc] bg-blue-50/80 font-bold shadow-sm' 
-                  : 'text-gray-700 hover:text-[#4e90cc] hover:bg-gray-50/30'
+                  ? 'text-[#4e90cc] font-bold' 
+                  : 'text-gray-700 hover:text-[#4e90cc]'
               }`}
+              onClick={handleNavLinkClick}
             >
               <span>智能客服</span>
               <AiAgentBadge />
@@ -184,53 +116,33 @@ const Navbar = () => {
 
             <Link
               href="/pricing"
-              className={`text-lg font-medium px-3 py-2 rounded-lg transition-colors duration-200 ${
+              className={`text-lg font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/pricing' 
-                  ? 'text-[#4e90cc] bg-blue-50/80 font-bold shadow-sm' 
-                  : 'text-gray-700 hover:text-[#4e90cc] hover:bg-gray-50/30'
+                  ? 'text-[#4e90cc] font-bold' 
+                  : 'text-gray-700 hover:text-[#4e90cc]'
               }`}
+              onClick={handleNavLinkClick}
             >
               定价
             </Link>
 
             <Link
               href="/demo"
-              className={`text-lg font-medium px-3 py-2 rounded-lg transition-colors duration-200 ${
+              className={`text-lg font-medium px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
                 pathname === '/demo' 
-                  ? 'text-[#4e90cc] bg-blue-50/80 font-bold shadow-sm' 
-                  : 'text-gray-700 hover:text-[#4e90cc] hover:bg-gray-50/30'
+                  ? 'text-[#4e90cc] font-bold' 
+                  : 'text-gray-700 hover:text-[#4e90cc]'
               }`}
+              onClick={handleNavLinkClick}
             >
               线上体验
             </Link>
-
-            {/* 客户案例按钮已删除 */}
-            
-            {/* 支持按钮已删除 */}
           </nav>
-          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-3">
-            <Link
-              href="/demo"
-              className="px-4 py-2 rounded-full glass-card-transition glass-frost bg-white/30 backdrop-blur-sm text-[#4e90cc] text-sm font-medium shadow-sm border border-white/20 flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300"
-            >
-              <span>预约演示</span>
-              <svg
-                className="ml-1 w-3 h-3 transition-transform duration-300 group-hover:translate-x-1"
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-                />
-              </svg>
-            </Link>
+          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <Link
               href="/demo"
               className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
+              onClick={handleNavLinkClick}
             >
               <span>免费试用</span>
               <svg
@@ -300,7 +212,11 @@ const Navbar = () => {
                     <div className="h-full" aria-hidden="true">
                       <nav className="grid gap-y-8">
                         {/* 产品链接 */}
-                        <Link href="/" className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200">
+                        <Link 
+                          href="/" 
+                          className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200"
+                          onClick={handleNavLinkClick}
+                        >
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white">
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -309,9 +225,11 @@ const Navbar = () => {
                           <div className={`ml-4 text-lg font-medium text-gray-900 ${pathname === '/' ? 'font-bold text-[#4e90cc]' : ''}`}>智能客服</div>
                         </Link>
 
-                        {/* 客户案例按钮已删除 */}
-
-                        <Link href="/pricing" className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200">
+                        <Link 
+                          href="/pricing" 
+                          className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200"
+                          onClick={handleNavLinkClick}
+                        >
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white">
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -320,7 +238,11 @@ const Navbar = () => {
                           <div className={`ml-4 text-lg font-medium text-gray-900 ${pathname === '/pricing' ? 'font-bold text-[#4e90cc]' : ''}`}>定价</div>
                         </Link>
 
-                        <Link href="/demo" className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200">
+                        <Link 
+                          href="/demo" 
+                          className="-m-3 p-3 flex items-center rounded-md hover:bg-indigo-50 transition-colors duration-200"
+                          onClick={handleNavLinkClick}
+                        >
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white">
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -328,36 +250,16 @@ const Navbar = () => {
                           </div>
                           <div className={`ml-4 text-lg font-medium text-gray-900 ${pathname === '/demo' ? 'font-bold text-[#4e90cc]' : ''}`}>线上体验</div>
                         </Link>
-
-                        {/* 支持按钮已删除 */}
                       </nav>
                     </div>
                   </div>
                 </div>
                 <div className="p-6 border-t border-gray-200">
-                  <div className="grid grid-cols-2 gap-6">
-                    <Link
-                      href="/demo"
-                      className="col-span-1 px-4 py-3 rounded-full glass-card-transition glass-frost bg-white/30 backdrop-blur-sm text-[#4e90cc] text-base font-medium shadow-sm border border-white/20 flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300"
-                    >
-                      <span>预约演示</span>
-                      <svg
-                        className="ml-1 w-3 h-3 transition-transform duration-300 group-hover:translate-x-1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-                        />
-                      </svg>
-                    </Link>
+                  <div className="grid grid-cols-1 gap-6">
                     <Link
                       href="/demo"
                       className="col-span-1 px-4 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-base font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
+                      onClick={handleNavLinkClick}
                     >
                       <span>免费试用</span>
                       <svg
