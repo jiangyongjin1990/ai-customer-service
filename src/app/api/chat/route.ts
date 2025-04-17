@@ -73,6 +73,8 @@ async function callDeepseekAPI(message: string): Promise<string> {
     ]
   };
 
+  console.log("[DeepSeek] 请求参数:", JSON.stringify(payload));
+
   const fetchPromise = fetch(API_URL, {
     method: "POST",
     headers: {
@@ -89,9 +91,12 @@ async function callDeepseekAPI(message: string): Promise<string> {
 
   const response = await Promise.race([fetchPromise, timeoutPromise]) as Response;
   if (!response.ok) {
-    throw new Error(`DeepSeek API 响应错误: ${response.status}`);
+    const errorText = await response.text();
+    console.error("[DeepSeek] API 响应错误:", response.status, errorText);
+    throw new Error(`DeepSeek API 响应错误: ${response.status} ${errorText}`);
   }
   const data = await response.json();
+  console.log("[DeepSeek] API返回内容：", data);
   // 兼容DeepSeek返回格式
   const reply = data.choices?.[0]?.message?.content || "抱歉，AI暂时无法回复您的问题。";
   return reply;
