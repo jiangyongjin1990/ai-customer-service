@@ -616,17 +616,26 @@ body {
     line-height: 2rem !important;
   }
   
-  /* 红框中特定的标题优化 */
-  h2.text-2xl.sm\:text-3xl.md\:text-4xl:has(> div.inline-flex) {
+  /* 红框中特定的标题优化 - 更精确的选择器 */
+  section.bg-white h2.text-2xl.sm\:text-3xl.md\:text-4xl.font-bold,
+  section.bg-white h2.text-2xl.sm\:text-3xl.md\:text-4xl.font-bold span,
+  section.bg-white h2.text-center span {
     font-size: 1.5rem !important;
     line-height: 1.8rem !important;
   }
 
-  /* 红框中特效数字优化 */
-  .inline-flex .w-\[36px\], 
-  .inline-flex .w-\[40px\] {
-    font-size: 1.7rem !important;
-    line-height: 2rem !important;
+  /* 红框中特效数字优化 - 更精确的选择器 */
+  section.bg-white h2 .inline-flex .w-\[36px\],
+  section.bg-white h2 .inline-flex .w-\[40px\] {
+    font-size: 2.2rem !important;
+    line-height: 2.4rem !important;
+  }
+
+  /* 红框中"倍"和"%"字符的样式 */
+  section.bg-white h2 .inline-flex .ml-1\.5,
+  section.bg-white h2 .inline-flex .ml-0\.5 {
+    font-size: 1.6rem !important;
+    line-height: 2.2rem !important;
   }
   
   /* 聊天演示部分专用样式 */
