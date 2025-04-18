@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import { Toaster } from 'react-hot-toast';
+import dynamic from 'next/dynamic';
+
+// 动态导入Toaster组件，禁用SSR
+const Toaster = dynamic(
+  () => import('react-hot-toast').then((mod) => mod.Toaster),
+  { ssr: false }
+);
 
 // 使用系统字体
 const fontClassSans = "font-sans";

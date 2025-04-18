@@ -64,10 +64,10 @@ export default function TrialModal({ isOpen, onClose }: TrialModalProps) {
       // TODO: 实际的表单提交逻辑
       await new Promise(resolve => setTimeout(resolve, 1000));
       setIsSuccess(true);
-      toast.success('提交成功，我们将尽快与您联系');
+      toast?.success?.('提交成功，我们将尽快与您联系');
       setIsSubmitting(false);
     } catch (error) {
-      toast.error('提交失败，请稍后重试');
+      toast?.error?.('提交失败，请稍后重试');
       setIsSubmitting(false);
     }
   };
