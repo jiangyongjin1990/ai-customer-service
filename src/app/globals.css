@@ -551,3 +551,91 @@ body {
   transform: scale(1) !important;
   padding: 0.75rem 1.5rem !important;
 }
+
+/* 线上环境缩放规则 - 适配屏幕比例 */
+@media screen and (min-width: 768px) {
+  /* 主容器宽度调整 */
+  .max-w-6xl {
+    max-width: 1080px !important;
+  }
+  
+  /* 聊天容器的消息气泡宽度调整 */
+  .max-w-\[350px\] {
+    max-width: 300px !important;
+  }
+  
+  /* 左侧菜单宽度调整 */
+  .w-\[400px\] {
+    width: 320px !important;
+  }
+  
+  /* 内容间距调整 */
+  .px-8 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+  /* 文本大小调整 */
+  .text-base {
+    font-size: 0.9rem !important;
+    line-height: 1.4rem !important;
+  }
+  
+  .text-lg {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
+  
+  .text-xl {
+    font-size: 1.1rem !important;
+    line-height: 1.5rem !important;
+  }
+  
+  .text-2xl {
+    font-size: 1.3rem !important;
+    line-height: 1.7rem !important;
+  }
+  
+  .text-3xl {
+    font-size: 1.5rem !important;
+    line-height: 1.9rem !important;
+  }
+  
+  /* 卡片内边距调整 */
+  .p-7 {
+    padding: 1.5rem !important;
+  }
+  
+  /* 聊天消息气泡内边距调整 */
+  .px-5 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .py-3 {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+  }
+  
+  /* 热门问题按钮内边距调整 */
+  .px-4 {
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+  }
+  
+  /* 主页标题大小调整 */
+  h2.text-4xl.sm\:text-5xl.md\:text-6xl {
+    font-size: 3rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* 首页卡片网格调整 */
+  .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    gap: 1rem !important;
+  }
+  
+  /* 特性卡片内边距调整 */
+  .md\:px-8.md\:pt-8.md\:pb-4 {
+    padding: 1.25rem !important;
+  }
+}
