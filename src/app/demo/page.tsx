@@ -145,13 +145,11 @@ function ChatDemo() {
     textarea.style.height = `${scrollHeight}px`;
   };
 
-  // 示例问题快速提问 - 更新为电商相关问题
+  // 示例问题快速提问 - 更新为电商相关问题，减少为3个
   const exampleQuestions = [
     "这款连衣裙有什么颜色和尺码可选？",
     "我的订单什么时候能发货？",
-    "如何申请退换货？",
-    "有没有优惠券可以使用？",
-    "支持哪些支付方式？"
+    "如何申请退换货？"
   ];
   
   const handleExampleClick = (question: string) => {
@@ -185,9 +183,9 @@ function ChatDemo() {
           height: mainContentHeight
         }}
       >
-        <div className="w-full max-w-6xl flex gap-8 px-4 h-full">
+        <div className="w-full max-w-6xl flex gap-6 px-4 h-full">
           {/* 聊天区 */}
-          <div className="flex-1 flex flex-col h-full">
+          <div className="flex-grow flex flex-col h-full">
             <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/90 backdrop-blur-md p-0 flex flex-col h-full hover:shadow-2xl transition-all duration-300">
               {/* 聊天头部 */}
               <div className="px-8 py-5 bg-gradient-to-r from-[#4e90cc]/10 to-[#9478f0]/10 flex items-center justify-between shadow-sm">
@@ -259,10 +257,8 @@ function ChatDemo() {
                         className="max-w-[350px] px-5 py-3 rounded-3xl shadow-md text-base bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none"
                       >
                         <div className="flex items-center">
-                          <div className="typing-indicator">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                          <div className="typing-indicator-animated">
+                            正在赶来，请稍等
                           </div>
                         </div>
                       </motion.div>
@@ -282,10 +278,10 @@ function ChatDemo() {
                 <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300">
                   <div className="flex-1 relative">
                     <textarea
-                      className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-[#9478f0]/30 transition-all placeholder-gray-400 overflow-y-auto"
+                      className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-[#9478f0]/50 transition-all placeholder-gray-400 overflow-y-auto"
                       rows={1}
                       maxLength={100}
-                      placeholder={isLoading ? "正在生成回复，请稍候..." : "请输入您的咨询内容，按Enter发送..."}
+                      placeholder={isLoading ? "正在赶来，请稍等…" : "请输入您的咨询内容，按Enter发送..."}
                       value={inputValue}
                       onChange={handleInputChange}
                       onKeyDown={handleKeyPress}
@@ -302,7 +298,7 @@ function ChatDemo() {
                     )}
                   </div>
                   <button
-                    className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white hover:shadow-md focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                    className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-[#3a7ab8] to-[#7a5ed3] text-white hover:shadow-md focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
                     onClick={handleSendMessage}
                     disabled={isLoading || !inputValue.trim()}
                     aria-label="发送"
@@ -314,8 +310,8 @@ function ChatDemo() {
             </div>
           </div>
           {/* 右侧信息区 */}
-          <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
-            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7 mb-6">
+          <div className="w-[350px] flex-shrink-0 flex flex-col gap-5 h-full">
+            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7 mb-2">
               <div className="font-bold text-gradient-primary text-lg mb-3 flex items-center gap-2">
                 <span>电商智能客服</span>
                 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
@@ -340,18 +336,28 @@ function ChatDemo() {
               </ul>
             </div>
             <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7">
-              <div className="font-bold text-gray-800 text-base mb-4">热门问题</div>
+              <div className="font-bold text-gray-800 text-base mb-3 flex items-center">
+                <span>热门问题</span>
+                <div className="ml-2 px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded-md font-normal">
+                  点击问题可自动填入👇
+                </div>
+              </div>
               <div className="flex flex-col gap-3">
                 {exampleQuestions.map((q, i) => (
                   <button
                     key={i}
-                    className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 text-gray-700 text-sm font-medium transition-all duration-300 border border-gray-100 hover:border-[#4e90cc]/30 hover:shadow-sm flex items-center space-x-2"
+                    className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 text-gray-700 text-sm font-medium transition-all duration-300 border border-gray-100 hover:border-[#4e90cc]/30 hover:shadow-sm flex items-center space-x-2 group"
                     onClick={() => handleExampleClick(q)}
                   >
-                    <span className="w-5 h-5 rounded-full bg-[#4e90cc]/10 flex items-center justify-center text-[#4e90cc] flex-shrink-0">
+                    <span className="w-6 h-6 rounded-full bg-[#4e90cc]/10 flex items-center justify-center text-[#4e90cc] flex-shrink-0 group-hover:bg-[#4e90cc]/20 transition-all">
                       {i + 1}
                     </span>
-                    <span>{q}</span>
+                    <span className="flex-1">{q}</span>
+                    <span className="text-[#4e90cc] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
                   </button>
                 ))}
               </div>
