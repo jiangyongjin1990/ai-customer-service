@@ -53,24 +53,31 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = '�
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'hidden';
       
-      // 隐藏导航栏
-      const navbar = document.querySelector('.fixed.w-full.top-0.z-50');
-      if (navbar) {
-        (navbar as HTMLElement).style.display = 'none';
+      // 锁定滚动并处理滚动条宽度
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      
+      // 对导航栏应用相同的补偿
+      const navbar = document.querySelector('nav');
+      if (navbar && navbar.classList.contains('fixed')) {
+        navbar.style.paddingRight = `${scrollbarWidth}px`;
       }
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = '';
       
-      // 恢复导航栏显示
-      const navbar = document.querySelector('.fixed.w-full.top-0.z-50');
+      // 恢复滚动和补偿
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      
+      // 恢复导航栏
+      const navbar = document.querySelector('nav');
       if (navbar) {
-        (navbar as HTMLElement).style.display = '';
+        navbar.style.paddingRight = '';
       }
     };
   }, [isOpen, onClose]);

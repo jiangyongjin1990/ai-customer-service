@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from '../../components/ContactModal';
+import TrialModal from '../../components/TrialModal';
 import Footer from '../../components/Footer';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Check } from 'lucide-react';
@@ -178,6 +179,7 @@ const faqItemVariants = {
 
 const PricingPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [modalTitle, setModalTitle] = useState('联系我们');
 
@@ -188,6 +190,14 @@ const PricingPage = () => {
 
   const closeContactModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openTrialModal = () => {
+    setIsTrialModalOpen(true);
+  };
+  
+  const closeTrialModal = () => {
+    setIsTrialModalOpen(false);
   };
 
   const toggleFaq = (index: number) => {
@@ -291,7 +301,7 @@ const PricingPage = () => {
                         transition={{ delay: 0.4 }}
                       >
                         <button
-                          onClick={() => openContactModal('立享30天免费体验')}
+                          onClick={openTrialModal}
                           className="relative overflow-hidden w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-violet-500 text-white font-medium shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transform hover:-translate-y-1 transition-all"
                         >
                           <span>免费试用</span>
@@ -404,6 +414,7 @@ const PricingPage = () => {
         
         {/* 联系我们弹窗 */}
         <ContactModal isOpen={isModalOpen} onClose={closeContactModal} title={modalTitle} />
+        <TrialModal isOpen={isTrialModalOpen} onClose={closeTrialModal} />
       </div>
       
       {/* 页脚 */}
