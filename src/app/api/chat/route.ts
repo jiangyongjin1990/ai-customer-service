@@ -1,161 +1,273 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// 临时存储对话历史的缓存
+type DialogueHistory = {
+  userId: string;
+  messages: Array<{role: string, content: string}>;
+  lastIntent?: string;
+  lastEntities?: string[];
+  lastUpdateTime: number;
+};
+
+// 简易缓存，仅供测试使用
+const dialogueCache = new Map<string, DialogueHistory>();
+
+// 过期时间设置（毫秒），30分钟无交互则清除对话历史
+const EXPIRATION_TIME = 30 * 60 * 1000; 
+
 /**
- * @description 处理聊天消息的API路由
- * @param {NextRequest} req - 请求对象
- * @returns {Promise<NextResponse>} 响应对象
+ * DeepSeek API调用路由
+ * @param req 请求对象
+ * @returns API响应
  */
 export async function POST(req: NextRequest) {
-  console.log("接收到聊天请求");
-
-  // 设置超时机制
-  let timeoutId: NodeJS.Timeout | undefined = undefined;
-  const timeoutPromise = new Promise<{ error: string }>((_, reject) => {
-    timeoutId = setTimeout(() => {
-      reject({ error: "请求超时，请稍后再试" });
-    }, 30000); // 30秒超时
-  });
-
+  console.log('[DeepSeek] 收到请求');
+  
   try {
-    // 解析JSON请求体
+    // 解析请求
     const body = await req.json();
-
-    // 验证请求体
-    if (!body || !body.message) {
-      return NextResponse.json(
-        { error: "无效的请求，缺少消息内容" },
-        { status: 400 }
-      );
-    }
-
+    console.log('[DeepSeek] 请求体:', body);
+    
     const userMessage = body.message;
-    console.log("收到用户消息:", userMessage);
+    console.log('[DeepSeek] 用户消息:', userMessage);
 
-    // 尝试调用DeepSeek API获取回复
-    let reply: string;
+    if (!userMessage) {
+      console.log('[DeepSeek] 错误: 缺少消息字段');
+      return NextResponse.json({ error: '消息不能为空' }, { status: 400 });
+    }
+    
+    // 获取用户ID，如果没有则使用IP作为临时ID
+    const userIp = req.headers.get('x-forwarded-for') || 'unknown-user';
+    const userId = body.userId || userIp;
+    
+    // 获取或初始化对话历史
+    let dialogueHistory = dialogueCache.get(userId);
+    if (!dialogueHistory) {
+      dialogueHistory = {
+        userId,
+        messages: [],
+        lastUpdateTime: Date.now()
+      };
+      dialogueCache.set(userId, dialogueHistory);
+    }
+    
+    // 清理过期对话
+    cleanupExpiredDialogues();
+
     try {
-      if (timeoutId) clearTimeout(timeoutId);
-      reply = await Promise.race([
-        callDeepseekAPI(userMessage),
-        timeoutPromise as Promise<never>
-      ]) as string;
-    } catch (error: any) {
-      console.error("API调用失败:", error?.message || error);
-      // 生成备用回复
-      reply = generateFallbackReply(userMessage);
-    }
-
-    return NextResponse.json({ reply });
-  } catch (error: any) {
-    console.error("处理请求时出错:", error?.message || error);
-    return NextResponse.json(
-      { error: "服务器处理请求时出错", message: error?.message },
-      { status: 500 }
-    );
-  } finally {
-    if (timeoutId) clearTimeout(timeoutId);
-  }
-}
-
-/**
- * @description 调用DeepSeek API获取聊天回复
- * @param {string} message - 用户输入的消息
- * @returns {Promise<string>} DeepSeek大模型的回复
- */
-async function callDeepseekAPI(message: string): Promise<string> {
-  try {
-    // 使用用户提供的API密钥
-    const API_KEY = "sk-vtfsmocgfmxscxwfwikrvntupmykphbkolybsvzvwydubsiv";
-    const API_URL = "https://api.siliconflow.cn/v1/chat/completions";
-
-    // 简化请求参数，确保能正常调用
-    const payload = {
-      model: "deepseek-ai/DeepSeek-R1",
-      messages: [
+      // 调用硅基流动 DeepSeek API
+      console.log('[DeepSeek] 调用 DeepSeek API');
+      const API_KEY = 'sk-vtfsmocgfmxscxwfwikrvntupmykphbkolybsvzvwydubsiv';
+      const API_URL = 'https://api.siliconflow.cn/v1/chat/completions';
+      
+      console.log('[DeepSeek] 使用API URL:', API_URL);
+      console.log('[DeepSeek] API KEY前几位:', API_KEY.substring(0, 8) + '...');
+      
+      // 进行意图识别
+      const intentAnalysis = await analyzeIntent(userMessage, dialogueHistory.lastIntent);
+      
+      // 更新对话历史
+      dialogueHistory.messages.push({ role: 'user', content: userMessage });
+      dialogueHistory.lastIntent = intentAnalysis.currentIntent;
+      dialogueHistory.lastEntities = intentAnalysis.entities;
+      
+      // 构建消息上下文
+      const messages = [
         { 
-          role: "system", 
-          content: "你是一家知名电商平台的资深客服小唯，有着5年的专业客服经验。你有以下特点：\n\n1. 说话风格：语气亲切自然，语句长短不一，偶尔使用语气词（如'呢'、'哦'、'啦'），适当使用表情符号，但不过度。\n\n2. 专业知识：精通订单处理、退款流程、物流追踪、商品咨询等电商领域知识，了解最新的电商促销活动。\n\n3. 回答方式：\n- 先理解用户意图，再给出有针对性的回答\n- 使用简洁清晰的语言，避免冗长说教\n- 问题简单时给简短回复，复杂问题才详细解释\n- 偶尔可以加入思考停顿如'让我看一下...'或'稍等我查询一下'\n- 适当使用碎片化语言和口头禅\n\n4. 人性化特征：\n- 偶尔提到你的工作状态，如'今天客服量有点大'\n- 在合适场景表达个人情感，如'这款产品我也很喜欢'\n- 在解决问题时展现耐心和同理心\n\n5. 限制：\n- 不会过度完美，偶尔会询问更多信息来解决问题\n- 遇到无法回答的专业问题说'这个情况比较特殊，我需要转接专业部门，您稍等片刻好吗？'\n- 绝不提及自己是AI或机器人\n- 避免使用过于规范化的客服模板用语\n\n请用最自然的方式与用户交流，让他们感觉是在和一个有经验、有个性的真人客服交流。" 
+          role: 'system', 
+          content: `你是一家知名电商平台的资深客服小唯，有着5年的专业客服经验。你有以下特点：
+
+1. 说话风格：语气亲切自然，语句长短不一，偶尔使用语气词（如'呢'、'哦'、'啦'），适当使用表情符号，但不过度。
+
+2. 专业知识：精通订单处理、退款流程、物流追踪、商品咨询等电商领域知识，了解最新的电商促销活动。
+
+3. 回答方式：
+- 先理解用户意图，再给出有针对性的回答
+- 使用简洁清晰的语言，避免冗长说教
+- 问题简单时给简短回复，复杂问题才详细解释
+- 偶尔可以加入思考停顿如'让我看一下...'或'稍等我查询一下'
+- 适当使用碎片化语言和口头禅
+
+4. 人性化特征：
+- 偶尔提到你的工作状态，如'今天客服量有点大'
+- 在合适场景表达个人情感，如'这款产品我也很喜欢'
+- 在解决问题时展现耐心和同理心
+
+5. 限制：
+- 不会过度完美，偶尔会询问更多信息来解决问题
+- 遇到无法回答的专业问题说'这个情况比较特殊，我需要转接专业部门，您稍等片刻好吗？'
+- 绝不提及自己是AI或机器人
+- 避免使用过于规范化的客服模板用语
+
+当前用户咨询的主题是：${intentAnalysis.currentIntent}
+${intentAnalysis.entities.length > 0 ? `用户提到的关键信息：${intentAnalysis.entities.join(', ')}` : ''}
+${intentAnalysis.followsPrevious ? '注意：用户在延续之前的对话，请保持上下文连贯性' : ''}
+
+请用最自然的方式与用户交流，让他们感觉是在和一个有经验、有个性的真人客服交流。`
+        }
+      ];
+      
+      // 添加历史对话
+      if (dialogueHistory.messages.length > 1) {
+        // 保留最近的一些对话历史，不包括当前消息
+        const relevantHistory = dialogueHistory.messages.slice(0, -1).slice(-10);
+        messages.push(...relevantHistory);
+      }
+      
+      // 添加当前消息
+      messages.push({ role: 'user', content: userMessage });
+      
+      // 构建API请求体
+      const payload = {
+        model: 'deepseek-ai/DeepSeek-R1',
+        messages: messages,
+        temperature: 0.7
+      };
+      
+      console.log('[DeepSeek] 请求参数:', JSON.stringify({
+        model: payload.model,
+        messageCount: payload.messages.length,
+        temperature: payload.temperature
+      }));
+      
+      // 调用API
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${API_KEY}`,
         },
-        { role: "user", content: message }
-      ],
-      temperature: 0.7  // 温度系数，控制输出的随机性
-    };
-
-    console.log("[DeepSeek] 请求参数:", JSON.stringify(payload));
-    console.log("[DeepSeek] 请求URL:", API_URL);
-    console.log("[DeepSeek] API_KEY前几位:", API_KEY.substring(0, 8) + "...");
-
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify(payload)
-    });
-    
-    console.log("[DeepSeek] 收到响应，状态码:", response.status);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("[DeepSeek] API 响应错误:", response.status, errorText);
-      throw new Error(`DeepSeek API 响应错误: ${response.status} ${errorText}`);
+        body: JSON.stringify(payload),
+      });
+      
+      console.log('[DeepSeek] DeepSeek 响应状态:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('[DeepSeek] DeepSeek API 响应错误:', response.status, errorText);
+        return NextResponse.json({ 
+          error: `调用AI服务失败: ${response.status}`, 
+          details: errorText
+        });
+      }
+      
+      const data = await response.json();
+      console.log('[DeepSeek] DeepSeek 响应成功, ID:', data.id);
+      
+      // 提取回复内容
+      const reply = data.choices?.[0]?.message?.content || '抱歉，无法获取回复';
+      console.log('[DeepSeek] DeepSeek 回复 (部分):', reply.substring(0, 50) + '...');
+      
+      // 将AI回复添加到对话历史
+      dialogueHistory.messages.push({ role: 'assistant', content: reply });
+      
+      // 限制对话历史长度
+      if (dialogueHistory.messages.length > 10) {
+        const systemMessages = dialogueHistory.messages.filter(msg => msg.role === 'system');
+        const recentMessages = dialogueHistory.messages.slice(-9);
+        dialogueHistory.messages = [...systemMessages, ...recentMessages];
+      }
+      
+      // 更新最后交互时间
+      dialogueHistory.lastUpdateTime = Date.now();
+      
+      // 返回回复
+      return NextResponse.json({ 
+        reply,
+        intent: dialogueHistory.lastIntent,
+        sessionActive: true
+      });
+      
+    } catch (apiError: any) {
+      console.error('[DeepSeek] DeepSeek API调用失败:', apiError?.message || '未知错误');
+      
+      // 返回详细错误信息
+      return NextResponse.json({ 
+        error: '调用AI服务失败',
+        message: apiError?.message,
+        stack: process.env.NODE_ENV !== 'production' ? apiError?.stack : undefined
+      });
     }
     
-    const data = await response.json();
-    console.log("[DeepSeek] API返回内容的部分字段:", 
-      JSON.stringify({
-        id: data.id, 
-        model: data.model,
-        usage: data.usage
-      })
-    );
-    
-    // 兼容DeepSeek返回格式
-    const reply = data.choices?.[0]?.message?.content || "抱歉，AI暂时无法回复您的问题。";
-    return reply;
-  } catch (error) {
-    console.error("[DeepSeek] 调用过程中发生错误:", error);
-    throw error;
+  } catch (error: any) {
+    console.error('[DeepSeek] 处理请求出错:', error?.message || '未知错误');
+    return NextResponse.json({ 
+      error: '服务器内部错误',
+      message: error?.message
+    }, { status: 500 });
   }
 }
 
 /**
- * @description 生成备用回复
- * @param {string} message - 用户消息
- * @returns {string} 备用回复
+ * 清理过期的对话记录
  */
-function generateFallbackReply(message: string): string {
-  console.log("生成备用回复...");
-  // 预设回复
-  const keywords = {
-    // 价格相关问题
-    '价格': '我们的AI客服解决方案价格灵活，基础套餐每月起价¥999，包含基本功能。企业级套餐¥2999/月，含高级功能和优先支持。我们也提供定制方案，具体价格根据需求确定。现在注册可享受30天免费试用！',
-    '收费': '我们的AI客服解决方案价格灵活，基础套餐每月起价¥999，包含基本功能。企业级套餐¥2999/月，含高级功能和优先支持。我们也提供定制方案，具体价格根据需求确定。现在注册可享受30天免费试用！',
-    '费用': '我们的AI客服解决方案价格灵活，基础套餐每月起价¥999，包含基本功能。企业级套餐¥2999/月，含高级功能和优先支持。我们也提供定制方案，具体价格根据需求确定。现在注册可享受30天免费试用！',
-    '多少钱': '我们的AI客服解决方案价格灵活，基础套餐每月起价¥999，包含基本功能。企业级套餐¥2999/月，含高级功能和优先支持。我们也提供定制方案，具体价格根据需求确定。现在注册可享受30天免费试用！',
-    // 免费试用
-    '免费': '是的，我们提供30天全功能免费试用，无需信用卡。试用期结束后，您可以选择合适的付费套餐继续使用，或随时取消。立即访问我们的网站注册免费试用吧！',
-    '试用': '是的，我们提供30天全功能免费试用，无需信用卡。试用期结束后，您可以选择合适的付费套餐继续使用，或随时取消。立即访问我们的网站注册免费试用吧！',
-    // 功能相关
-    '功能': '我们的AI客服系统功能丰富，包括：\n1. 24/7自动回复客户咨询\n2. 多语言支持\n3. 情感分析\n4. 自定义知识库\n5. 无缝人工交接\n6. 客户意图识别\n7. 数据分析和报表\n8. 多渠道集成（网站、微信、电话等）\n还有什么特定功能您想了解吗？',
-    '特点': '我们的AI客服系统功能丰富，包括：\n1. 24/7自动回复客户咨询\n2. 多语言支持\n3. 情感分析\n4. 自定义知识库\n5. 无缝人工交接\n6. 客户意图识别\n7. 数据分析和报表\n8. 多渠道集成（网站、微信、电话等）\n还有什么特定功能您想了解吗？',
-    '服务': '我们的AI客服系统功能丰富，包括：\n1. 24/7自动回复客户咨询\n2. 多语言支持\n3. 情感分析\n4. 自定义知识库\n5. 无缝人工交接\n6. 客户意图识别\n7. 数据分析和报表\n8. 多渠道集成（网站、微信、电话等）\n还有什么特定功能您想了解吗？',
-    // 部署相关
-    '部署': '我们提供云端SaaS部署和私有化部署两种方式。云端部署可立即开始使用，我们负责维护和更新。私有化部署适合对数据安全有严格要求的企业，可部署在您的服务器上。两种方式都有完善的技术支持。',
-    '安装': '我们提供云端SaaS部署和私有化部署两种方式。云端部署可立即开始使用，我们负责维护和更新。私有化部署适合对数据安全有严格要求的企业，可部署在您的服务器上。两种方式都有完善的技术支持。',
-    // 联系客服
-    '联系': '您可以通过以下方式联系我们的客服团队：\n1. 电话：400-888-9999（工作日9:00-18:00）\n2. 邮箱：support@virtuepai.com\n3. 在线客服：访问我们的网站，点击右下角的客服图标\n我们会尽快回复您的咨询！',
-    '客服': '您可以通过以下方式联系我们的客服团队：\n1. 电话：400-888-9999（工作日9:00-18:00）\n2. 邮箱：support@virtuepai.com\n3. 在线客服：访问我们的网站，点击右下角的客服图标\n我们会尽快回复您的咨询！',
+function cleanupExpiredDialogues() {
+  const now = Date.now();
+  dialogueCache.forEach((dialogue, userId) => {
+    if (now - dialogue.lastUpdateTime > EXPIRATION_TIME) {
+      dialogueCache.delete(userId);
+      console.log(`[DeepSeek] 清理过期对话: ${userId}`);
+    }
+  });
+}
+
+/**
+ * 分析用户意图和提取实体
+ * @param message - 用户消息
+ * @param previousIntent - 上一个意图
+ * @returns 意图分析结果
+ */
+async function analyzeIntent(message: string, previousIntent?: string): Promise<{currentIntent: string, entities: string[], followsPrevious: boolean}> {
+  // 简单的意图识别逻辑
+  const intentPatterns = {
+    greeting: /(你好|早上好|下午好|晚上好|嗨|您好)/i,
+    orderQuery: /(订单|物流|发货|送达|快递|查询订单|订单号|追踪)/i,
+    productInfo: /(商品|产品|详情|参数|规格|尺寸|颜色|材质|价格|多少钱)/i,
+    refund: /(退货|退款|换货|取消订单|退|售后|不想要了|不满意|质量问题)/i,
+    payment: /(支付|付款|优惠券|折扣|满减|红包|支付方式|微信支付|支付宝|银行卡)/i,
+    complaint: /(投诉|不满|差评|不好|服务差|态度|问题|垃圾|欺骗|虚假|骗人)/i,
+    account: /(账号|密码|登录|注册|绑定|手机号|邮箱|个人信息|会员)/i,
+    promotion: /(活动|优惠|促销|打折|秒杀|特价|满减|积分|抽奖|赠品)/i,
+    other: /(.*)/i // 兜底
   };
 
-  // 检查消息中是否包含关键词
-  for (const [keyword, reply] of Object.entries(keywords)) {
-    if (message.includes(keyword)) {
-      return reply;
+  let currentIntent = 'other';
+  let entities: string[] = [];
+  let followsPrevious = false;
+
+  // 识别主要意图
+  for (const [intent, pattern] of Object.entries(intentPatterns)) {
+    if (pattern.test(message)) {
+      currentIntent = intent;
+      if (intent !== 'other') break;
     }
   }
 
-  // 默认回复
-  return '感谢您的咨询。我是维普特AI客服助手，可以回答您关于我们产品的各种问题。您可以询问关于价格、功能、部署方式等信息。如需更详细的咨询，请联系我们的销售团队（电话：400-888-9999）或发送邮件至sales@virtuepai.com。';
+  // 提取可能的实体
+  // 订单号
+  const orderNumberMatch = message.match(/订单[号码]?[:\s：]?\s*([A-Za-z0-9]{5,})/);
+  if (orderNumberMatch) entities.push(`orderNumber:${orderNumberMatch[1]}`);
+  
+  // 商品名
+  const productMatch = message.match(/([^，。？！,.?!]{2,10}[商品产品货物])/);
+  if (productMatch) entities.push(`product:${productMatch[1]}`);
+  
+  // 判断是否是接着上一个意图在问
+  const continuationPhrases = /(它|这个|那个|他们|另外|还有|然后|其他|继续|接着|还是|也|同样|那么|另一个|除此之外|顺便问一下)/i;
+  if (previousIntent && continuationPhrases.test(message)) {
+    followsPrevious = true;
+  }
+  
+  // 如果是继续上一个意图但没识别出新意图，保持上一个意图
+  if (followsPrevious && currentIntent === 'other' && previousIntent) {
+    currentIntent = previousIntent;
+  }
+  
+  console.log(`[DeepSeek] 意图分析: ${currentIntent}, 实体: ${entities.join(', ')}, 延续上下文: ${followsPrevious}`);
+  
+  return {
+    currentIntent,
+    entities,
+    followsPrevious
+  };
 } 
