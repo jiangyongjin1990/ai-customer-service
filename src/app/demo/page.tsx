@@ -40,14 +40,14 @@ function ChatDemo() {
   
   // 顶栏和底栏高度
   const HEADER_HEIGHT = 72;
-  const FOOTER_HEIGHT = 220; // 调整为更小的底栏高度，适应减小后的Footer
+  const FOOTER_HEIGHT = 180; // 减小Footer区域的高度
   const TOP_GAP = 80; // 增加与顶栏的间距，使主内容区下移
-  const BOTTOM_GAP = 40; // 主内容区与底栏的间距
+  const BOTTOM_GAP = 10; // 减小主内容区与底栏的间距
   const [mainContentHeight, setMainContentHeight] = useState(0);
 
   useEffect(() => {
     const calcHeight = () => {
-      const h = window.innerHeight - HEADER_HEIGHT - FOOTER_HEIGHT - TOP_GAP - BOTTOM_GAP - 50; // 减少50px高度
+      const h = window.innerHeight - HEADER_HEIGHT - FOOTER_HEIGHT - TOP_GAP - BOTTOM_GAP;
       setMainContentHeight(h > 0 ? h : 0);
     };
     calcHeight();

@@ -725,8 +725,17 @@ export default function Home() {
       {/* --- CTA Section --- */}
       <CTASection />
 
-      {/* 页脚 */}
-      <Footer />
+      {/* --- 统计数据部分 --- */}
+      <section className="py-24 lg:py-32 relative mb-[-100px]">
+        <div className="container mx-auto px-4 relative z-10 max-w-7xl">
+          // ... existing code ...
+        </div>
+      </section>
+
+      {/* --- 页脚部分 --- */}
+      <div className="mt-[-80px]">
+        <Footer />
+      </div>
 
       <style jsx global>{`
         @keyframes shimmer {

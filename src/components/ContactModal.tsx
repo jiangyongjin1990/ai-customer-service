@@ -133,7 +133,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = 'è
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0 overflow-hidden">
           <motion.div 
             className="fixed inset-0 bg-black/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -143,7 +143,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = 'è
           />
           <motion.div 
             ref={modalRef}
-            className="bg-gradient-to-br from-white/95 to-white/98 rounded-2xl shadow-xl max-w-md w-full mx-auto overflow-hidden z-10 border border-gray-100/40"
+            className="bg-gradient-to-br from-white/95 to-white/98 rounded-2xl shadow-xl max-w-md w-full mx-auto overflow-hidden z-10 border border-gray-100/40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
