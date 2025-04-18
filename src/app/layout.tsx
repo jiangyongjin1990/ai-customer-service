@@ -56,7 +56,7 @@ export default function RootLayout({
       <body className={`${fontClassSans} ${fontClassMono} antialiased scale-screen`}>
         <Toaster position="top-center" />
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow pt-20">
           {children}
         </main>
         <ScreenScaleDebug />
