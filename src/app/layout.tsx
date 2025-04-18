@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import { Toaster } from 'react-hot-toast';
 import ScreenScaleDebug from "../components/ScreenScaleDebug";
+import { ToastProvider } from "../components/ToastContainer";
 
 // 使用系统字体
 const fontClassSans = "font-sans";
@@ -90,12 +90,13 @@ export default function RootLayout({
         }} />
       </head>
       <body className={`${fontClassSans} ${fontClassMono} antialiased scale-screen dark:bg-gray-900 dark:text-white`}>
-        <Toaster position="top-center" />
-        <Navbar />
-        <main className="flex-grow pt-20">
-          {children}
-        </main>
-        <ScreenScaleDebug />
+        <ToastProvider>
+          <Navbar />
+          <main className="flex-grow pt-20">
+            {children}
+          </main>
+          <ScreenScaleDebug />
+        </ToastProvider>
       </body>
     </html>
   );
