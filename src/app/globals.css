@@ -554,88 +554,110 @@ body {
 
 /* 线上环境缩放规则 - 适配屏幕比例 */
 @media screen and (min-width: 768px) {
+  /* 全局缩放 */
+  html {
+    font-size: 87.5%; /* 降低全局比例尺 */
+  }
+  
+  /* 页面宽度限制 */
+  .container {
+    max-width: 1080px !important;
+  }
+  
   /* 主容器宽度调整 */
   .max-w-6xl {
-    max-width: 1080px !important;
+    max-width: 980px !important;
   }
   
   /* 聊天容器的消息气泡宽度调整 */
   .max-w-\[350px\] {
-    max-width: 300px !important;
+    max-width: 280px !important;
   }
   
   /* 左侧菜单宽度调整 */
   .w-\[400px\] {
-    width: 320px !important;
+    width: 300px !important;
   }
   
   /* 内容间距调整 */
   .px-8 {
-    padding-left: 1.5rem !important;
-    padding-right: 1.5rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
   }
   
   /* 文本大小调整 */
   .text-base {
-    font-size: 0.9rem !important;
-    line-height: 1.4rem !important;
+    font-size: 0.85rem !important;
+    line-height: 1.35rem !important;
   }
   
   .text-lg {
-    font-size: 1rem !important;
-    line-height: 1.5rem !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4rem !important;
   }
   
   .text-xl {
-    font-size: 1.1rem !important;
-    line-height: 1.5rem !important;
+    font-size: 1.05rem !important;
+    line-height: 1.45rem !important;
   }
   
   .text-2xl {
-    font-size: 1.3rem !important;
-    line-height: 1.7rem !important;
+    font-size: 1.2rem !important;
+    line-height: 1.5rem !important;
   }
   
   .text-3xl {
-    font-size: 1.5rem !important;
-    line-height: 1.9rem !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8rem !important;
+  }
+  
+  /* 聊天演示部分专用样式 */
+  #chat-demo-container .max-w-\[350px\],
+  #chat-section .max-w-\[350px\] {
+    max-width: 250px !important;
   }
   
   /* 卡片内边距调整 */
   .p-7 {
-    padding: 1.5rem !important;
+    padding: 1.25rem !important;
   }
   
   /* 聊天消息气泡内边距调整 */
   .px-5 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
   }
   
   .py-3 {
-    padding-top: 0.6rem !important;
-    padding-bottom: 0.6rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
   }
   
   /* 热门问题按钮内边距调整 */
   .px-4 {
-    padding-left: 0.8rem !important;
-    padding-right: 0.8rem !important;
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
   }
   
   /* 主页标题大小调整 */
-  h2.text-4xl.sm\:text-5xl.md\:text-6xl {
-    font-size: 3rem !important;
-    line-height: 1.2 !important;
+  h2.text-4xl.sm\:text-5xl.md\:text-6xl,
+  .text-4xl.sm\:text-5xl.md\:text-6xl {
+    font-size: 2.6rem !important;
+    line-height: 1.1 !important;
   }
   
   /* 首页卡片网格调整 */
   .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
-    gap: 1rem !important;
+    gap: 0.85rem !important;
   }
   
   /* 特性卡片内边距调整 */
   .md\:px-8.md\:pt-8.md\:pb-4 {
-    padding: 1.25rem !important;
+    padding: 1.1rem !important;
+  }
+  
+  /* 强制聊天消息容器宽度减小 */
+  .max-w-lg {
+    max-width: 28rem !important;
   }
 }
