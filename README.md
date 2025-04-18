@@ -164,3 +164,36 @@ node scripts/generate-email-config.js
 
 ## 许可证
 本项目采用MIT许可证 - 详见 [LICENSE](LICENSE) 文件
+
+## 故障排除
+
+### 硅基流动API调用问题
+
+如果在调用硅基流动的DeepSeek API时遇到问题，可以尝试以下解决方案：
+
+1. **简化请求参数**：
+   - 确保使用最简单的参数结构，只包含必要的字段（model、messages、temperature）
+   - 移除非必要参数如`max_tokens`、`stream`等
+   - 对于messages数组，可以只包含用户消息：`[{role: "user", content: "你的问题"}]`
+
+2. **验证API URL**：
+   - 确保使用正确的API URL: `https://api.siliconflow.cn/v1/chat/completions`
+   - 不要在URL后面添加额外的路径
+
+3. **检查API密钥**：
+   - 确保API密钥格式正确，以`sk-`开头
+   - 在Authorization头中使用Bearer格式: `Bearer YOUR_API_KEY`
+   - 验证API密钥未过期或被撤销（可使用curl命令测试）
+
+4. **调试技巧**：
+   - 使用curl命令直接测试API调用，例如：
+     ```bash
+     curl -X POST https://api.siliconflow.cn/v1/chat/completions \
+       -H "Content-Type: application/json" \
+       -H "Authorization: Bearer YOUR_API_KEY" \
+       -d '{"model": "deepseek-ai/DeepSeek-R1", "messages": [{"role": "user", "content": "你好"}]}'
+     ```
+   - 添加详细的日志记录，跟踪请求参数、响应状态码和响应内容
+   - 检查网络连接，确保服务器可以访问硅基流动API
+
+如果问题仍然存在，可以联系硅基流动的客服支持获取更多帮助。
