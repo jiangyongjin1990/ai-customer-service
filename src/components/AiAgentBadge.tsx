@@ -1,5 +1,4 @@
 import React from 'react';
-import { MdOutlineSmartToy } from 'react-icons/md';
 
 /**
  * @description AI Agent 标签组件，显示为小角标，无图标，字体更小
