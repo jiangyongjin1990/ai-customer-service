@@ -33,11 +33,13 @@ const NavbarContent = () => {
   // 检测滚动来改变导航栏样式
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       setScrolled(scrollTop > 10);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // 初始检查
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -82,7 +84,7 @@ const NavbarContent = () => {
     OBackdropFilter: 'none',
     borderBottom: '1px solid rgba(255, 255, 255, 0)', // 透明边框
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0)', // 透明阴影
-    zIndex: 100
+    zIndex: 9999
   } as React.CSSProperties;
 
   const glassStyle = {
@@ -91,14 +93,14 @@ const NavbarContent = () => {
     top: 0,
     left: 0, 
     right: 0,
-    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 0.01) 100%)',
+    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 70%, rgba(255, 255, 255, 0.7) 100%)',
     backdropFilter: 'blur(15px)',
     WebkitBackdropFilter: 'blur(15px)',
     MozBackdropFilter: 'blur(15px)',
     OBackdropFilter: 'blur(15px)',
     borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.03)',
-    zIndex: 100
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+    zIndex: 9999
   } as React.CSSProperties;
 
   return (
@@ -122,7 +124,7 @@ const NavbarContent = () => {
       )}
       
       <nav
-        className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'shadow-md' : ''}`}
+        className={`fixed w-full top-0 left-0 right-0 z-[9999] transition-all duration-500 ${scrolled ? 'shadow-md' : ''}`}
         style={scrolled ? glassStyle : initialStyle}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
