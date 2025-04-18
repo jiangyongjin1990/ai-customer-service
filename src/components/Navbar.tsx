@@ -307,10 +307,9 @@ const NavbarContent = () => {
                   </div>
                   <div className="p-6 border-t border-gray-200">
                     <div className="grid grid-cols-1 gap-6">
-                      <Link
-                        href="/demo"
+                      <button
+                        onClick={handleTrialClick}
                         className="col-span-1 px-4 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-base font-medium shadow-sm flex items-center justify-center whitespace-nowrap transform hover:scale-105 hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600"
-                        onClick={handleNavLinkClick}
                       >
                         <span>免费试用</span>
                         <svg
@@ -326,7 +325,7 @@ const NavbarContent = () => {
                             d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
                           />
                         </svg>
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </div>

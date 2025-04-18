@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import TrialModal from './TrialModal';
 
 /**
  * CTA部分组件，显示主标题、副标题和行动按钮
  */
 const CTASection = () => {
+  const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
+
+  const handleTrialClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsTrialModalOpen(true);
+  };
+
+  const closeTrialModal = () => {
+    setIsTrialModalOpen(false);
+  };
+
   return (
     <section className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-gray-50">
       {/* 背景装饰元素 */}
@@ -43,15 +55,23 @@ const CTASection = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Link href="/contact" className="water-ripple px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
-              预约演示
+            <Link href="/online-experience" className="water-ripple px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
+              线上体验
             </Link>
-            <Link href="/test" className="water-ripple px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300">
+            <button 
+              onClick={handleTrialClick}
+              className="water-ripple px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300"
+            >
               免费试用
-            </Link>
+            </button>
           </motion.div>
         </div>
       </div>
+
+      {/* 免费试用弹窗 */}
+      {isTrialModalOpen && (
+        <TrialModal isOpen={isTrialModalOpen} onClose={closeTrialModal} />
+      )}
     </section>
   );
 };

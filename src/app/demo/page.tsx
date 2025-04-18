@@ -185,7 +185,40 @@ function ChatDemo() {
         }}
       >
         <div className="w-full max-w-5xl flex gap-8 px-4 h-full">
-          {/* 聊天区 */}
+          {/* 左侧信息区 - 原来在右侧 */}
+          <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
+            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6 h-48">
+              <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
+                <span>DeepSeek驱动的客服</span>
+                <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
+              </div>
+              <ul className="text-gray-700 text-sm space-y-2 pl-2">
+                <li>• 7x24小时自动响应客户咨询</li>
+                <li>• 支持多平台集成</li>
+                <li>• 智能分析客户意图和情绪</li>
+              </ul>
+            </div>
+            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7">
+              <div className="font-bold text-gray-800 text-base mb-3">示例问题</div>
+              <p className="text-gray-600 text-xs mb-4">点击下方问题，快速开始咨询体验</p>
+              <div className="flex flex-col gap-3">
+                {exampleQuestions.map((q, i) => (
+                  <button
+                    key={i}
+                    className="text-left px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all flex items-center"
+                    onClick={() => handleExampleClick(q)}
+                  >
+                    <svg className="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* 聊天区 - 原来在左侧 */}
           <div className="flex-1 flex flex-col h-full">
             <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/80 backdrop-blur-md p-0 flex flex-col h-full">
               {/* 聊天头部 */}
@@ -309,34 +342,6 @@ function ChatDemo() {
                     <FiSend className="w-5 h-5" />
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-          {/* 右侧信息区 */}
-          <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
-            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6 h-48">
-              <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
-                <span>DeepSeek驱动的客服</span>
-                <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
-              </div>
-              <ul className="text-gray-700 text-sm space-y-2 pl-2">
-                <li>• 7x24小时自动响应客户咨询</li>
-                <li>• 支持多平台集成</li>
-                <li>• 智能分析客户意图和情绪</li>
-              </ul>
-            </div>
-            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7">
-              <div className="font-bold text-gray-800 text-base mb-3">示例问题</div>
-              <div className="flex flex-col gap-3">
-                {exampleQuestions.map((q, i) => (
-                  <button
-                    key={i}
-                    className="text-left px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all"
-                    onClick={() => handleExampleClick(q)}
-                  >
-                    {q}
-                  </button>
-                ))}
               </div>
             </div>
           </div>
