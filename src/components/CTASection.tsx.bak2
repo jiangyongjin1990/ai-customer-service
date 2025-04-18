@@ -1,37 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import TrialModal from './TrialModal';
 
 /**
  * CTA部分组件，显示主标题、副标题和行动按钮
  */
 const CTASection = () => {
-  const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
-
-  const handleTrialClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // 立即应用补偿，防止打开时的抖动
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
-    
-    // 对导航栏应用相同的补偿
-    const navbar = document.querySelector('nav');
-    if (navbar && navbar.classList.contains('fixed')) {
-      navbar.style.paddingRight = `${scrollbarWidth}px`;
-    }
-    
-    setIsTrialModalOpen(true);
-  };
-
   return (
     <section className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-gray-50">
-      {/* 试用弹窗 */}
-      <TrialModal isOpen={isTrialModalOpen} onClose={() => setIsTrialModalOpen(false)} />
-      
       {/* 背景装饰元素 */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-[40%] -right-[10%] w-[70%] h-[70%] rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 blur-3xl opacity-70"></div>
@@ -67,15 +43,12 @@ const CTASection = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Link href="/demo" className="water-ripple cta-button px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
-              线上体验
+            <Link href="/evolution" className="water-ripple px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
+              预约演示
             </Link>
-            <button 
-              onClick={handleTrialClick}
-              className="water-ripple cta-button px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300"
-            >
+            <Link href="/test" className="water-ripple px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300">
               免费试用
-            </button>
+            </Link>
           </motion.div>
         </div>
       </div>

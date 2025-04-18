@@ -25,13 +25,18 @@ const Navbar = () => {
  */
 const NavbarContent = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  // 初始化为true，确保导航栏始终显示玻璃效果，避免客户端水合问题
+  const [scrolled, setScrolled] = useState(true);
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
   const pathname = usePathname();
   const { setScrollToTop } = useScrollContext();
 
   // 检测滚动来改变导航栏样式
   useEffect(() => {
+    // 立即检查当前滚动位置
+    const scrollTop = window.pageYOffset;
+    setScrolled(scrollTop > 10);
+    
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       setScrolled(scrollTop > 10);
@@ -112,6 +117,7 @@ const NavbarContent = () => {
       )}
       
       <div
+        suppressHydrationWarning
         className={`fixed w-full top-0 z-50 transition-all duration-500`}
         style={scrolled ? glassStyle : initialStyle}
       >

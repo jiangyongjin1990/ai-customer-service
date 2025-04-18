@@ -184,7 +184,62 @@ function ChatDemo() {
         }}
       >
         <div className="w-full max-w-6xl flex gap-6 px-4 h-full">
-          {/* 聊天区 */}
+          {/* 左侧信息区 - 交换位置到左边 */}
+          <div className="w-[400px] flex-shrink-0 flex flex-col gap-5 h-full">
+            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7 mb-2">
+              <div className="font-bold text-gradient-primary text-lg mb-3 flex items-center gap-2">
+                <span>电商智能客服</span>
+                <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
+              </div>
+              <ul className="text-gray-700 text-sm space-y-3 pl-2">
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>7x24小时自动响应客户咨询</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>支持多平台集成(微信、抖音、淘宝等)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>智能分析客户购物意图和情绪</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>订单查询、物流追踪、售后服务一体化</span>
+                </li>
+              </ul>
+            </div>
+            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7">
+              <div className="font-bold text-gray-800 text-base mb-3 flex items-center">
+                <span>热门问题</span>
+                <div className="ml-2 px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded-md font-normal">
+                  点击问题可自动填入👇
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                {exampleQuestions.map((q, i) => (
+                  <button
+                    key={i}
+                    className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 text-gray-700 text-sm font-medium transition-all duration-300 border border-gray-100 hover:border-[#4e90cc]/30 hover:shadow-sm flex items-center space-x-2 group"
+                    onClick={() => handleExampleClick(q)}
+                  >
+                    <span className="w-6 h-6 rounded-full bg-[#4e90cc]/10 flex items-center justify-center text-[#4e90cc] flex-shrink-0 group-hover:bg-[#4e90cc]/20 transition-all">
+                      {i + 1}
+                    </span>
+                    <span className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">{q}</span>
+                    <span className="text-[#4e90cc] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* 聊天区 - 交换到右边 */}
           <div className="flex-grow flex flex-col h-full">
             <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/90 backdrop-blur-md p-0 flex flex-col h-full hover:shadow-2xl transition-all duration-300">
               {/* 聊天头部 */}
@@ -306,60 +361,6 @@ function ChatDemo() {
                     <FiSend className="w-5 h-5" />
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-          {/* 右侧信息区 */}
-          <div className="w-[350px] flex-shrink-0 flex flex-col gap-5 h-full">
-            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7 mb-2">
-              <div className="font-bold text-gradient-primary text-lg mb-3 flex items-center gap-2">
-                <span>电商智能客服</span>
-                <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
-              </div>
-              <ul className="text-gray-700 text-sm space-y-3 pl-2">
-                <li className="flex items-start">
-                  <span className="text-[#4e90cc] mr-2">•</span>
-                  <span>7x24小时自动响应客户咨询</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#4e90cc] mr-2">•</span>
-                  <span>支持多平台集成(微信、抖音、淘宝等)</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#4e90cc] mr-2">•</span>
-                  <span>智能分析客户购物意图和情绪</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#4e90cc] mr-2">•</span>
-                  <span>订单查询、物流追踪、售后服务一体化</span>
-                </li>
-              </ul>
-            </div>
-            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7">
-              <div className="font-bold text-gray-800 text-base mb-3 flex items-center">
-                <span>热门问题</span>
-                <div className="ml-2 px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded-md font-normal">
-                  点击问题可自动填入👇
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                {exampleQuestions.map((q, i) => (
-                  <button
-                    key={i}
-                    className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 text-gray-700 text-sm font-medium transition-all duration-300 border border-gray-100 hover:border-[#4e90cc]/30 hover:shadow-sm flex items-center space-x-2 group"
-                    onClick={() => handleExampleClick(q)}
-                  >
-                    <span className="w-6 h-6 rounded-full bg-[#4e90cc]/10 flex items-center justify-center text-[#4e90cc] flex-shrink-0 group-hover:bg-[#4e90cc]/20 transition-all">
-                      {i + 1}
-                    </span>
-                    <span className="flex-1">{q}</span>
-                    <span className="text-[#4e90cc] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
-                  </button>
-                ))}
               </div>
             </div>
           </div>

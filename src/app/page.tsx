@@ -130,7 +130,7 @@ export default function Home() {
       <div className="bg-blob-5"></div>
 
       {/* --- Hero Section --- */}
-      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
+      <section className="relative pt-28 pb-6 md:pt-36 md:pb-8 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
         {/* 背景装饰模糊圆形 - 增强毛玻璃效果的视觉层次感 */}
         <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-purple-400/20 rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-blue-400/20 rounded-full filter blur-3xl"></div>
@@ -177,7 +177,7 @@ export default function Home() {
           
           {/* 视频展示区域 */}
           <motion.div
-            className="max-w-lg mx-auto mb-10 glass-card-transition rounded-xl overflow-hidden border border-indigo-100/30 shadow-lg backdrop-blur-sm bg-white/10"
+            className="max-w-lg mx-auto mb-8 glass-card-transition rounded-xl overflow-hidden border border-indigo-100/30 shadow-lg backdrop-blur-sm bg-white/10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35 }}
@@ -215,22 +215,6 @@ export default function Home() {
             </div>
           </motion.div>
           
-          <motion.div 
-            className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Link href="/demo" className="btn-glass group px-5 py-2.5 text-base font-medium flex items-center justify-center">
-              预约演示
-              <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-            <Link href="/demo" className="btn-glass-blue group px-5 py-2.5 text-base font-medium flex items-center justify-center">
-              免费试用
-              <ArrowRightIcon className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-          </motion.div>
-          
           {/* 装饰性浮动图形 */}
           <motion.div 
             className="absolute top-0 -right-20 md:-right-10 lg:right-0 w-48 h-48 opacity-80 pointer-events-none"
@@ -257,7 +241,7 @@ export default function Home() {
       </section>
 
       {/* --- 新增模块：电商客服特性 --- */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
             <div className="inline-flex flex-wrap justify-center items-center">
