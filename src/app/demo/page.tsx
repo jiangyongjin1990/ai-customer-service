@@ -145,12 +145,13 @@ function ChatDemo() {
     textarea.style.height = `${scrollHeight}px`;
   };
 
-  // 示例问题快速提问
+  // 示例问题快速提问 - 更新为电商相关问题
   const exampleQuestions = [
-    "智能客服有哪些功能？",
-    "定价方案是怎样的？",
-    "能否处理多语言支持？",
-    "如何集成到我的网站？"
+    "这款连衣裙有什么颜色和尺码可选？",
+    "我的订单什么时候能发货？",
+    "如何申请退换货？",
+    "有没有优惠券可以使用？",
+    "支持哪些支付方式？"
   ];
   
   const handleExampleClick = (question: string) => {
@@ -168,9 +169,9 @@ function ChatDemo() {
   };
   
   return (
-    <div className="min-h-screen bg-[#f7f8fa] flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-purple-50/30 flex flex-col overflow-hidden">
       {/* 顶栏 - 固定在顶部 */}
-      <div className="fixed top-0 left-0 right-0 z-10 bg-white shadow-sm" style={{height: HEADER_HEIGHT}}>
+      <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100" style={{height: HEADER_HEIGHT}}>
         {/* 顶栏内容 */}
       </div>
       {/* 主内容区 - 固定高度，保持与顶栏和底栏的间距 */}
@@ -184,12 +185,12 @@ function ChatDemo() {
           height: mainContentHeight
         }}
       >
-        <div className="w-full max-w-5xl flex gap-8 px-4 h-full">
+        <div className="w-full max-w-6xl flex gap-8 px-4 h-full">
           {/* 聊天区 */}
           <div className="flex-1 flex flex-col h-full">
-            <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/80 backdrop-blur-md p-0 flex flex-col h-full">
+            <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/90 backdrop-blur-md p-0 flex flex-col h-full hover:shadow-2xl transition-all duration-300">
               {/* 聊天头部 */}
-              <div className="px-8 py-5 bg-gradient-to-r from-gray-50 to-indigo-50/60 flex items-center justify-between shadow-sm">
+              <div className="px-8 py-5 bg-gradient-to-r from-[#4e90cc]/10 to-[#9478f0]/10 flex items-center justify-between shadow-sm">
                 <div className="flex items-center">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4 overflow-hidden">
                     {isLoading ? (
@@ -205,7 +206,7 @@ function ChatDemo() {
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center shadow-md">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] flex items-center justify-center shadow-md">
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
@@ -214,7 +215,7 @@ function ChatDemo() {
                   </div>
                   <div>
                     <div className="font-bold text-lg text-gray-800 flex items-center gap-2">小维智能助手 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">DeepSeek赋能</span></div>
-                    <div className="text-xs text-gray-500 mt-0.5">专业AI客服 · 实时响应</div>
+                    <div className="text-xs text-gray-500 mt-0.5">电商客服专家 · 实时响应</div>
                   </div>
                 </div>
               </div>
@@ -231,9 +232,9 @@ function ChatDemo() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className={`max-w-[300px] px-5 py-3 rounded-3xl shadow-md text-base leading-relaxed break-words ${
+                        className={`max-w-[350px] px-5 py-3 rounded-3xl shadow-md text-base leading-relaxed break-words ${
                           msg.sender === 'user' 
-                            ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white rounded-tr-none' 
+                            ? 'bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-tr-none' 
                             : 'bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none'
                         }`}
                       >
@@ -255,7 +256,7 @@ function ChatDemo() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="max-w-[300px] px-5 py-3 rounded-3xl shadow-md text-base bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none"
+                        className="max-w-[350px] px-5 py-3 rounded-3xl shadow-md text-base bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none"
                       >
                         <div className="flex items-center">
                           <div className="typing-indicator">
@@ -277,14 +278,14 @@ function ChatDemo() {
                 <div ref={endOfMessagesRef} />
               </div>
               {/* 输入区 */}
-              <div className="px-8 py-5 bg-white/80">
+              <div className="px-8 py-5 bg-white/80 backdrop-blur-md border-t border-gray-100">
                 <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300">
                   <div className="flex-1 relative">
                     <textarea
-                      className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400 overflow-y-auto"
+                      className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-[#9478f0]/30 transition-all placeholder-gray-400 overflow-y-auto"
                       rows={1}
                       maxLength={100}
-                      placeholder={isLoading ? "正在生成回复，请稍候..." : "请输入您的问题，按Enter发送..."}
+                      placeholder={isLoading ? "正在生成回复，请稍候..." : "请输入您的咨询内容，按Enter发送..."}
                       value={inputValue}
                       onChange={handleInputChange}
                       onKeyDown={handleKeyPress}
@@ -301,7 +302,7 @@ function ChatDemo() {
                     )}
                   </div>
                   <button
-                    className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-md hover:from-blue-600 hover:to-purple-600 focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                    className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white hover:shadow-md focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
                     onClick={handleSendMessage}
                     disabled={isLoading || !inputValue.trim()}
                     aria-label="发送"
@@ -314,27 +315,43 @@ function ChatDemo() {
           </div>
           {/* 右侧信息区 */}
           <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
-            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6 h-48">
-              <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
-                <span>DeepSeek驱动的客服</span>
+            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7 mb-6">
+              <div className="font-bold text-gradient-primary text-lg mb-3 flex items-center gap-2">
+                <span>电商智能客服</span>
                 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
               </div>
-              <ul className="text-gray-700 text-sm space-y-2 pl-2">
-                <li>• 7x24小时自动响应客户咨询</li>
-                <li>• 支持多平台集成</li>
-                <li>• 智能分析客户意图和情绪</li>
+              <ul className="text-gray-700 text-sm space-y-3 pl-2">
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>7x24小时自动响应客户咨询</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>支持多平台集成(微信、抖音、淘宝等)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>智能分析客户购物意图和情绪</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-[#4e90cc] mr-2">•</span>
+                  <span>订单查询、物流追踪、售后服务一体化</span>
+                </li>
               </ul>
             </div>
-            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7">
-              <div className="font-bold text-gray-800 text-base mb-3">示例问题</div>
+            <div className="rounded-3xl bg-white/90 shadow-xl border border-gray-100 p-7">
+              <div className="font-bold text-gray-800 text-base mb-4">热门问题</div>
               <div className="flex flex-col gap-3">
                 {exampleQuestions.map((q, i) => (
                   <button
                     key={i}
-                    className="text-left px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all"
+                    className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 text-gray-700 text-sm font-medium transition-all duration-300 border border-gray-100 hover:border-[#4e90cc]/30 hover:shadow-sm flex items-center space-x-2"
                     onClick={() => handleExampleClick(q)}
                   >
-                    {q}
+                    <span className="w-5 h-5 rounded-full bg-[#4e90cc]/10 flex items-center justify-center text-[#4e90cc] flex-shrink-0">
+                      {i + 1}
+                    </span>
+                    <span>{q}</span>
                   </button>
                 ))}
               </div>
