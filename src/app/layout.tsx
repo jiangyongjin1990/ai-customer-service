@@ -21,6 +21,24 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <head>
+        {/* 主题切换脚本 - 在页面加载前应用正确的主题，避免闪烁 */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+          (function() {
+            // 检查本地存储的主题
+            const savedTheme = localStorage.getItem('theme');
+            // 检查系统偏好
+            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // 如果本地存储有主题设置或系统偏好是暗色模式，则应用暗色模式
+            if (savedTheme === 'dark' || (savedTheme === null && prefersDarkMode)) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+          })();
+          `
+        }} />
         <script dangerouslySetInnerHTML={{
           __html: `
           (function() {
@@ -71,7 +89,7 @@ export default function RootLayout({
           `
         }} />
       </head>
-      <body className={`${fontClassSans} ${fontClassMono} antialiased scale-screen`}>
+      <body className={`${fontClassSans} ${fontClassMono} antialiased scale-screen dark:bg-gray-900 dark:text-white`}>
         <Toaster position="top-center" />
         <Navbar />
         <main className="flex-grow pt-20">
