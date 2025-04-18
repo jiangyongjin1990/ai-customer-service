@@ -6,6 +6,8 @@ type DialogueHistory = {
   messages: Array<{role: string, content: string}>;
   lastIntent?: string;
   lastEntities?: string[];
+  lastKeywords?: string[];  // 添加关键词记忆
+  lastTopic?: string;      // 添加主题记忆
   lastUpdateTime: number;
 };
 
@@ -64,12 +66,19 @@ export async function POST(req: NextRequest) {
       console.log('[DeepSeek-Test] API KEY前几位:', API_KEY.substring(0, 8) + '...');
       
       // 进行意图识别
-      const intentAnalysis = await analyzeIntent(userMessage, dialogueHistory.lastIntent);
+      const intentAnalysis = await analyzeIntent(
+        userMessage, 
+        dialogueHistory.lastIntent,
+        dialogueHistory.lastKeywords,
+        dialogueHistory.lastTopic
+      );
       
       // 更新对话历史
       dialogueHistory.messages.push({ role: 'user', content: userMessage });
       dialogueHistory.lastIntent = intentAnalysis.currentIntent;
       dialogueHistory.lastEntities = intentAnalysis.entities;
+      dialogueHistory.lastKeywords = intentAnalysis.keywords;
+      dialogueHistory.lastTopic = intentAnalysis.topic;
       
       // 构建消息上下文
       const messages = [
@@ -100,6 +109,7 @@ export async function POST(req: NextRequest) {
 - 避免使用过于规范化的客服模板用语
 
 当前用户咨询的主题是：${intentAnalysis.currentIntent}
+${intentAnalysis.topic ? `用户正在讨论的主题: ${intentAnalysis.topic}` : ''}
 ${intentAnalysis.entities.length > 0 ? `用户提到的关键信息：${intentAnalysis.entities.join(', ')}` : ''}
 ${intentAnalysis.followsPrevious ? '注意：用户在延续之前的对话，请保持上下文连贯性' : ''}
 
@@ -215,9 +225,22 @@ function cleanupExpiredDialogues() {
  * 分析用户意图和提取实体
  * @param message - 用户消息
  * @param previousIntent - 上一个意图
+ * @param previousKeywords - 上一次对话的关键词
+ * @param previousTopic - 上一次对话的主题
  * @returns 意图分析结果
  */
-async function analyzeIntent(message: string, previousIntent?: string): Promise<{currentIntent: string, entities: string[], followsPrevious: boolean}> {
+async function analyzeIntent(
+  message: string, 
+  previousIntent?: string,
+  previousKeywords?: string[],
+  previousTopic?: string
+): Promise<{
+  currentIntent: string, 
+  entities: string[], 
+  followsPrevious: boolean,
+  keywords: string[],
+  topic: string
+}> {
   // 简单的意图识别逻辑
   const intentPatterns = {
     greeting: /(你好|早上好|下午好|晚上好|嗨|您好)/i,
@@ -228,12 +251,16 @@ async function analyzeIntent(message: string, previousIntent?: string): Promise<
     complaint: /(投诉|不满|差评|不好|服务差|态度|问题|垃圾|欺骗|虚假|骗人)/i,
     account: /(账号|密码|登录|注册|绑定|手机号|邮箱|个人信息|会员)/i,
     promotion: /(活动|优惠|促销|打折|秒杀|特价|满减|积分|抽奖|赠品)/i,
+    food: /(食物|食品|菜品|菜单|点餐|吃|做|料理|烹饪|煮|炒|烤|炸|食材|食谱|怎么做|怎么煮|菜谱|美食)/i,
     other: /(.*)/i // 兜底
   };
 
   let currentIntent = 'other';
   let entities: string[] = [];
   let followsPrevious = false;
+  let keywords: string[] = previousKeywords || [];
+  let newKeywords: string[] = [];
+  let topic = previousTopic || '';
 
   // 识别主要意图
   for (const [intent, pattern] of Object.entries(intentPatterns)) {
@@ -243,31 +270,93 @@ async function analyzeIntent(message: string, previousIntent?: string): Promise<
     }
   }
 
-  // 提取可能的实体
+  // 提取可能的实体和关键词
   // 订单号
   const orderNumberMatch = message.match(/订单[号码]?[:\s：]?\s*([A-Za-z0-9]{5,})/);
   if (orderNumberMatch) entities.push(`orderNumber:${orderNumberMatch[1]}`);
   
   // 商品名
   const productMatch = message.match(/([^，。？！,.?!]{2,10}[商品产品货物])/);
-  if (productMatch) entities.push(`product:${productMatch[1]}`);
+  if (productMatch) {
+    entities.push(`product:${productMatch[1]}`);
+    newKeywords.push(productMatch[1]);
+  }
+  
+  // 食物或菜品名称
+  const foodMatch = message.match(/([^，。？！,.?!]{1,10}(饭|面|粥|汤|菜|豆腐|肉|鱼|虾|蟹|鸡|鸭|鹅|羊|牛|猪))/g);
+  if (foodMatch) {
+    foodMatch.forEach(food => {
+      entities.push(`food:${food}`);
+      newKeywords.push(food);
+      if (!topic) topic = food; // 如果还没有主题，将第一个食物设为主题
+    });
+  }
+  
+  // 特殊情况：麻婆豆腐检测
+  if (message.includes('麻婆豆腐') || message.includes('麻辣豆腐')) {
+    entities.push('food:麻婆豆腐');
+    newKeywords.push('麻婆豆腐');
+    topic = '麻婆豆腐';
+    currentIntent = 'food';
+  }
   
   // 判断是否是接着上一个意图在问
   const continuationPhrases = /(它|这个|那个|他们|另外|还有|然后|其他|继续|接着|还是|也|同样|那么|另一个|除此之外|顺便问一下)/i;
-  if (previousIntent && continuationPhrases.test(message)) {
-    followsPrevious = true;
+  const questionWithoutContext = /(能|可以|应该|怎么|如何|是否|需要|什么|啥|谁|哪|几|多久|多长时间|为什么|为啥)/i;
+  
+  // 检查是否存在上下文延续
+  if (previousIntent) {
+    // 短问题可能是在延续上下文
+    if (message.length < 15 && questionWithoutContext.test(message)) {
+      followsPrevious = true;
+    }
+    // 包含延续词
+    else if (continuationPhrases.test(message)) {
+      followsPrevious = true;
+    }
+    // 包含之前提到的关键词
+    else if (previousKeywords && previousKeywords.length > 0) {
+      for (const keyword of previousKeywords) {
+        if (message.includes(keyword)) {
+          followsPrevious = true;
+          break;
+        }
+      }
+    }
+    // 菜品/食物的具体做法询问
+    else if (previousTopic && 
+            (message.includes('放') || 
+             message.includes('加') || 
+             message.includes('怎么') || 
+             message.includes('可以') || 
+             message.includes('需要') ||
+             message.includes('用') ||
+             message.includes('能'))) {
+      followsPrevious = true;
+      currentIntent = 'food';
+    }
   }
   
   // 如果是继续上一个意图但没识别出新意图，保持上一个意图
-  if (followsPrevious && currentIntent === 'other' && previousIntent) {
+  if (followsPrevious && (currentIntent === 'other' || !newKeywords.length) && previousIntent) {
     currentIntent = previousIntent;
+    
+    // 如果没有识别出新的关键词但延续了上下文，保留之前的主题
+    if (previousTopic && !topic) {
+      topic = previousTopic;
+    }
   }
   
-  console.log(`[DeepSeek-Test] 意图分析: ${currentIntent}, 实体: ${entities.join(', ')}, 延续上下文: ${followsPrevious}`);
+  // 合并关键词
+  keywords = [...new Set([...newKeywords, ...keywords])].slice(0, 5);
+  
+  console.log(`[DeepSeek-Test] 意图分析: ${currentIntent}, 实体: ${entities.join(', ')}, 主题: ${topic}, 延续上下文: ${followsPrevious}`);
   
   return {
     currentIntent,
     entities,
-    followsPrevious
+    followsPrevious,
+    keywords,
+    topic
   };
 } 
