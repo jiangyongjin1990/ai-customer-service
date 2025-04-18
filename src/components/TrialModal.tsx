@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { XMarkIcon, CheckCircleIcon, StarIcon, SparklesIcon, ArrowRightIcon, BoltIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon } from '@heroicons/react/24/outline';
-import { toast } from 'react-hot-toast';
 
 interface TrialModalProps {
   isOpen: boolean;
@@ -64,10 +63,10 @@ export default function TrialModal({ isOpen, onClose }: TrialModalProps) {
       // TODO: 实际的表单提交逻辑
       await new Promise(resolve => setTimeout(resolve, 1000));
       setIsSuccess(true);
-      toast.success('提交成功，我们将尽快与您联系');
+      console.log('提交成功，我们将尽快与您联系');
       setIsSubmitting(false);
     } catch (error) {
-      toast.error('提交失败，请稍后重试');
+      console.error('提交失败，请稍后重试');
       setIsSubmitting(false);
     }
   };
