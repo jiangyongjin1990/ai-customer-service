@@ -1,0 +1,944 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --screen-scale: 1;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+@layer utilities {
+  .font-sans {
+    font-family: var(--font-sans);
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --glass-bg: rgba(10, 10, 10, 0.7);
+    --glass-border: rgba(50, 50, 50, 0.3);
+    --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--background-start-rgb), 1),
+    rgba(var(--background-end-rgb), 1)
+  );
+  min-height: 100vh;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(153, 51, 255, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(0, 204, 154, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(255, 51, 153, 0.05) 0%, transparent 25%);
+  background-attachment: fixed;
+}
+
+/* 毛玻璃效果类 */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* 玻璃态效果 */
+.glass-card {
+  @apply bg-white/80 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/30 rounded-lg;
+}
+
+/* 科技感边框效果 */
+.tech-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.tech-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(90deg, 
+    var(--peacock-blue), 
+    var(--electric-purple), 
+    var(--cyber-green), 
+    var(--neon-pink)
+  ) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* 现代化的过渡效果 */
+.modern-transition {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 科技感阴影效果 */
+.neon-peacock {
+  box-shadow: var(--tech-shadow-blue);
+}
+
+.neon-purple {
+  box-shadow: var(--tech-shadow-purple);
+}
+
+.neon-green {
+  box-shadow: var(--tech-shadow-green);
+}
+
+/* 对话卡片悬停效果 */
+.chat-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* 玻璃态效果 */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* 渐变文本 */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400;
+}
+
+/* 装饰元素 */
+.blur-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* 悬浮动画效果 */
+.hover-float {
+  transition: transform 0.3s ease;
+}
+
+.hover-float:hover {
+  transform: translateY(-8px);
+}
+
+/* 按钮过渡效果 */
+.button-transition {
+  transition: all 0.3s ease;
+}
+
+.button-transition:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* 堆叠卡片样式 */
+.stacked-cards {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.stacked-card {
+  position: absolute;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.stacked-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* 聊天消息样式 */
+.chat-message {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 1rem;
+  margin-bottom: 10px;
+}
+
+.chat-message-ai {
+  background-color: rgb(243, 244, 246);
+  border-top-left-radius: 0;
+}
+
+.chat-message-user {
+  background: linear-gradient(to right, #3b82f6, #10b981);
+  color: white;
+  border-top-right-radius: 0;
+  align-self: flex-end;
+}
+
+/* 自定义组件样式 */
+@layer components {
+  /* 响应式容器 */
+  .responsive-container {
+    @apply container mx-auto px-4 md:px-6 lg:px-8;
+  }
+
+  /* 玻璃卡片效果 */
+  .glass-card {
+    @apply bg-white/80 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/30 rounded-lg;
+  }
+
+  /* 装饰圆形元素 */
+  .decorative-circle {
+    @apply absolute w-96 h-96 rounded-full blur-3xl opacity-40 -z-10;
+  }
+
+  /* 渐变按钮 */
+  .gradient-button {
+    @apply px-6 py-3 font-medium text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-md hover:shadow-lg transition-all duration-300;
+  }
+  
+  /* 轮廓按钮 */
+  .outline-button {
+    @apply px-6 py-3 font-medium text-gray-700 dark:text-gray-300 rounded-full border border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300;
+  }
+
+  /* 渐变文本 */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400;
+  }
+
+  /* 高亮标记 */
+  .highlight-mark {
+    @apply relative inline-block;
+  }
+
+  .highlight-mark::after {
+    content: '';
+    @apply absolute w-full h-3 bg-yellow-300/30 dark:bg-yellow-500/20 bottom-1 left-0 -z-10 rounded;
+  }
+
+  /* 现代卡片 */
+  .modern-card {
+    @apply p-6 rounded-2xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  /* 特性卡片 */
+  .feature-card {
+    @apply p-6 rounded-xl bg-white dark:bg-gray-800 shadow-md hover:shadow-lg border-l-4 border-blue-500 transition-all duration-300;
+  }
+
+  /* 图标背景 */
+  .icon-bg {
+    @apply w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400;
+  }
+}
+
+/* 动画效果 */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* 渐变文本类 */
+.text-gradient-primary {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .text-gradient-primary {
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* 添加自定义脉冲动画 */
+@keyframes custom-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+}
+
+.custom-pulse {
+  animation: custom-pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* 水波动画效果 */
+@keyframes shimmer {
+  0% {
+    opacity: 0.02;
+    background-position: -100% 0;
+  }
+  10% {
+    opacity: 0.07;
+  }
+  30% {
+    opacity: 0.05;
+  }
+  70% {
+    opacity: 0.07;
+  }
+  100% {
+    opacity: 0.02;
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 6s ease-in-out infinite;
+  background-size: 200% 100%;
+}
+
+/* 水波纹效果 */
+.water-ripple {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  z-index: 1;
+}
+
+.water-ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: width 0.5s ease, height 0.5s ease;
+  z-index: -1;
+}
+
+.water-ripple:hover::before {
+  width: 200%;
+  height: 200%;
+}
+
+.water-ripple:active::before {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 水波文字动画效果 */
+@keyframes wave-text {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-wave-text {
+  background: linear-gradient(
+    90deg,
+    #3b82f6 0%,
+    #8b5cf6 25%,
+    #ec4899 50%,
+    #8b5cf6 75%,
+    #3b82f6 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: wave 3s linear infinite;
+}
+
+/* DeepSeek高亮底纹效果 */
+.deepseek-highlight {
+  position: relative;
+  display: inline-block;
+  color: #0070f3;
+  font-weight: 700;
+  background: linear-gradient(90deg, #0070f3, #6200ea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2px;
+  padding: 0 2px;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 1px rgba(0, 112, 243, 0.2);
+}
+
+.deepseek-highlight:hover {
+  text-shadow: 0 0 2px rgba(0, 112, 243, 0.4);
+  transform: translateY(-1px);
+}
+
+.deepseek-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #0070f3, #6200ea);
+  transform: scaleX(0.7);
+  transform-origin: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.7;
+  border-radius: 4px;
+}
+
+.deepseek-highlight:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* 波浪动画关键帧 */
+@keyframes wave {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* 自定义滚动条样式 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(203, 213, 225, 0.7);
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.8);
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(241, 245, 249, 0.3);
+  border-radius: 6px;
+}
+
+/* 打字指示器动画 */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+  padding: 4px 8px;
+}
+
+.typing-indicator span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: #4f46e5;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: typing-bubble 1.4s infinite ease-in-out both;
+  box-shadow: 0 0 8px rgba(79, 70, 229, 0.3);
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-bubble {
+  0%, 80%, 100% {
+    transform: scale(0.4);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+/* 屏幕分辨率适配 - 缩放比例调整（加强版） */
+@media only screen and (width: 1920px), 
+       only screen and (width: 1920px) and (height: 1080px) {
+  html body, 
+  html:where(html) body,
+  html body:where(body) {
+    transform: scale(0.8) !important;
+    transform-origin: top center !important;
+    min-height: 125vh !important;
+    width: 125% !important;
+    margin-left: -12.5% !important;
+    max-width: none !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+  }
+  
+  /* 确保所有根容器元素也有正确的宽度 */
+  #__next, 
+  [data-nextjs-root],
+  main,
+  .main-container,
+  .max-w-7xl,
+  .container {
+    max-width: none !important;
+    width: 100% !important;
+  }
+  
+  /* 修复可能的布局问题 */
+  .gradient-bg,
+  .glass-morphism,
+  .glass-frost {
+    width: 100% !important;
+    overflow: visible !important;
+  }
+}
+
+/* 2K屏幕 (2560×1440)，整体放大25% */
+@media only screen and (min-width: 2000px) and (max-width: 2999px) {
+  html body,
+  html:where(html) body {
+    transform: scale(1.25) !important;
+    transform-origin: top center !important;
+    min-height: 80vh !important; /* 补偿放大造成的高度变化 */
+    width: 80% !important; /* 补偿宽度 */
+    margin: 0 auto !important; /* 居中 */
+  }
+}
+
+/* 4K屏幕 (3840×2160)，整体放大75% */
+@media only screen and (min-width: 3000px) {
+  html body,
+  html:where(html) body {
+    transform: scale(1.75) !important;
+    transform-origin: top center !important;
+    min-height: 57.14vh !important; /* 补偿放大造成的高度变化 */
+    width: 57.14% !important; /* 补偿宽度 */
+    margin: 0 auto !important; /* 居中 */
+  }
+}
+
+/* 开发环境测试用类 */
+body.test-1080p {
+  transform: scale(0.8) !important;
+  transform-origin: top center !important;
+  min-height: 125vh !important; 
+  width: 125% !important;
+  margin-left: -12.5% !important;
+  max-width: none !important;
+  overflow-x: hidden !important;
+}
+
+body.test-2k {
+  transform: scale(1.25) !important;
+  transform-origin: top center !important;
+  min-height: 80vh !important;
+  width: 80% !important;
+  margin: 0 auto !important;
+}
+
+body.test-4k {
+  transform: scale(1.75) !important;
+  transform-origin: top center !important;
+  min-height: 57.14vh !important;
+  width: 57.14% !important;
+  margin: 0 auto !important;
+}
+
+/* 为1080p的媒体查询添加更强的选择器以确保优先级 */
+@media screen and (width: 1920px) and (height: 1080px) {
+  html body, html:where([dir]) body {
+    transform: scale(0.8);
+    transform-origin: top center;
+    min-height: 125vh;
+    width: 125%;
+    margin-left: -12.5%;
+    max-width: none !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* 通过JS添加的屏幕适配类 */
+body.screen-1080p {
+  transform: scale(0.8) !important;
+  transform-origin: top center !important;
+  min-height: 125vh !important;
+  width: 125% !important;
+  margin-left: -12.5% !important;
+  max-width: none !important;
+  overflow-x: hidden !important;
+  position: relative !important;
+}
+
+body.screen-2k {
+  transform: scale(1.25) !important;
+  transform-origin: top center !important;
+  min-height: 80vh !important;
+  width: 80% !important;
+  margin: 0 auto !important;
+}
+
+body.screen-4k {
+  transform: scale(1.75) !important;
+  transform-origin: top center !important;
+  min-height: 57.14vh !important;
+  width: 57.14% !important;
+  margin: 0 auto !important;
+}
+
+/* 通过CSS变量控制缩放 - 备用方法 */
+body[style*="--screen-scale"] {
+  transform: scale(var(--screen-scale)) !important;
+  transform-origin: top center !important;
+}
+
+/* 针对1080p的容器修复 */
+body.screen-1080p #__next, 
+body.screen-1080p [data-nextjs-root],
+body.screen-1080p main,
+body.screen-1080p .main-container,
+body.screen-1080p .max-w-7xl,
+body.screen-1080p .container {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+body.screen-1080p .gradient-bg,
+body.screen-1080p .glass-morphism,
+body.screen-1080p .glass-frost {
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* 固定导航栏容器样式 */
+#fixed-navbar-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 10000 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  height: auto !important;
+}
+
+#main-navbar {
+  position: relative !important;
+  width: 100% !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* 确保所有其他导航栏不可见 */
+.navbar-hidden, 
+[id*="navbar"]:not(#main-navbar):not(#fixed-navbar-container),
+[class*="navbar"]:not(#main-navbar):not(#fixed-navbar-container) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* 媒体查询：1080p分辨率 */
+@media (min-width: 1920px) and (min-height: 1080px) {
+  #fixed-navbar-container {
+    /* 不受页面缩放影响 */
+    transform: none !important;
+  }
+  
+  /* 确保内容不被固定导航栏遮挡 */
+  body {
+    padding-top: 5rem;
+  }
+}
+
+/* 媒体查询：2K分辨率 */
+@media (min-width: 2560px) and (min-height: 1440px) {
+  #fixed-navbar-container {
+    /* 不受页面缩放影响 */
+    transform: none !important;
+  }
+  
+  /* 确保内容不被固定导航栏遮挡 */
+  body {
+    padding-top: 6rem;
+  }
+}
+
+/* 媒体查询：4K分辨率 */
+@media (min-width: 3840px) and (min-height: 2160px) {
+  #fixed-navbar-container {
+    /* 不受页面缩放影响 */
+    transform: none !important;
+  }
+  
+  /* 确保内容不被固定导航栏遮挡 */
+  body {
+    padding-top: 7rem;
+  }
+}
+
+/* 导航栏样式 */
+.navbar-initial {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  -moz-backdrop-filter: none;
+  -o-backdrop-filter: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0);
+  transition: all 0.3s ease;
+}
+
+.navbar-scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  -moz-backdrop-filter: blur(20px);
+  -o-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+/* 导航栏占位符的样式 */
+#navbar-spacer {
+  height: 70px;
+  width: 100%;
+}
+
+/* 1080p适配下的导航栏容器样式 */
+@media screen and (width: 1920px) and (height: 1080px) {
+  #main-navbar > div {
+    max-width: 1500px; /* 1080p下调整容器宽度 */
+  }
+}
+
+/* 2K屏幕下的导航栏容器样式 */
+@media only screen and (min-width: 2000px) and (max-width: 2999px) {
+  #main-navbar > div {
+    max-width: 1920px; /* 2K下调整容器宽度 */
+  }
+}
+
+/* 4K屏幕下的导航栏容器样式 */
+@media only screen and (min-width: 3000px) {
+  #main-navbar > div {
+    max-width: 2560px; /* 4K下调整容器宽度 */
+  }
+}
+
+/* 导航栏重影修复 - 强化CSS规则 */
+body > nav:not(#main-navbar),
+body > header:not(#main-navbar),
+body > div > nav:not(#main-navbar),
+body > div > header:not(#main-navbar),
+body [class*="navbar"]:not(#main-navbar):not(#fixed-navbar-container),
+body [id*="navbar"]:not(#main-navbar):not(#fixed-navbar-container),
+body [class*="header"]:not(#main-navbar):not(#fixed-navbar-container),
+body [role="navigation"]:not(#main-navbar) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -999 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+}
+
+/* 确保固定容器导航栏可见 */
+#fixed-navbar-container,
+#fixed-navbar-container > #main-navbar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+/* 确保固定导航栏覆盖其他元素 */
+#fixed-navbar-container {
+  z-index: 99999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+}
+
+/* 修复可能的溢出问题 */
+html, body {
+  overflow-x: hidden !important;
+}
+
+/* 为被隐藏的导航栏添加更强的隐藏规则 */
+.navbar-hidden {
+  visibility: hidden !important;
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -999 !important;
+  clip: rect(0, 0, 0, 0) !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* 导航栏闪现防止 - 在页面渲染开始就应用 */
+body > *:not(:first-child) > nav,
+body > *:not(:first-child) > header,
+body > *:nth-child(n+2) > [role="navigation"],
+body > nav:nth-child(n+2),
+body > header:nth-child(n+2),
+body > [role="navigation"]:nth-child(n+2),
+nav ~ nav,
+header ~ header,
+[role="navigation"] ~ [role="navigation"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+  clip: rect(0, 0, 0, 0) !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* 确保第一个导航栏被隐藏后，fixed容器中的导航栏可见 */
+#fixed-navbar-container,
+#fixed-navbar-container > *,
+[data-navbar-fixed="true"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 999999 !important;
+}
+
+/* 导航栏动画控制 - 防止加载时闪现 */
+body.js-loading nav,
+body.js-loading header,
+body.js-loading [role="navigation"],
+html.js-loading nav,
+html.js-loading header,
+html.js-loading [role="navigation"] {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* 模态框淡入动画 */
+@keyframes modal-fade-in {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+/* 模态框淡出动画 */
+@keyframes modal-fade-out {
+  from { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  to { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+}
