@@ -1,0 +1,14 @@
+{
+  "salesTeam": [
+    {
+      "id": 1,
+      "name": "东海",
+      "position": "销售负责人",
+      "phone": "15055101186",
+      "email": "",
+      "region": "",
+      "isActive": true
+    }
+  ],
+  "lastUpdated": "2023-11-25"
+} 
