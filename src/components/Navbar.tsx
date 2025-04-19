@@ -30,14 +30,126 @@ const NavbarContent = () => {
   const pathname = usePathname();
   const { setScrollToTop } = useScrollContext();
 
+  // 使用createPortal将导航栏移出缩放区域
+  useEffect(() => {
+    const createFixedContainer = () => {
+      let container = document.getElementById('fixed-navbar-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'fixed-navbar-container';
+        container.style.cssText = `
+          position: fixed !important; 
+          top: 0 !important; 
+          left: 0 !important; 
+          width: 100% !important; 
+          z-index: 10000 !important; 
+          transform: none !important; 
+          pointer-events: auto !important; 
+          height: auto !important;
+        `;
+        
+        // 添加到body前，确保不受缩放影响
+        document.documentElement.insertBefore(container, document.body);
+      }
+      return container;
+    };
+
+    // 将导航栏移动到固定容器
+    const moveNavbarToFixedContainer = () => {
+      const fixedContainer = createFixedContainer();
+      const navbar = document.getElementById('main-navbar');
+      
+      if (navbar && navbar.parentNode !== fixedContainer) {
+        // 克隆导航栏并移动到固定容器
+        const clonedNavbar = navbar.cloneNode(true) as HTMLElement;
+        fixedContainer.innerHTML = ''; // 清空容器
+        fixedContainer.appendChild(clonedNavbar);
+        
+        // 隐藏原始导航栏
+        if (navbar.parentNode) {
+          navbar.style.visibility = 'hidden';
+          navbar.style.pointerEvents = 'none';
+        }
+        
+        // 确保克隆的导航栏使用正确的样式
+        clonedNavbar.style.position = 'relative';
+        clonedNavbar.style.top = '0';
+        clonedNavbar.style.width = '100%';
+        clonedNavbar.style.visibility = 'visible';
+        
+        // 处理点击事件
+        setupNavbarEventHandlers(clonedNavbar);
+      }
+    };
+    
+    // 设置导航栏事件处理
+    const setupNavbarEventHandlers = (navbar: HTMLElement) => {
+      // 处理链接点击
+      navbar.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href) {
+            window.location.href = href;
+            e.preventDefault();
+          }
+        });
+      });
+      
+      // 处理免费试用按钮
+      const trialButton = navbar.querySelector('button');
+      if (trialButton) {
+        trialButton.addEventListener('click', () => {
+          setIsTrialModalOpen(true);
+        });
+      }
+    };
+    
+    // 立即执行一次
+    moveNavbarToFixedContainer();
+    
+    // 监听窗口大小变化和DOM变化
+    window.addEventListener('resize', moveNavbarToFixedContainer);
+    
+    // 监听DOM内容变化，确保导航栏始终在固定容器中
+    const observer = new MutationObserver(() => {
+      moveNavbarToFixedContainer();
+    });
+    
+    observer.observe(document.body, { 
+      childList: true, 
+      subtree: true 
+    });
+    
+    // 清理函数
+    return () => {
+      window.removeEventListener('resize', moveNavbarToFixedContainer);
+      observer.disconnect();
+    };
+  }, [pathname]); // 路径变化时重新执行
+  
   // 检测滚动来改变导航栏样式
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       setScrolled(scrollTop > 10);
+      
+      // 更新克隆的导航栏样式
+      const clonedNavbar = document.querySelector('#fixed-navbar-container #main-navbar');
+      if (clonedNavbar) {
+        if (scrollTop > 10) {
+          clonedNavbar.classList.add('navbar-scrolled');
+          clonedNavbar.classList.remove('navbar-initial');
+        } else {
+          clonedNavbar.classList.add('navbar-initial');
+          clonedNavbar.classList.remove('navbar-scrolled');
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+    // 初始执行一次
+    handleScroll();
+    
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -59,36 +171,47 @@ const NavbarContent = () => {
     document.body.style.paddingRight = `${scrollbarWidth}px`;
     
     // 对导航栏应用相同的补偿
-    const navbar = document.querySelector('nav');
-    if (navbar && navbar.classList.contains('fixed')) {
-      navbar.style.paddingRight = `${scrollbarWidth}px`;
+    const navbar = document.querySelector('#main-navbar');
+    if (navbar) {
+      (navbar as HTMLElement).style.paddingRight = `${scrollbarWidth}px`;
     }
     
     setIsTrialModalOpen(true);
     setIsOpen(false); // 关闭移动端菜单
   };
 
+  // 导航栏固定样式，确保在所有情况下都能吸顶
+  const navbarFixedStyle = {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    zIndex: 10000,
+    transform: 'none'
+  };
+
   // 直接定义内联样式对象
   const initialStyle = {
+    ...navbarFixedStyle,
     background: 'transparent',
     backdropFilter: 'none',
     WebkitBackdropFilter: 'none',
     MozBackdropFilter: 'none',
     OBackdropFilter: 'none',
     borderBottom: '1px solid rgba(255, 255, 255, 0)', // 透明边框
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0)', // 透明阴影
-    zIndex: 100
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0)'
   };
 
   const glassStyle = {
+    ...navbarFixedStyle,
     background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 0.01) 100%)',
     backdropFilter: 'blur(15px)',
     WebkitBackdropFilter: 'blur(15px)',
     MozBackdropFilter: 'blur(15px)',
     OBackdropFilter: 'blur(15px)',
     borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.03)',
-    zIndex: 100
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.03)'
   };
 
   return (
@@ -101,9 +224,9 @@ const NavbarContent = () => {
             document.body.style.overflow = '';
             document.body.style.paddingRight = '';
             
-            const navbar = document.querySelector('nav');
+            const navbar = document.querySelector('#main-navbar');
             if (navbar) {
-              navbar.style.paddingRight = '';
+              (navbar as HTMLElement).style.paddingRight = '';
             }
             
             setIsTrialModalOpen(false);
@@ -111,12 +234,16 @@ const NavbarContent = () => {
         />
       )}
       
-      <div
-        className={`fixed w-full top-0 z-50 transition-all duration-500`}
+      <nav
+        id="main-navbar"
+        data-navbar-component="true"
+        className={`w-full h-[70px] ${
+          scrolled ? 'navbar-scrolled' : 'navbar-initial'
+        }`}
         style={scrolled ? glassStyle : initialStyle}
       >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
-          <div className="flex items-center justify-between py-3 md:py-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full">
+          <div className="flex items-center justify-between py-3 md:py-4 h-full">
             <div className="flex items-center pl-4 md:pl-6">
               <Link href="/" className="flex items-center" onClick={handleNavLinkClick}>
                 <span className="sr-only">维普特AI</span>
@@ -129,44 +256,46 @@ const NavbarContent = () => {
               </Link>
             </div>
               
-            <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 space-x-10">
-              <Link
-                href="/"
-                className={`text-lg font-bold flex items-center px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
-                  pathname === '/' 
-                    ? 'text-[#4e90cc] animate-wave-text' 
-                    : 'text-gray-700 hover:text-[#4e90cc]'
-                }`}
-                onClick={handleNavLinkClick}
-              >
-                <span>智能客服</span>
-              </Link>
+            <div className="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
+              <div className="flex space-x-10">
+                <Link
+                  href="/"
+                  className={`text-lg font-bold flex items-center px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+                    pathname === '/' 
+                      ? 'text-[#4e90cc] animate-wave-text' 
+                      : 'text-gray-700 hover:text-[#4e90cc]'
+                  }`}
+                  onClick={handleNavLinkClick}
+                >
+                  <span>智能客服</span>
+                </Link>
 
-              <Link
-                href="/pricing"
-                className={`text-lg font-bold px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
-                  pathname === '/pricing' 
-                    ? 'text-[#4e90cc] animate-wave-text' 
-                    : 'text-gray-700 hover:text-[#4e90cc]'
-                }`}
-                onClick={handleNavLinkClick}
-              >
-                产品价格
-              </Link>
+                <Link
+                  href="/pricing"
+                  className={`text-lg font-bold px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+                    pathname === '/pricing' 
+                      ? 'text-[#4e90cc] animate-wave-text' 
+                      : 'text-gray-700 hover:text-[#4e90cc]'
+                  }`}
+                  onClick={handleNavLinkClick}
+                >
+                  产品价格
+                </Link>
 
-              <Link
-                href="/demo"
-                className={`text-lg font-bold px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
-                  pathname === '/demo' 
-                    ? 'text-[#4e90cc] animate-wave-text' 
-                    : 'text-gray-700 hover:text-[#4e90cc]'
-                }`}
-                onClick={handleNavLinkClick}
-              >
-                线上体验
-                <span className="ml-1 px-1.5 py-0.5 text-[8px] font-semibold bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top" style={{lineHeight: '1.1'}}>AI Agent</span>
-              </Link>
-            </nav>
+                <Link
+                  href="/demo"
+                  className={`text-lg font-bold px-3 py-2 rounded-lg transition-all duration-300 water-ripple ${
+                    pathname === '/demo' 
+                      ? 'text-[#4e90cc] animate-wave-text' 
+                      : 'text-gray-700 hover:text-[#4e90cc]'
+                  }`}
+                  onClick={handleNavLinkClick}
+                >
+                  线上体验
+                  <span className="ml-1 px-1.5 py-0.5 text-[8px] font-semibold bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top" style={{lineHeight: '1.1'}}>AI Agent</span>
+                </Link>
+              </div>
+            </div>
             
             <div className="-mr-2 -my-2 md:hidden">
               <button
@@ -216,12 +345,16 @@ const NavbarContent = () => {
             </div>
           </div>
         </div>
+      </nav>
 
-        {/* 移动端菜单 */}
-        <div
-          className={`${
-            isOpen ? "fixed inset-0 overflow-hidden" : "hidden"
-          } md:hidden top-0 z-50`}
+      {/* 占位元素 - 与导航栏高度相同，防止内容被导航栏遮挡 */}
+      <div className="h-[70px] w-full" id="navbar-spacer"></div>
+
+      {/* 移动端菜单 */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 overflow-hidden z-50 md:hidden"
+          style={{ position: 'fixed', zIndex: 10001 }}
         >
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={() => setIsOpen(false)} />
@@ -337,7 +470,7 @@ const NavbarContent = () => {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
