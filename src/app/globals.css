@@ -1,11 +1,36 @@
 @import "tailwindcss";
 
+/* 重置样式，不再使用全局缩放 */
 html, body {
-  transform: scale(0.8);
-  transform-origin: 0 0;
-  width: 125%; /* 1/0.8 = 1.25，设置宽度补偿缩放导致的空白 */
-  height: auto;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--background-start-rgb), 1),
+    rgba(var(--background-end-rgb), 1)
+  );
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(153, 51, 255, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(0, 204, 154, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(255, 51, 153, 0.05) 0%, transparent 25%);
+  background-attachment: fixed;
+}
+
+main {
+  flex: 1;
+}
+
+body::after {
+  content: "";
+  display: block;
+  height: 1px; /* 防止页面底部出现大量空白 */
+  margin-bottom: -1px;
 }
 
 :root {
@@ -31,22 +56,6 @@ html, body {
     --glass-border: rgba(50, 50, 50, 0.3);
     --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--background-start-rgb), 1),
-    rgba(var(--background-end-rgb), 1)
-  );
-  min-height: 100vh;
-  position: relative;
-  background-image: 
-    radial-gradient(circle at 15% 50%, rgba(153, 51, 255, 0.08) 0%, transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(0, 204, 154, 0.08) 0%, transparent 25%),
-    radial-gradient(circle at 50% 80%, rgba(255, 51, 153, 0.05) 0%, transparent 25%);
-  background-attachment: fixed;
 }
 
 /* 毛玻璃效果类 */

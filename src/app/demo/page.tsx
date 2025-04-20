@@ -40,14 +40,14 @@ function ChatDemo() {
   
   // 顶栏和底栏高度
   const HEADER_HEIGHT = 72;
-  const FOOTER_HEIGHT = 220; // 调整为更小的底栏高度，适应减小后的Footer
+  const FOOTER_HEIGHT = 100; // 从220减少到100，减小底部区域高度
   const TOP_GAP = 80; // 增加与顶栏的间距，使主内容区下移
-  const BOTTOM_GAP = 40; // 主内容区与底栏的间距
+  const BOTTOM_GAP = 20; // 从40减少到20，减少主内容区与底栏的间距
   const [mainContentHeight, setMainContentHeight] = useState(0);
 
   useEffect(() => {
     const calcHeight = () => {
-      const h = window.innerHeight - HEADER_HEIGHT - FOOTER_HEIGHT - TOP_GAP - BOTTOM_GAP - 50; // 减少50px高度
+      const h = window.innerHeight - HEADER_HEIGHT - FOOTER_HEIGHT - TOP_GAP - BOTTOM_GAP;
       setMainContentHeight(h > 0 ? h : 0);
     };
     calcHeight();
@@ -184,9 +184,9 @@ function ChatDemo() {
           height: mainContentHeight
         }}
       >
-        <div className="w-full max-w-5xl flex gap-8 px-4 h-full">
+        <div className="w-full max-w-6xl flex gap-6 px-4 h-full">
           {/* 左侧信息区 - 原来在右侧 */}
-          <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
+          <div className="w-72 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
             <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6 h-48">
               <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
                 <span>DeepSeek驱动的客服</span>
@@ -264,7 +264,7 @@ function ChatDemo() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className={`max-w-[300px] px-5 py-3 rounded-3xl shadow-md text-base leading-relaxed break-words ${
+                        className={`max-w-[360px] px-5 py-3 rounded-3xl shadow-md text-base leading-relaxed break-words ${
                           msg.sender === 'user' 
                             ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white rounded-tr-none' 
                             : 'bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none'
