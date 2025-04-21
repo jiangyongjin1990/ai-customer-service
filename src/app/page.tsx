@@ -206,21 +206,56 @@ export default function Home() {
             <div className="aspect-w-16 aspect-h-9 bg-gradient-to-br from-blue-100/80 to-purple-100/80 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
               
-              {/* 简化视频/图片区域，优先使用渐变背景确保显示 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 z-5"></div>
+              {/* 备用渐变背景 */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 z-2"></div>
               
-              <div className="relative w-full h-full flex items-center justify-center z-20">
-                <div className="text-center p-6">
-                  <div className="h-16 w-16 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] flex items-center justify-center text-white shadow-md mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                      <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-800 mb-2">7x24小时智能客服</h3>
-                  <p className="text-gray-600">实时响应、多轮对话，像真人一样服务客户</p>
+              {/* 在微信环境中或视频加载出错时显示静态内容 */}
+              {isWechat || videoError ? (
+                <div className="relative w-full h-full z-10">
+                  <Image
+                    src="/images/poster/video-poster.jpg"
+                    alt="AI客服展示"
+                    className="w-full h-full object-cover"
+                    width={640}
+                    height={360}
+                    priority
+                  />
                 </div>
-              </div>
+              ) : (
+                <>
+                  {/* 加载中显示海报图像 */}
+                  {!videoLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center z-5">
+                      <Image
+                        src="/images/poster/video-poster.jpg"
+                        alt="AI客服展示加载中"
+                        className="w-full h-full object-cover"
+                        width={640}
+                        height={360}
+                        priority
+                      />
+                    </div>
+                  )}
+                  
+                  {/* 视频元素 */}
+                  <video
+                    className={`w-full h-full object-cover z-10 transition-all duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    poster="/images/poster/video-poster.jpg"
+                    onLoadedData={() => setVideoLoaded(true)}
+                    onError={(e) => {
+                      console.error("视频加载失败:", e);
+                      setVideoError(true);
+                    }}
+                  >
+                    <source src="/images/维普特官网视频.webm" type="video/webm" />
+                    您的浏览器不支持视频播放，请更换浏览器或更新版本。
+                  </video>
+                </>
+              )}
             </div>
             
             {/* 视频下方说明区域 - 更平滑的背景过渡 */}
