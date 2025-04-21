@@ -562,6 +562,15 @@ body::after {
   transition: all 0.3s ease;
 }
 
+/* 强制导航栏在初始状态下完全透明 */
+nav:not(.navbar-scrolled):not(.glass-navbar) {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
 /* 滚动效果样式 */
 .navbar-scrolled {
   border-bottom: 1px solid rgba(237, 242, 247, 0.8);
@@ -571,20 +580,30 @@ body::after {
 /* Firefox特殊处理 */
 @-moz-document url-prefix() {
   .glass-navbar {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.7) !important;
   }
-  .navbar-scrolled {
-    background: #ffffff;
+  nav:not(.navbar-scrolled) {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
   }
 }
 
 /* Safari特殊处理 */
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
   .glass-navbar {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.7) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
   }
-  .navbar-scrolled {
-    background: #ffffff;
+  nav:not(.navbar-scrolled) {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
   }
 }
 

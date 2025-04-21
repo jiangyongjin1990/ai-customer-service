@@ -92,8 +92,13 @@ const NavbarContent = () => {
       
       <nav
         className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-300
-        ${scrolled ? 'py-2 navbar-scrolled glass-navbar' : 'py-4 bg-transparent'}`}
-        style={{position: 'fixed'}}
+        ${scrolled ? 'py-2 navbar-scrolled glass-navbar' : 'py-4'}`}
+        style={{
+          position: 'fixed',
+          backgroundColor: scrolled ? '' : 'transparent',
+          backdropFilter: scrolled ? '' : 'none',
+          WebkitBackdropFilter: scrolled ? '' : 'none'
+        }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center md:justify-start md:space-x-10">
