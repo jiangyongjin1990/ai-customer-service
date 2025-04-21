@@ -310,8 +310,6 @@ export default function Home() {
                   <source src="/images/维普特官网视频.webm" type="video/webm" />
                   {/* 尝试添加MP4格式作为备选 */}
                   <source src="/images/维普特官网视频.mp4" type="video/mp4" />
-                  {/* 尝试添加直接URL访问 */}
-                  <source src={`${window.location.origin}/images/维普特官网视频.webm`} type="video/webm" />
                 </video>
                 
                 {/* 使用静态图片作为最后的备选方案 */}
