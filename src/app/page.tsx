@@ -83,7 +83,15 @@ export default function Home() {
     let timeoutId: NodeJS.Timeout;
     
     if (!isWechat && videoRef.current) {
-      // 预检查视频是否可用
+      // 检测浏览器类型，针对不同浏览器优化视频加载
+      const ua = navigator.userAgent.toLowerCase();
+      const isSafari = /safari/.test(ua) && !/chrome/.test(ua);
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+      
+      console.log("浏览器检测:", { isSafari, isIOS });
+      setVideoDebugInfo(prev => `${prev}, 浏览器: ${isSafari ? 'Safari' : isIOS ? 'iOS' : 'Other'}`);
+      
+      // 预检查视频是否可用，优先检查webm格式
       fetch('/images/维普特官网视频.webm', { method: 'HEAD' })
         .then(response => {
           if (response.ok) {
