@@ -231,7 +231,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   style={{ position: 'relative', zIndex: 100 }}
-                  className="ml-4"
+                  className="ml-4 hidden sm:block"
                 >
                   <Link 
                     href="/demo"
