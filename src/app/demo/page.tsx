@@ -40,9 +40,9 @@ function ChatDemo() {
   
   // 顶栏和底栏高度
   const HEADER_HEIGHT = 72;
-  const FOOTER_HEIGHT = 80; // 底部边距更小
-  const TOP_GAP = 15; // 与底部间距保持一致
-  const BOTTOM_GAP = 15; // 与顶部间距保持一致
+  const FOOTER_HEIGHT = 60; // 减小底部区域高度
+  const TOP_GAP = 25; // 增加顶部间距
+  const BOTTOM_GAP = 30; // 增加底部间距
   const [mainContentHeight, setMainContentHeight] = useState(0);
 
   useEffect(() => {
