@@ -588,14 +588,26 @@ body.demo-page main {
   }
 }
 
-/* 导航栏毛玻璃效果 */
+/* 导航栏样式 - 纯白色背景 */
 .glass-navbar {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-bottom: 1px solid rgba(237, 242, 247, 0.6);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  background: #ffffff;
+  border-bottom: 1px solid rgba(237, 242, 247, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
   transition: all 0.3s ease;
+}
+
+/* Firefox特殊处理 */
+@-moz-document url-prefix() {
+  .glass-navbar {
+    background: #ffffff;
+  }
+}
+
+/* Safari特殊处理 */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .glass-navbar {
+    background: #ffffff;
+  }
 }
 
 /* 添加页面顶部过渡效果 */
@@ -613,22 +625,6 @@ body.demo-page main {
     rgba(237, 241, 255, 0.85) 100%);
   z-index: -1;
   pointer-events: none;
-}
-
-/* Firefox特殊处理 */
-@-moz-document url-prefix() {
-  .glass-navbar {
-    background: rgba(255, 255, 255, 0.95);
-  }
-}
-
-/* Safari特殊处理 */
-@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-  .glass-navbar {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
 }
 
 /* 增强玻璃卡片样式 */
@@ -703,4 +699,26 @@ body:not(.demo-page) main {
 
 .modal-container > * {
   pointer-events: auto;
+}
+
+/* 导航栏样式 */
+.glass-navbar {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(237, 242, 247, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  transition: all 0.3s ease;
+}
+
+/* Firefox特殊处理 */
+@-moz-document url-prefix() {
+  .glass-navbar {
+    background: #ffffff;
+  }
+}
+
+/* Safari特殊处理 */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .glass-navbar {
+    background: #ffffff;
+  }
 }
