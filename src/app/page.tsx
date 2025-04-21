@@ -56,6 +56,9 @@ export default function Home() {
   const [hasError, setHasError] = useState(false);
   // 添加微信环境检测状态
   const [isWechat, setIsWechat] = useState(false);
+  // 添加视频加载状态
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   // 检测是否在微信浏览器中
   useEffect(() => {
@@ -204,7 +207,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
               
               {/* 在微信环境中显示图片，否则显示视频 */}
-              {isWechat ? (
+              {isWechat || videoError ? (
                 <Image
                   src="/images/video-poster.jpg"
                   alt="AI客服展示"
@@ -214,17 +217,34 @@ export default function Home() {
                   priority
                 />
               ) : (
-                <video
-                  className="w-full h-full object-cover z-10 transition-all duration-700 bg-transparent"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  style={{backgroundColor: 'transparent'}}
-                >
-                  <source src="/images/维普特官网视频.webm" type="video/webm" />
-                  您的浏览器不支持视频播放，请更换浏览器或更新版本。
-                </video>
+                <>
+                  {!videoLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10 bg-white/5">
+                      <Image
+                        src="/images/video-poster.jpg"
+                        alt="AI客服展示加载中"
+                        className="w-full h-full object-cover opacity-80"
+                        width={640}
+                        height={360}
+                        priority
+                      />
+                    </div>
+                  )}
+                  <video
+                    className={`w-full h-full object-cover z-10 transition-all duration-700 bg-transparent ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{backgroundColor: 'transparent'}}
+                    onLoadedData={() => setVideoLoaded(true)}
+                    onError={() => setVideoError(true)}
+                  >
+                    <source src="/images/维普特官网视频.mp4" type="video/mp4" />
+                    <source src="/images/维普特官网视频.webm" type="video/webm" />
+                    您的浏览器不支持视频播放，请更换浏览器或更新版本。
+                  </video>
+                </>
               )}
             </div>
             
