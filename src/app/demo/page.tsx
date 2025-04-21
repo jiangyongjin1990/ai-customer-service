@@ -256,15 +256,16 @@ function ChatDemo() {
                 <div className="flex items-center">
                   <div className="w-10 h-10 relative mr-3 overflow-hidden">
                     {isLoading ? (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-center overflow-hidden animate-pulse">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-center overflow-hidden">
                         <video 
                           src="/images/ball.webm" 
                           autoPlay 
                           loop 
                           muted 
                           playsInline
-                          className="transform scale-[1.8] w-10 h-10 object-contain mix-blend-normal"
+                          className="transform scale-[1.8] w-10 h-10 object-contain"
                           style={{ background: 'transparent' }}
+                          key="loading-animation"
                         />
                       </div>
                     ) : (

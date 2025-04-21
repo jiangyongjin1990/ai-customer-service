@@ -693,8 +693,9 @@ body:not(.demo-page) main {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 100000;
+  z-index: 9999999; /* 更高的z-index确保在所有元素之上 */
   pointer-events: none;
+  isolation: isolate; /* 创建新的层叠上下文 */
 }
 
 .modal-container > * {
