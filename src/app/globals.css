@@ -552,17 +552,27 @@ body::after {
   }
 }
 
-/* 导航栏样式 - 纯白色背景 */
+/* 导航栏样式 - 默认透明背景，滚动时显示白色背景 */
 .glass-navbar {
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+/* 滚动效果样式 */
+.navbar-scrolled {
   background: #ffffff;
   border-bottom: 1px solid rgba(237, 242, 247, 0.8);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Firefox特殊处理 */
 @-moz-document url-prefix() {
   .glass-navbar {
+    background: transparent;
+  }
+  .navbar-scrolled {
     background: #ffffff;
   }
 }
@@ -570,13 +580,11 @@ body::after {
 /* Safari特殊处理 */
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
   .glass-navbar {
+    background: transparent;
+  }
+  .navbar-scrolled {
     background: #ffffff;
   }
-}
-
-/* 导航栏滚动效果样式 */
-.navbar-scrolled {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 nav.fixed {
@@ -616,10 +624,10 @@ body.demo-page main {
   z-index: 1000;
   transform: scale(0.8);
   transform-origin: top center;
-  background: #ffffff; /* 添加白色背景确保导航栏下方没有透明效果 */
+  background: transparent; /* 改为透明背景 */
 }
 
-/* 添加以下代码，确保导航栏下方有足够的空间并且背景颜色一致 */
+/* 添加以下代码，确保导航栏下方有足够的空间 */
 .navbar-wrapper:after {
   content: '';
   position: absolute;
@@ -627,7 +635,7 @@ body.demo-page main {
   left: 0;
   right: 0;
   height: 10px;
-  background: #ffffff;
+  background: transparent; /* 改为透明背景 */
   z-index: 999;
 }
 
