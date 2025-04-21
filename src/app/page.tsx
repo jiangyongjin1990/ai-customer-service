@@ -59,6 +59,8 @@ export default function Home() {
   // 添加视频加载状态
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  // 添加调试用状态
+  const [videoDebugInfo, setVideoDebugInfo] = useState<string>('');
 
   // 检测是否在微信浏览器中
   useEffect(() => {
@@ -66,6 +68,9 @@ export default function Home() {
     const isWx = ua.indexOf('micromessenger') !== -1;
     setIsWechat(isWx);
     console.log("是否在微信浏览器中:", isWx);
+    
+    // 记录浏览器信息用于调试
+    setVideoDebugInfo(`浏览器: ${navigator.userAgent}`);
   }, []);
 
   // 捕获渲染错误
@@ -207,10 +212,7 @@ export default function Home() {
               <div className="aspect-w-16 aspect-h-9 bg-gradient-to-br from-blue-100/80 to-purple-100/80 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
                 
-                {/* 备用渐变背景 */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 z-2"></div>
-                
-                {/* 加载中显示海报图像 */}
+                {/* 加载中显示加载动画 */}
                 {!videoLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center z-5">
                     <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -224,14 +226,31 @@ export default function Home() {
                   muted
                   loop
                   playsInline
-                  onLoadedData={() => setVideoLoaded(true)}
+                  onCanPlay={() => {
+                    console.log("视频可以播放");
+                    setVideoLoaded(true);
+                  }}
+                  onLoadedData={() => {
+                    console.log("视频数据已加载");
+                    setVideoLoaded(true);
+                  }}
                   onError={(e) => {
-                    console.error("视频加载失败:", e);
+                    const error = (e.target as HTMLVideoElement).error;
+                    const errorMsg = error ? `错误码: ${error.code}, 信息: ${error.message}` : '未知错误';
+                    console.error("视频加载失败:", errorMsg);
+                    setVideoDebugInfo(prev => `${prev}, 错误: ${errorMsg}`);
                     setVideoError(true);
                   }}
                 >
                   <source src="/images/维普特官网视频.webm" type="video/webm" />
                 </video>
+                
+                {/* 添加调试信息，仅在开发环境显示 */}
+                {process.env.NODE_ENV === 'development' && videoError && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-red-500/70 text-white text-xs p-1 z-50">
+                    视频加载失败: {videoDebugInfo}
+                  </div>
+                )}
               </div>
               
               {/* 视频下方说明区域 - 更平滑的背景过渡 */}
