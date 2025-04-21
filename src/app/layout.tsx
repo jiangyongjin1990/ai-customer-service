@@ -40,8 +40,6 @@ export default function RootLayout({
         {/* 导航栏使用独立的缩放容器 */}
         <div className="navbar-wrapper">
           <Navbar />
-          {/* 添加顶部渐变过渡层 */}
-          <div className="page-gradient-transition"></div>
         </div>
         
         {/* 页面内容的缩放容器 */}
