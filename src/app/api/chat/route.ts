@@ -59,7 +59,7 @@ async function callDeepseekAPI(message: string): Promise<string> {
 
   // 根据文档构建请求体
   const payload = {
-    model: "deepseek-ai/DeepSeek-R1", // 使用标准的模型名称格式
+    model: "Pro/deepseek-ai/DeepSeek-V3", // 使用更新的模型名称
     messages: [
       {
         role: "system", 

@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
           'Authorization': `Bearer ${API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'deepseek-ai/DeepSeek-R1',
+          model: 'Pro/deepseek-ai/DeepSeek-V3',
           messages: [
             {
               role: 'system',
