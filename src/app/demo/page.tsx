@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiSend, FiInfo, FiX, FiChevronDown } from 'react-icons/fi';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import FooterWrapper from '@/components/FooterWrapper';
-import { sendMessage, generateFallbackReply } from '@/services/chatService';
+import { sendMessage, sendMessageWithRetry, generateFallbackReply, generateWaitingReply } from '@/services/chatService';
 import { useScrollContext } from '@/contexts/ScrollContext';
 
 // 定义消息接口
@@ -25,7 +25,7 @@ function ChatDemo() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: '👋 您好！我是智能客服助手小维，有什么可以帮助您的吗？',
+      text: '👋 您好！我是智能客服助手小维，接下来我将模拟真人客服回复您的问题~~',
       sender: 'bot',
       timestamp: new Date()
     }
@@ -128,25 +128,83 @@ function ChatDemo() {
         
         setMessages(prev => [...prev, botMessage]);
       } else {
-        // 显示错误消息并使用备用回复
-        setErrorMessage(result.error || '获取回复失败');
+        // API调用失败，先发送等待消息
+        console.log('API调用失败，发送等待消息并准备重试');
         
-        const fallbackMessage = {
+        // 添加临时等待回复
+        const waitingMessage = {
           id: Date.now() + 1,
-          text: generateFallbackReply(userMessageText),
+          text: generateWaitingReply(),
           sender: 'bot' as const,
           timestamp: new Date()
         };
         
-        setMessages(prev => [...prev, fallbackMessage]);
+        setMessages(prev => [...prev, waitingMessage]);
+        
+        // 带重试逻辑的API调用
+        const retryResult = await sendMessageWithRetry(userMessageText);
+        
+        if (retryResult.success && retryResult.reply) {
+          // 重试成功，添加详细回复
+          const detailedMessage = {
+            id: Date.now() + 2,
+            text: retryResult.reply,
+            sender: 'bot' as const,
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, detailedMessage]);
+        } else {
+          // 显示错误消息并使用备用回复
+          setErrorMessage(retryResult.error || '获取回复失败');
+          
+          const fallbackMessage = {
+            id: Date.now() + 2,
+            text: generateFallbackReply(userMessageText),
+            sender: 'bot' as const,
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, fallbackMessage]);
+        }
       }
     } catch (error) {
       console.error('发送消息时出错:', error);
       setErrorMessage(error instanceof Error ? error.message : '发送消息时出错');
       
+      // 添加临时等待回复
+      const waitingMessage = {
+        id: Date.now() + 1,
+        text: generateWaitingReply(),
+        sender: 'bot' as const,
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, waitingMessage]);
+      
+      // 尝试重试
+      try {
+        const retryResult = await sendMessageWithRetry(userMessageText);
+        
+        if (retryResult.success && retryResult.reply) {
+          // 重试成功，添加详细回复
+          const detailedMessage = {
+            id: Date.now() + 2,
+            text: retryResult.reply,
+            sender: 'bot' as const,
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, detailedMessage]);
+          return;
+        }
+      } catch (retryError) {
+        console.error('重试发送消息时出错:', retryError);
+      }
+      
       // 使用备用回复
       const fallbackMessage = {
-        id: Date.now() + 1,
+        id: Date.now() + 2,
         text: generateFallbackReply(userMessageText),
         sender: 'bot' as const,
         timestamp: new Date()

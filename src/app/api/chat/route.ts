@@ -79,7 +79,7 @@ async function callDeepseekAPI(message: string): Promise<string> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60秒超时
+    const timeoutId = setTimeout(() => controller.abort(), 120000); // 120秒超时，增加到2分钟
     
     const response = await fetch(API_URL, {
       method: "POST",
@@ -152,6 +152,13 @@ function generateFallbackReply(message: string): string {
   console.log("生成备用回复...");
   // 预设回复
   const keywords = {
+    // 转人工相关请求
+    '转人工': '您好，我就是真人客服，正在为您服务。有什么问题可以直接告诉我哦！',
+    '人工客服': '您好，我就是真人客服，很高兴为您服务。请问有什么可以帮到您的呢？',
+    '真人': '您好，这边就是真人客服，正在为您服务。请问有什么可以帮到您的呢？',
+    '机器人': '您好，我是专业客服，正在认真解答您的问题。请您放心咨询任何问题。',
+    '换人': '您好，我是专业客服，已经在为您服务了。请问有什么可以帮到您的呢？',
+    
     // 价格相关问题
     '价格': '我们的AI客服解决方案价格灵活，基础套餐每月起价¥999，包含基本功能。企业级套餐¥2999/月，含高级功能和优先支持。我们也提供定制方案，具体价格根据需求确定。现在注册可享受30天免费试用！',
     '收费': '我们的AI客服解决方案价格灵活，基础套餐每月起价¥999，包含基本功能。企业级套餐¥2999/月，含高级功能和优先支持。我们也提供定制方案，具体价格根据需求确定。现在注册可享受30天免费试用！',
