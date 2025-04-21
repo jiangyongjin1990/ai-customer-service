@@ -118,8 +118,8 @@ const Footer = ({ isFixed = false }: { isFixed?: boolean }) => {
             <div className="hidden md:block md:col-span-2 lg:col-span-2"></div>
             
             {/* 右侧导航区域 */}
-            <div className="md:col-span-5 lg:col-span-4 flex justify-end">
-              <div className="grid grid-cols-2 gap-8 w-auto">
+            <div className="md:col-span-5 lg:col-span-4 flex justify-between md:justify-end w-full">
+              <div className="grid grid-cols-2 gap-4 sm:gap-8 w-full md:w-auto">
                 <div>
                   <h4 className="text-gray-800 font-medium mb-3">公司</h4>
                   <ul className="space-y-2">
@@ -146,12 +146,12 @@ const Footer = ({ isFixed = false }: { isFixed?: boolean }) => {
           </div>
           
           {/* 底部座右铭 - 现代化设计 */}
-          <div className={`border-t border-gray-200 ${isFixed ? 'pt-3 pb-2' : 'pt-8 pb-4'} flex justify-center items-center`}>
+          <div className={`border-t border-gray-200 ${isFixed ? 'pt-3 pb-2' : 'pt-6 sm:pt-8 pb-4'} flex justify-center items-center`}>
             <div className="relative">
-              <p className="text-gray-400 italic text-2xl font-bold tracking-wide">
+              <p className="text-gray-400 italic text-xl sm:text-2xl font-bold tracking-wide text-center">
                 " Less complexity, more intelligence. "
               </p>
-              <div className="absolute w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 bottom-0 left-1/2 transform -translate-x-1/2 -mb-2 opacity-70"></div>
+              <div className="absolute w-16 sm:w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 bottom-0 left-1/2 transform -translate-x-1/2 -mb-2 opacity-70"></div>
             </div>
           </div>
         </div>
