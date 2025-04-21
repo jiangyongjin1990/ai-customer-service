@@ -26,7 +26,7 @@ export default function RootLayout({
           radial-gradient(circle at 85% 30%, rgba(0, 204, 154, 0.08) 0%, transparent 25%),
           radial-gradient(circle at 50% 80%, rgba(255, 51, 153, 0.06) 0%, transparent 25%)
         `,
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         margin: 0,
         padding: 0,
         overflowX: 'hidden'
