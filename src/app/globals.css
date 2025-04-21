@@ -669,14 +669,13 @@ body.demo-page main {
   left: -12.5%;
   overflow-x: hidden;
   overflow-y: visible;
-  /* 为固定导航栏留出空间，稍微增加一点值以确保没有空隙 */
-  padding-top: 60px; /* 略微增加，从58px调整为60px */
+  padding-top: 0;
   background-color: transparent; /* 改为透明背景 */
 }
 
 /* 线上体验页面特殊处理 */
 body:has([class*="demo"]) .content-wrapper {
-  padding-top: 58px; /* 特别针对demo页面调整上边距 */
+  padding-top: 0;
 }
 
 /* 可能需要根据情况调整这个值 */
