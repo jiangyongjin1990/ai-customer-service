@@ -34,6 +34,7 @@ function ChatDemo() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
+  const [isFirstUserMessage, setIsFirstUserMessage] = useState<boolean>(true);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { setScrollToTop } = useScrollContext();
@@ -82,6 +83,36 @@ function ChatDemo() {
     setIsLoading(true);
     setErrorMessage(null);
     
+    // 如果是用户第一条消息，先快速回复
+    if (isFirstUserMessage) {
+      // 随机1-3秒的延迟，模拟人工回复
+      const quickReplyDelay = Math.floor(Math.random() * 2000) + 1000; // 1000-3000ms
+      
+      setTimeout(() => {
+        // 添加快速回复
+        const quickReplyMessage = {
+          id: Date.now() + 1,
+          text: '亲，在的哈',
+          sender: 'bot' as const,
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, quickReplyMessage]);
+        
+        // 标记不再是第一条消息
+        setIsFirstUserMessage(false);
+        
+        // 继续调用API获取详细回复
+        getDetailedReply(userMessageText);
+      }, quickReplyDelay);
+    } else {
+      // 对于后续消息，直接调用API
+      getDetailedReply(userMessageText);
+    }
+  };
+  
+  // 添加获取详细回复的函数
+  const getDetailedReply = async (userMessageText: string) => {
     try {
       // 使用聊天服务发送消息
       const result = await sendMessage(userMessageText);
