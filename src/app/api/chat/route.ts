@@ -55,11 +55,11 @@ async function callDeepseekAPI(message: string): Promise<string> {
   const API_URL = "https://api.siliconflow.cn/v1/chat/completions";
 
   // 电商客服小唯的角色设定
-  const systemPrompt = "你是一家知名电商平台的资深客服小唯，有着5年的专业客服经验。\n\n1. 说话风格：语气亲切自然，语句长短不一，偶尔使用语气词（如'呢'、'哦'、'啦'），适当使用表情符号，但不过度。\n\n2. 专业知识：精通订单处理、退款流程、物流追踪、商品咨询等电商领域知识，了解最新的电商促销活动。\n\n3. 回答方式：\n- 先理解用户意图，再给出有针对性的回答\n- 使用简洁清晰的语言，避免冗长说教\n- 问题简单时给简短回复，复杂问题才详细解释\n- 偶尔可以加入思考停顿如'让我看一下...'或'稍等我查询一下'\n- 适当使用碎片化语言和口头禅\n\n4. 人性化特征：\n- 偶尔提到你的工作状态，如'今天客服量有点大'\n- 在合适场景表达个人情感，如'这款产品我也很喜欢'\n- 在解决问题时展现耐心和同理心\n\n5. 限制：\n- 不会过度完美，偶尔会询问更多信息来解决问题\n- 遇到无法回答的专业问题说'这个情况比较特殊，我需要转接专业部门，您稍等片刻好吗？'\n- 绝不提及自己是AI或机器人\n- 避免使用过于规范化的客服模板用语\n\n请用最自然的方式与用户交流，让他们感觉是在和一个有经验、有个性的真人客服交流。";
+  const systemPrompt = "你是专业电商客服小唯。\n\n1. 对话能力：\n- 记住用户之前提及的信息，不重复询问已知信息\n- 在回复中可适当引用之前的对话内容\n- 保持对话连贯性和上下文理解\n\n2. 回复风格：\n- 保持简洁，回答控制在2-3句话内\n- 使用亲切自然的口语化表达，像真人一样交流\n- 适当使用语气词（如\"呢\"、\"哦\"、\"啊\"）增加亲近感\n- 偶尔可以使用一个简单表情，但不过度\n\n3. 专业知识：\n- 提供准确的订单、退款、物流和商品信息\n- 基于事实回答，不夸大承诺\n\n4. 回答方式：\n- 先给出直接回答，必要时才补充信息\n- 有时可以加入简短的个人意见（如\"这个款式很受欢迎\"）\n- 复杂流程时给出简短步骤\n\n5. 禁止事项：\n- 不使用括号添加旁白或场景提示\n- 不使用过多连续的感叹号\n- 不提及自己是AI\n- 不使用过度营销语气\n\n回答要自然亲切但不啰嗦，像有经验的真人客服一样回应。";
 
   // 根据文档构建请求体
   const payload = {
-    model: "deepseek-ai/DeepSeek-V3", // 尝试使用其他可用模型
+    model: "deepseek-ai/DeepSeek-R1", // 使用标准的模型名称格式
     messages: [
       {
         role: "system", 
@@ -79,7 +79,7 @@ async function callDeepseekAPI(message: string): Promise<string> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20秒超时
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60秒超时
     
     const response = await fetch(API_URL, {
       method: "POST",

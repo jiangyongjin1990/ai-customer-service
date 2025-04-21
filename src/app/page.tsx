@@ -130,15 +130,15 @@ export default function Home() {
       <div className="bg-blob-5"></div>
 
       {/* --- Hero Section --- */}
-      <section className="relative pt-32 pb-24 md:pt-40 md:pb-36 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
         {/* 背景装饰模糊圆形 - 增强毛玻璃效果的视觉层次感 */}
-        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-purple-400/20 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-blue-400/20 rounded-full filter blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-cyan-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-purple-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-48 h-48 bg-blue-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-cyan-400/20 rounded-full filter blur-3xl"></div>
         
         {/* 跟随鼠标移动的交互光效 */}
         <motion.div
-          className="absolute w-64 h-64 bg-white/10 rounded-full filter blur-3xl pointer-events-none"
+          className="absolute w-72 h-72 bg-white/10 rounded-full filter blur-3xl pointer-events-none"
           animate={{
             x: mousePosition.x - 150,
             y: mousePosition.y - 250,
@@ -146,46 +146,54 @@ export default function Home() {
           transition={{ type: "spring", damping: 30, stiffness: 200 }}
         />
         
-        <div className="container mx-auto px-4 relative z-10 max-w-7xl">
-          <motion.h2 
-            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight md:leading-tight text-center whitespace-nowrap"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <span className="inline-block">让企业轻松拥有</span>
-            {/* 使用相对定位容器包裹文字和徽章 */}
-            <span className="relative inline-block">
-              <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent animate-wave-text">智能客服</span>
-              {/* 绝对定位徽章到右上角 - 使用 top-0 和 translate-y */}
-              <span className="absolute top-0 left-full ml-1 transform -translate-y-1/2">
-                <AiAgentBadge />
+        <div className="container mx-auto px-4 relative z-10 max-w-6xl">
+          {/* 标题和副标题区域 */}
+          <div className="text-center mb-14">
+            <motion.h1 
+              className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <span className="relative">
+                让企业轻松拥有
+                <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent animate-wave-text ml-2">智能客服</span>
+                {/* 绝对定位徽章到右上角 */}
+                <span className="absolute -top-4 -right-16 transform">
+                  <AiAgentBadge />
+                </span>
               </span>
-            </span>
-          </motion.h2>
-          
-          <motion.div 
-            className="relative mb-16 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              每一次对话，<span className="font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent">都是一次升级</span>
-            </p>
-          </motion.div>
+            </motion.h1>
+            
+            <motion.div 
+              className="relative mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-3xl mx-auto font-medium">
+                每一次对话，<span className="text-gray-600">都是一次</span><span className="font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent">升级</span>
+              </p>
+            </motion.div>
+          </div>
           
           {/* 视频展示区域 */}
           <motion.div
-            className="max-w-lg mx-auto glass-card-transition rounded-xl overflow-hidden border border-indigo-100/30 shadow-lg backdrop-blur-sm bg-white/10"
-            initial={{ opacity: 0, y: 20 }}
+            className="max-w-xl mx-auto glass-card-transition rounded-2xl overflow-hidden border border-indigo-100/30 shadow-2xl backdrop-blur-sm bg-white/10 relative z-10"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            whileHover={{ 
+              y: -8, 
+              boxShadow: "0 25px 50px -12px rgba(79, 70, 229, 0.25)",
+              transition: { duration: 0.3 }
+            }}
           >
-            {/* 视频区域 */}
-            <div className="aspect-w-16 aspect-h-9 bg-transparent">
+            {/* 视频区域 - 添加渐变边框和过渡效果 */}
+            <div className="aspect-w-16 aspect-h-9 bg-transparent relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
               <video
-                className="w-full h-full object-cover rounded-t-xl"
+                className="w-full h-full object-cover z-10 transition-all duration-700"
                 autoPlay
                 muted
                 loop
@@ -196,23 +204,50 @@ export default function Home() {
               </video>
             </div>
             
-            {/* 视频下方说明区域 */}
-            <div className="p-3 bg-white/20 backdrop-blur-md border-t border-indigo-100/20">
+            {/* 视频下方说明区域 - 更平滑的背景过渡 */}
+            <div className="p-5 bg-gradient-to-b from-white/20 to-white/40 backdrop-blur-md relative z-20">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <div className="h-8 w-8 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] flex items-center justify-center text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] flex items-center justify-center text-white shadow-md transform transition-transform duration-300 hover:scale-105">{/* 添加悬停效果 */}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
                       <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
                     </svg>
                   </div>
-                  <div className="ml-2">
-                    <h3 className="text-xs font-semibold text-gray-800">AI客服维普特</h3>
-                    <p className="text-xs text-gray-500">18400000011</p>
+                  <div className="ml-3">
+                    <h3 className="text-sm font-semibold text-gray-800">AI客服小唯</h3>
+                    <p className="text-xs text-gray-500">专业AI客服 · 7X24小时实时响应</p>
                   </div>
                 </div>
+                
+                {/* 立即体验按钮 */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ position: 'relative', zIndex: 100 }}
+                  className="ml-4"
+                >
+                  <Link 
+                    href="/demo"
+                    className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-blue-500/30 active:shadow-sm transition-all duration-300 text-sm relative overflow-hidden group shadow-md"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      立即体验
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1.5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-50 transition-opacity duration-300 -z-10"></span>
+                  </Link>
+                </motion.div>
               </div>
             </div>
+            
+            {/* 增强光晕效果 */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-purple-600/20 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000 z-0"></div>
           </motion.div>
           
           {/* 装饰性浮动图形 */}
@@ -241,7 +276,7 @@ export default function Home() {
       </section>
 
       {/* --- 新增模块：电商客服特性 --- */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 max-w-7xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
             <div className="inline-flex flex-wrap justify-center items-center">
@@ -723,7 +758,7 @@ export default function Home() {
       </motion.section>
 
       {/* --- CTA Section --- */}
-      <CTASection />
+      <CTASection demoLink="/demo" />
 
       {/* 页脚 */}
       <Footer />

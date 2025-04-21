@@ -5,8 +5,14 @@ import TrialModal from './TrialModal';
 
 /**
  * CTA部分组件，显示主标题、副标题和行动按钮
+ * @param {Object} props - 组件属性
+ * @param {string} props.demoLink - 线上体验按钮跳转链接
  */
-const CTASection = () => {
+interface CTASectionProps {
+  demoLink?: string;
+}
+
+const CTASection = ({ demoLink = '/online-experience' }: CTASectionProps) => {
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
 
   const handleTrialClick = (e: React.MouseEvent) => {
@@ -53,17 +59,11 @@ const CTASection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="flex flex-col sm:flex-row justify-center gap-4"
+            className="flex justify-center"
           >
-            <Link href="/online-experience" className="water-ripple px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
+            <Link href={demoLink} className="water-ripple px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300">
               线上体验
             </Link>
-            <button 
-              onClick={handleTrialClick}
-              className="water-ripple px-8 py-4 bg-white hover:bg-gray-100 text-indigo-600 font-medium rounded-lg border border-indigo-200 transition-colors duration-300"
-            >
-              免费试用
-            </button>
           </motion.div>
         </div>
       </div>

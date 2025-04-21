@@ -147,10 +147,10 @@ function ChatDemo() {
 
   // 示例问题快速提问
   const exampleQuestions = [
-    "智能客服有哪些功能？",
-    "定价方案是怎样的？",
-    "能否处理多语言支持？",
-    "如何集成到我的网站？"
+    "这款商品什么时候能发货？",
+    "我需要退换货怎么操作？",
+    "有什么优惠活动正在进行？",
+    "如何修改收货地址？"
   ];
   
   const handleExampleClick = (question: string) => {
