@@ -185,17 +185,38 @@ function ChatDemo() {
         }}
       >
         <div className="w-full max-w-6xl flex gap-6 px-4 h-full">
-          {/* 左侧信息区 - 原来在右侧 */}
-          <div className="w-72 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
-            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6 h-48">
+          {/* 左侧信息区 - 调整宽度以适应示例问题 */}
+          <div className="w-80 flex flex-col gap-6 flex-shrink-0 h-full overflow-y-auto">
+            <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7 mb-6">
               <div className="font-bold text-blue-700 text-lg mb-2 flex items-center gap-2">
                 <span>DeepSeek驱动的客服</span>
                 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">AI</span>
               </div>
-              <ul className="text-gray-700 text-sm space-y-2 pl-2">
-                <li>• 7x24小时自动响应客户咨询</li>
-                <li>• 支持多平台集成</li>
-                <li>• 智能分析客户意图和情绪</li>
+              <ul className="text-gray-700 text-sm space-y-3 pl-1">
+                <li className="flex items-start">
+                  <svg className="h-5 w-5 mr-2 text-green-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span>7x24小时自动响应客户咨询</span>
+                </li>
+                <li className="flex items-start">
+                  <svg className="h-5 w-5 mr-2 text-green-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span>支持多平台集成</span>
+                </li>
+                <li className="flex items-start">
+                  <svg className="h-5 w-5 mr-2 text-green-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span>智能分析客户意图和情绪</span>
+                </li>
+                <li className="flex items-start">
+                  <svg className="h-5 w-5 mr-2 text-green-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  <span>自动识别并过滤平台违禁词</span>
+                </li>
               </ul>
             </div>
             <div className="rounded-3xl bg-white/80 shadow-xl border border-gray-100 p-7">
@@ -205,10 +226,10 @@ function ChatDemo() {
                 {exampleQuestions.map((q, i) => (
                   <button
                     key={i}
-                    className="text-left px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all flex items-center"
+                    className="text-left px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium transition-all flex items-center"
                     onClick={() => handleExampleClick(q)}
                   >
-                    <svg className="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-4 h-4 mr-1.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                     {q}

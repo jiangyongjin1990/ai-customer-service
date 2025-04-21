@@ -70,6 +70,17 @@ body::after {
 /* 玻璃态效果 */
 .glass-card {
   @apply bg-white/80 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/30 rounded-lg;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 更强烈的玻璃态效果 */
+.glass-card-intense {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 科技感边框效果 */
@@ -129,10 +140,11 @@ body::after {
 
 /* 玻璃态效果 */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 /* 动画效果 */
@@ -538,4 +550,138 @@ body::after {
     transform: scale(1);
     opacity: 0.8;
   }
+}
+
+/* 导航栏滚动效果样式 */
+.navbar-scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+nav.fixed {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+  height: 72px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.01);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease, background-color 0.3s ease;
+}
+
+/* 确保页面内容不会被导航栏遮挡 */
+body:not(.demo-page) main {
+  padding-top: 0; /* 不需要内边距，因为已经在容器上设置了top值 */
+}
+
+body.demo-page main {
+  padding-top: 0;
+}
+
+/* 修复导航栏在移动设备上的样式 */
+@media (max-width: 768px) {
+  nav.fixed {
+    height: auto !important;
+    min-height: 60px !important;
+  }
+}
+
+/* 导航栏毛玻璃效果 */
+.glass-navbar {
+  background: rgba(255, 255, 255, 0.7) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Safari浏览器的特殊处理 */
+@supports (-webkit-backdrop-filter: none) {
+  .glass-navbar {
+    background: rgba(255, 255, 255, 0.7) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+}
+
+/* Firefox浏览器的特殊处理（不支持backdrop-filter） */
+@-moz-document url-prefix() {
+  .glass-navbar {
+    background: rgba(255, 255, 255, 0.85) !important;
+  }
+}
+
+/* 增强玻璃卡片样式 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* 强化毛玻璃效果类 */
+.blur-backdrop {
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* 导航栏在缩放容器中的吸顶效果 */
+.scale-wrapper nav.fixed {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+}
+
+/* 分离导航栏和内容的独立缩放容器 */
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: -12.5%;
+  width: 125%;
+  z-index: 1000;
+  transform: scale(0.8);
+  transform-origin: top center;
+}
+
+.content-wrapper {
+  transform: scale(0.8);
+  transform-origin: top center;
+  width: 125%;
+  min-height: 125vh;
+  position: absolute;
+  top: 0;
+  left: -12.5%;
+  overflow-x: hidden;
+  overflow-y: visible;
+  /* 为固定导航栏留出空间 */
+  padding-top: 58px; /* 调整为导航栏实际高度对应的缩放值 */
+}
+
+/* 线上体验页面特殊处理 */
+body:has([class*="demo"]) .content-wrapper {
+  padding-top: 58px; /* 特别针对demo页面调整上边距 */
+}
+
+/* 可能需要根据情况调整这个值 */
+body:not(.demo-page) main {
+  padding-top: 0; /* 由于我们已经在内容容器上添加了padding-top, 这里可以是0 */
+}
+
+/* 模态弹窗专用容器样式 */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100000;
+  pointer-events: none;
+}
+
+.modal-container > * {
+  pointer-events: auto;
 }

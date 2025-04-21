@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { XMarkIcon, CheckCircleIcon, StarIcon, SparklesIcon, ArrowRightIcon, BoltIcon, ChatBubbleLeftRightIcon, BuildingOfficeIcon } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
@@ -32,6 +33,14 @@ const TrialModal: React.FC<TrialModalProps> = ({ isOpen, onClose }) => {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const scrollbarWidth = useRef(0);
   const scrollPosition = useRef(0);
+  
+  // 添加对模态容器的引用
+  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+  
+  // 在组件挂载时查找模态容器
+  useEffect(() => {
+    setModalRoot(document.getElementById('modal-container'));
+  }, []);
 
   useEffect(() => {
     // 计算滚动条宽度
@@ -133,9 +142,10 @@ const TrialModal: React.FC<TrialModalProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !modalRoot) return null;
 
-  return (
+  // 使用ReactDOM.createPortal将模态渲染到指定容器
+  return ReactDOM.createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -380,7 +390,8 @@ const TrialModal: React.FC<TrialModalProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    modalRoot
   );
 };
 

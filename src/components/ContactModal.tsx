@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import ReactDOM from 'react-dom';
 
 /**
  * 联系弹窗组件的属性接口
@@ -36,6 +37,14 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = '�
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const [modalRoot, setModalRoot] = useState<Element | null>(null);
+  
+  // 在客户端渲染后找到modal-container元素
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      setModalRoot(document.getElementById('modal-container'));
+    }
+  }, []);
   
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -128,9 +137,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = '�
     }
   };
 
-  if (!isOpen) return null;
+  // 如果弹窗不可见或modal-container不存在，不渲染任何内容
+  if (!isOpen || !modalRoot) return null;
 
-  return (
+  // 使用React Portal将弹窗内容渲染到modal-container中
+  const portal = (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0">
@@ -257,6 +268,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, title = '�
       )}
     </AnimatePresence>
   );
+
+  return ReactDOM.createPortal(portal, modalRoot);
 };
 
 export default ContactModal;

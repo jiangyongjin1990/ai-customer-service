@@ -130,7 +130,7 @@ export default function Home() {
       <div className="bg-blob-5"></div>
 
       {/* --- Hero Section --- */}
-      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden w-full bg-gradient-to-br from-blue-50 via-purple-50/20 to-cyan-50 glass-morphism glass-frost">
         {/* 背景装饰模糊圆形 - 增强毛玻璃效果的视觉层次感 */}
         <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-purple-400/20 rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-1/3 left-1/3 w-48 h-48 bg-blue-400/20 rounded-full filter blur-3xl"></div>

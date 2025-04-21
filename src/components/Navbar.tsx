@@ -37,7 +37,9 @@ const NavbarContent = () => {
       setScrolled(scrollTop > 10);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // 立即触发一次，确保初始状态正确
+    
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -60,35 +62,12 @@ const NavbarContent = () => {
     
     // 对导航栏应用相同的补偿
     const navbar = document.querySelector('nav');
-    if (navbar && navbar.classList.contains('fixed')) {
+    if (navbar) {
       navbar.style.paddingRight = `${scrollbarWidth}px`;
     }
     
     setIsTrialModalOpen(true);
     setIsOpen(false); // 关闭移动端菜单
-  };
-
-  // 直接定义内联样式对象
-  const initialStyle = {
-    background: 'transparent',
-    backdropFilter: 'none',
-    WebkitBackdropFilter: 'none',
-    MozBackdropFilter: 'none',
-    OBackdropFilter: 'none',
-    borderBottom: '1px solid rgba(255, 255, 255, 0)', // 透明边框
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0)', // 透明阴影
-    zIndex: 100
-  };
-
-  const glassStyle = {
-    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 0.01) 100%)',
-    backdropFilter: 'blur(15px)',
-    WebkitBackdropFilter: 'blur(15px)',
-    MozBackdropFilter: 'blur(15px)',
-    OBackdropFilter: 'blur(15px)',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.03)',
-    zIndex: 100
   };
 
   return (
@@ -111,12 +90,13 @@ const NavbarContent = () => {
         />
       )}
       
-      <div
-        className={`fixed w-full top-0 z-50 transition-all duration-500`}
-        style={scrolled ? glassStyle : initialStyle}
+      <nav
+        className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-300 
+        ${scrolled ? 'py-2 navbar-scrolled glass-navbar' : 'py-4'}`}
+        style={{position: 'fixed'}}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center py-3 md:py-4 md:justify-start md:space-x-10">
+          <div className="flex justify-between items-center md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <Link href="/" className="flex items-center" onClick={handleNavLinkClick}>
                 <span className="sr-only">维普特AI</span>
@@ -152,7 +132,7 @@ const NavbarContent = () => {
                 </svg>
               </button>
             </div>
-            <nav className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-8">
               <Link
                 href="/"
                 className={`text-2xl font-bold flex items-center px-4 py-2 rounded-lg transition-all duration-300 water-ripple ${
@@ -189,7 +169,7 @@ const NavbarContent = () => {
                 线上体验
                 <span className="ml-1 px-1.5 py-0.5 text-[9px] font-semibold bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top" style={{lineHeight: '1.1'}}>AI Agent</span>
               </Link>
-            </nav>
+            </div>
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <button
                 onClick={handleTrialClick}
@@ -333,7 +313,7 @@ const NavbarContent = () => {
             </div>
           </div>
         </div>
-      </div>
+      </nav>
     </>
   );
 }
