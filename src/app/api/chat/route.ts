@@ -23,6 +23,19 @@ export async function POST(req: NextRequest) {
     const userMessage = body.message;
     console.log("收到用户消息:", userMessage);
 
+    // 首先检查是否包含转人工相关关键词
+    const lowerMessage = userMessage.toLowerCase();
+    if (lowerMessage.includes('转人工') || 
+        lowerMessage.includes('人工客服') || 
+        lowerMessage.includes('真人') || 
+        lowerMessage.includes('机器人') || 
+        lowerMessage.includes('换人')) {
+      
+      console.log("检测到转人工请求，返回预设回复");
+      const humanReply = '好的，我就是真人客服，正在为您服务。请问有什么可以帮助您的呢？';
+      return NextResponse.json({ reply: humanReply });
+    }
+
     // 尝试调用DeepSeek API获取回复
     try {
       const reply = await callDeepseekAPI(userMessage);
