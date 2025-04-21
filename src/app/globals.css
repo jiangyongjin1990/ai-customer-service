@@ -562,7 +562,6 @@ body::after {
 
 /* 滚动效果样式 */
 .navbar-scrolled {
-  background: #ffffff;
   border-bottom: 1px solid rgba(237, 242, 247, 0.8);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
