@@ -190,119 +190,96 @@ export default function Home() {
             </motion.div>
           </div>
           
-          {/* 视频展示区域 */}
-          <motion.div
-            className="max-w-xl mx-auto glass-card-transition rounded-2xl overflow-hidden border border-indigo-100/30 shadow-2xl backdrop-blur-sm bg-white/10 relative z-10"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            whileHover={{ 
-              y: -8, 
-              boxShadow: "0 25px 50px -12px rgba(79, 70, 229, 0.25)",
-              transition: { duration: 0.3 }
-            }}
-          >
-            {/* 视频区域 - 添加渐变边框和过渡效果 */}
-            <div className="aspect-w-16 aspect-h-9 bg-gradient-to-br from-blue-100/80 to-purple-100/80 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
-              
-              {/* 备用渐变背景 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 z-2"></div>
-              
-              {/* 在微信环境中或视频加载出错时显示静态内容 */}
-              {isWechat || videoError ? (
-                <div className="relative w-full h-full z-10">
-                  <Image
-                    src="/images/poster/video-poster.jpg"
-                    alt="AI客服展示"
-                    className="w-full h-full object-cover"
-                    width={640}
-                    height={360}
-                    priority
-                  />
-                </div>
-              ) : (
-                <>
-                  {/* 加载中显示海报图像 */}
-                  {!videoLoaded && (
-                    <div className="absolute inset-0 flex items-center justify-center z-5">
-                      <Image
-                        src="/images/poster/video-poster.jpg"
-                        alt="AI客服展示加载中"
-                        className="w-full h-full object-cover"
-                        width={640}
-                        height={360}
-                        priority
-                      />
-                    </div>
-                  )}
-                  
-                  {/* 视频元素 */}
-                  <video
-                    className={`w-full h-full object-cover z-10 transition-all duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    poster="/images/poster/video-poster.jpg"
-                    onLoadedData={() => setVideoLoaded(true)}
-                    onError={(e) => {
-                      console.error("视频加载失败:", e);
-                      setVideoError(true);
-                    }}
-                  >
-                    <source src="/images/维普特官网视频.webm" type="video/webm" />
-                    您的浏览器不支持视频播放，请更换浏览器或更新版本。
-                  </video>
-                </>
-              )}
-            </div>
-            
-            {/* 视频下方说明区域 - 更平滑的背景过渡 */}
-            <div className="p-5 bg-gradient-to-b from-white/20 to-white/40 backdrop-blur-md relative z-20">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] flex items-center justify-center text-white shadow-md transform transition-transform duration-300 hover:scale-105">{/* 添加悬停效果 */}
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                      <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                    </svg>
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-semibold text-gray-800">AI客服小唯</h3>
-                    <p className="text-xs text-gray-500">专业AI客服 · 7X24小时实时响应</p>
-                  </div>
-                </div>
+          {/* 视频展示区域 - 仅在非微信环境且视频可加载时显示 */}
+          {!isWechat && !videoError && (
+            <motion.div
+              className="max-w-xl mx-auto glass-card-transition rounded-2xl overflow-hidden border border-indigo-100/30 shadow-2xl backdrop-blur-sm bg-white/10 relative z-10"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              whileHover={{ 
+                y: -8, 
+                boxShadow: "0 25px 50px -12px rgba(79, 70, 229, 0.25)",
+                transition: { duration: 0.3 }
+              }}
+            >
+              {/* 视频区域 - 添加渐变边框和过渡效果 */}
+              <div className="aspect-w-16 aspect-h-9 bg-gradient-to-br from-blue-100/80 to-purple-100/80 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
                 
-                {/* 立即体验按钮 */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  style={{ position: 'relative', zIndex: 100 }}
-                  className="ml-4 hidden sm:block"
+                {/* 备用渐变背景 */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 z-2"></div>
+                
+                {/* 加载中显示海报图像 */}
+                {!videoLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center z-5">
+                    <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
+                
+                {/* 视频元素 */}
+                <video
+                  className={`w-full h-full object-cover z-10 transition-all duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  onLoadedData={() => setVideoLoaded(true)}
+                  onError={(e) => {
+                    console.error("视频加载失败:", e);
+                    setVideoError(true);
+                  }}
                 >
-                  <Link 
-                    href="/demo"
-                    className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-blue-500/30 active:shadow-sm transition-all duration-300 text-sm relative overflow-hidden group shadow-md"
-                  >
-                    <span className="relative z-10 flex items-center">
-                      立即体验
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1.5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </span>
-                    <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-50 transition-opacity duration-300 -z-10"></span>
-                  </Link>
-                </motion.div>
+                  <source src="/images/维普特官网视频.webm" type="video/webm" />
+                </video>
               </div>
-            </div>
-            
-            {/* 增强光晕效果 */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-purple-600/20 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000 z-0"></div>
-          </motion.div>
+              
+              {/* 视频下方说明区域 - 更平滑的背景过渡 */}
+              <div className="p-5 bg-gradient-to-b from-white/20 to-white/40 backdrop-blur-md relative z-20">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-[#4e90cc] to-[#9478f0] flex items-center justify-center text-white shadow-md transform transition-transform duration-300 hover:scale-105">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+                        <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-semibold text-gray-800">AI客服小唯</h3>
+                      <p className="text-xs text-gray-500">专业AI客服 · 7X24小时实时响应</p>
+                    </div>
+                  </div>
+                  
+                  {/* 立即体验按钮 */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{ position: 'relative', zIndex: 100 }}
+                    className="ml-4 hidden sm:block"
+                  >
+                    <Link 
+                      href="/demo"
+                      className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-blue-500/30 active:shadow-sm transition-all duration-300 text-sm relative overflow-hidden group shadow-md"
+                    >
+                      <span className="relative z-10 flex items-center">
+                        立即体验
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1.5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-50 transition-opacity duration-300 -z-10"></span>
+                    </Link>
+                  </motion.div>
+                </div>
+              </div>
+              
+              {/* 增强光晕效果 */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-purple-600/20 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000 z-0"></div>
+            </motion.div>
+          )}
           
           {/* 装饰性浮动图形 */}
           <motion.div 
