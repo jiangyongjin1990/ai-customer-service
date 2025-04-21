@@ -54,6 +54,16 @@ const AiAgentBadge = () => (
 export default function Home() {
   // 错误状态
   const [hasError, setHasError] = useState(false);
+  // 添加微信环境检测状态
+  const [isWechat, setIsWechat] = useState(false);
+
+  // 检测是否在微信浏览器中
+  useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+    const isWx = ua.indexOf('micromessenger') !== -1;
+    setIsWechat(isWx);
+    console.log("是否在微信浏览器中:", isWx);
+  }, []);
 
   // 捕获渲染错误
   useEffect(() => {
@@ -192,17 +202,30 @@ export default function Home() {
             {/* 视频区域 - 添加渐变边框和过渡效果 */}
             <div className="aspect-w-16 aspect-h-9 bg-transparent relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
-              <video
-                className="w-full h-full object-cover z-10 transition-all duration-700 bg-transparent"
-                autoPlay
-                muted
-                loop
-                playsInline
-                style={{backgroundColor: 'transparent'}}
-              >
-                <source src="/images/维普特官网视频.webm" type="video/webm" />
-                您的浏览器不支持视频播放，请更换浏览器或更新版本。
-              </video>
+              
+              {/* 在微信环境中显示图片，否则显示视频 */}
+              {isWechat ? (
+                <Image
+                  src="/images/video-poster.jpg"
+                  alt="AI客服展示"
+                  className="w-full h-full object-cover z-10"
+                  width={640}
+                  height={360}
+                  priority
+                />
+              ) : (
+                <video
+                  className="w-full h-full object-cover z-10 transition-all duration-700 bg-transparent"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  style={{backgroundColor: 'transparent'}}
+                >
+                  <source src="/images/维普特官网视频.webm" type="video/webm" />
+                  您的浏览器不支持视频播放，请更换浏览器或更新版本。
+                </video>
+              )}
             </div>
             
             {/* 视频下方说明区域 - 更平滑的背景过渡 */}
