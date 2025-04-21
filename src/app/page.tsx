@@ -190,14 +190,17 @@ export default function Home() {
             }}
           >
             {/* 视频区域 - 添加渐变边框和过渡效果 */}
-            <div className="aspect-w-16 aspect-h-9 bg-transparent relative">
+            <div className="aspect-w-16 aspect-h-9 bg-transparent relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-blue-400/5 via-transparent to-purple-400/5 z-0"></div>
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px] z-5"></div>
               <video
-                className="w-full h-full object-cover z-10 transition-all duration-700"
+                className="w-full h-full object-cover z-10 transition-all duration-700 bg-transparent"
                 autoPlay
                 muted
                 loop
                 playsInline
+                poster="/images/video-poster.jpg"
+                style={{backgroundColor: 'transparent'}}
               >
                 <source src="/images/维普特官网视频.webm" type="video/webm" />
                 您的浏览器不支持视频播放，请更换浏览器或更新版本。
