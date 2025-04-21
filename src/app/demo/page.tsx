@@ -40,9 +40,9 @@ function ChatDemo() {
   
   // 顶栏和底栏高度
   const HEADER_HEIGHT = 72;
-  const FOOTER_HEIGHT = 60; // 减小底部区域高度
-  const TOP_GAP = 25; // 增加顶部间距
-  const BOTTOM_GAP = 30; // 增加底部间距
+  const FOOTER_HEIGHT = 70; // 调整底部区域高度
+  const TOP_GAP = 48; // 与导航栏的间距，再向下移动10px
+  const BOTTOM_GAP = 25; // 与底栏的间距
   const [mainContentHeight, setMainContentHeight] = useState(0);
 
   useEffect(() => {
@@ -141,8 +141,17 @@ function ChatDemo() {
     // 自动调整输入框高度
     const textarea = e.target;
     textarea.style.height = 'auto';
-    const scrollHeight = Math.min(textarea.scrollHeight, 120); // 最大高度120px
+    
+    // 根据设备宽度调整最大高度
+    const maxHeight = window.innerWidth < 768 ? 80 : 120; // 移动设备最大高度更小
+    const scrollHeight = Math.min(textarea.scrollHeight, maxHeight);
+    
     textarea.style.height = `${scrollHeight}px`;
+    
+    // 输入时立即移除错误消息
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
   };
 
   // 示例问题快速提问
@@ -242,52 +251,61 @@ function ChatDemo() {
           {/* 聊天区 - 原来在左侧 */}
           <div className="flex-1 flex flex-col h-full">
             <div className="border border-gray-100 rounded-3xl overflow-hidden shadow-xl bg-white/80 backdrop-blur-md p-0 flex flex-col h-full">
-              {/* 聊天头部 */}
-              <div className="px-8 py-5 bg-gradient-to-r from-gray-50 to-indigo-50/60 flex items-center justify-between shadow-sm">
+              {/* 聊天头部 - 优化UI */}
+              <div className="px-6 py-3 bg-gradient-to-r from-gray-50 to-indigo-50/60 border-b border-gray-100 flex items-center shadow-sm">
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4 overflow-hidden">
+                  <div className="w-10 h-10 relative mr-3 overflow-hidden">
                     {isLoading ? (
-                      <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-center overflow-hidden animate-pulse">
                         <video 
                           src="/images/ball.webm" 
                           autoPlay 
                           loop 
                           muted 
                           playsInline
-                          className="transform scale-[2] w-12 h-12 object-contain mix-blend-normal"
+                          className="transform scale-[1.8] w-10 h-10 object-contain mix-blend-normal"
                           style={{ background: 'transparent' }}
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center shadow-md">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center shadow-sm">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
                       </div>
                     )}
+                    {isLoading && (
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+                    )}
                   </div>
                   <div>
-                    <div className="font-bold text-lg text-gray-800 flex items-center gap-2">小维智能助手 <span className="ml-1 px-2 py-0.5 text-[10px] font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full align-top">DeepSeek赋能</span></div>
-                    <div className="text-xs text-gray-500 mt-0.5">专业AI客服 · 实时响应</div>
+                    <div className="font-semibold text-base text-gray-800 flex items-center gap-1">
+                      小维智能助手 
+                      <span className="ml-1 px-1.5 py-0.5 text-[9px] leading-tight font-medium bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white rounded-full">DeepSeek</span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5 flex items-center">
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 mr-1"></span>
+                      在线 · 实时响应
+                    </div>
                   </div>
                 </div>
               </div>
-              {/* 聊天消息区 - 仅此处可滚动，高度自适应 */}
+              {/* 聊天消息区 - 优化UI体验 */}
               <div 
                 ref={messagesContainerRef} 
-                className="flex-1 px-8 py-6 space-y-4 overflow-y-auto bg-white/60 custom-scrollbar" 
+                className="flex-1 px-6 py-5 space-y-5 overflow-y-auto bg-white/60 custom-scrollbar" 
                 style={{ minHeight: 0, height: '100%', scrollBehavior: 'smooth' }}
               >
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}> 
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 max-w-[75%]">
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className={`max-w-[360px] px-5 py-3 rounded-3xl shadow-md text-base leading-relaxed break-words ${
+                        className={`px-4 py-3 rounded-2xl shadow-sm text-base leading-relaxed break-words ${
                           msg.sender === 'user' 
-                            ? 'bg-gradient-to-r from-blue-400 to-green-400 text-white rounded-tr-none' 
+                            ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-tr-none' 
                             : 'bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none'
                         }`}
                       >
@@ -304,38 +322,36 @@ function ChatDemo() {
                 ))}
                 {isLoading && (
                   <div className="flex justify-start"> 
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 max-w-[75%]">
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="max-w-[300px] px-5 py-3 rounded-3xl shadow-md text-base bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none"
+                        className="px-4 py-3 rounded-2xl shadow-sm bg-gray-50 text-gray-800 border border-gray-100 rounded-tl-none"
                       >
-                        <div className="flex items-center">
-                          <div className="typing-indicator">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                        <div className="flex items-center min-h-[24px]">
+                          <div className="flex space-x-1.5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-blue-400 opacity-60 animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-blue-400 opacity-60 animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-blue-400 opacity-60 animate-bounce" style={{ animationDelay: "600ms" }}></div>
                           </div>
                         </div>
                       </motion.div>
-                      <div className="text-xs text-gray-400 ml-1">
-                        {new Intl.DateTimeFormat('zh-CN', {
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        }).format(new Date())}
+                      <div className="text-xs text-gray-400 ml-1 flex items-center">
+                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400 mr-1 animate-pulse"></span>
+                        正在输入...
                       </div>
                     </div>
                   </div>
                 )}
                 <div ref={endOfMessagesRef} />
               </div>
-              {/* 输入区 */}
-              <div className="px-8 py-5 bg-white/80">
-                <div className="flex items-end gap-3 p-2 bg-gray-50/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              {/* 输入区 - 优化UI/UX */}
+              <div className="px-6 py-4 bg-white/90 border-t border-gray-100">
+                <div className="flex items-center gap-2 p-3 bg-gray-50/90 rounded-2xl shadow-sm hover:shadow-md transition duration-300 focus-within:ring-2 focus-within:ring-blue-200">
                   <div className="flex-1 relative">
                     <textarea
-                      className="w-full resize-none rounded-xl border-0 bg-transparent px-4 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-blue-300 transition-all placeholder-gray-400 overflow-y-auto"
+                      className="w-full resize-none border-0 bg-transparent px-3 py-2 text-base focus:outline-none placeholder-gray-400 overflow-hidden"
                       rows={1}
                       maxLength={100}
                       placeholder={isLoading ? "正在生成回复，请稍候..." : "请输入您的问题，按Enter发送..."}
@@ -343,25 +359,36 @@ function ChatDemo() {
                       onChange={handleInputChange}
                       onKeyDown={handleKeyPress}
                       disabled={isLoading}
-                      style={{ minHeight: 40, maxHeight: 120, fontSize: '16px', lineHeight: '1.6' }}
+                      style={{ 
+                        minHeight: 44, 
+                        maxHeight: 120, 
+                        fontSize: '15px', 
+                        lineHeight: '1.5',
+                        borderRadius: '12px'
+                      }}
                     />
-                    <div className="absolute right-2 bottom-2 text-xs text-gray-400 select-none pointer-events-none">
+                    <div className="absolute right-2 bottom-1 text-xs text-gray-400 bg-gray-50/80 px-1.5 py-0.5 rounded-full select-none">
                       {inputValue.length}/100
                     </div>
                     {errorMessage && (
-                      <div className="absolute left-0 -top-7 text-xs text-red-500 animate-fadeIn bg-white px-2 py-1 rounded shadow-sm">
+                      <div className="absolute left-0 -top-8 text-xs text-red-500 animate-fadeIn bg-white px-3 py-1.5 rounded-lg shadow-md border border-red-100">
                         {errorMessage}
                       </div>
                     )}
                   </div>
                   <button
-                    className={`flex-shrink-0 rounded-xl px-5 py-2.5 text-base font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-md hover:from-blue-600 hover:to-purple-600 focus:outline-none ${isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                    className={`flex-shrink-0 rounded-full w-11 h-11 flex items-center justify-center transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg focus:outline-none ${
+                      isLoading || !inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'
+                    }`}
                     onClick={handleSendMessage}
                     disabled={isLoading || !inputValue.trim()}
                     aria-label="发送"
                   >
                     <FiSend className="w-5 h-5" />
                   </button>
+                </div>
+                <div className="text-xs text-center text-gray-400 mt-2">
+                  按Enter发送，Shift+Enter换行
                 </div>
               </div>
             </div>
