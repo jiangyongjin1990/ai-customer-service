@@ -61,6 +61,10 @@ export default function Home() {
   const [videoError, setVideoError] = useState(false);
   // 添加调试用状态
   const [videoDebugInfo, setVideoDebugInfo] = useState<string>('');
+  // 添加最后尝试方案
+  const [useFallbackImage, setUseFallbackImage] = useState(false);
+  // 添加视频DOM引用
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // 检测是否在微信浏览器中
   useEffect(() => {
@@ -72,6 +76,43 @@ export default function Home() {
     // 记录浏览器信息用于调试
     setVideoDebugInfo(`浏览器: ${navigator.userAgent}`);
   }, []);
+
+  // 视频加载处理
+  useEffect(() => {
+    // 视频加载超时处理
+    let timeoutId: NodeJS.Timeout;
+    
+    if (!isWechat && videoRef.current) {
+      // 预检查视频是否可用
+      fetch('/images/维普特官网视频.webm', { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            console.log('视频文件存在，尝试加载');
+            // 预加载视频
+            videoRef.current?.load();
+          } else {
+            console.log('视频文件不存在或无法访问，使用备选方案');
+            setUseFallbackImage(true);
+          }
+        })
+        .catch(error => {
+          console.error('检查视频文件时出错:', error);
+          setUseFallbackImage(true);
+        });
+      
+      // 如果10秒内视频没有加载完成，则使用备选方案
+      timeoutId = setTimeout(() => {
+        if (!videoLoaded) {
+          console.log('视频加载超时，使用备选方案');
+          setUseFallbackImage(true);
+        }
+      }, 10000);
+    }
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isWechat, videoLoaded, setUseFallbackImage]);
 
   // 捕获渲染错误
   useEffect(() => {
@@ -221,11 +262,13 @@ export default function Home() {
                 
                 {/* 视频元素 */}
                 <video
+                  ref={videoRef}
                   className={`w-full h-full object-cover z-10 transition-all duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
                   autoPlay
                   muted
                   loop
                   playsInline
+                  preload="auto"
                   onCanPlay={() => {
                     console.log("视频可以播放");
                     setVideoLoaded(true);
@@ -239,11 +282,55 @@ export default function Home() {
                     const errorMsg = error ? `错误码: ${error.code}, 信息: ${error.message}` : '未知错误';
                     console.error("视频加载失败:", errorMsg);
                     setVideoDebugInfo(prev => `${prev}, 错误: ${errorMsg}`);
-                    setVideoError(true);
+                    
+                    // 尝试重新加载一次
+                    const video = e.target as HTMLVideoElement;
+                    if (!video.getAttribute('data-tried-reload')) {
+                      console.log('尝试重新加载视频...');
+                      video.setAttribute('data-tried-reload', 'true');
+                      setTimeout(() => {
+                        video.load();
+                      }, 1000);
+                    } else {
+                      // 第二次失败后，使用静态图片作为备选
+                      console.log('视频重载失败，尝试使用静态图片');
+                      setUseFallbackImage(true);
+                      
+                      // 如果不使用备选图片，则隐藏整个视频模块
+                      if (!useFallbackImage) {
+                        // 不要立即设置错误状态，等待图片尝试加载
+                        console.log('等待备选图片加载...');
+                      } else {
+                        // 如果已经尝试过图片仍失败，则设置错误状态
+                        setVideoError(true);
+                      }
+                    }
                   }}
                 >
                   <source src="/images/维普特官网视频.webm" type="video/webm" />
+                  {/* 尝试添加MP4格式作为备选 */}
+                  <source src="/images/维普特官网视频.mp4" type="video/mp4" />
+                  {/* 尝试添加直接URL访问 */}
+                  <source src={`${window.location.origin}/images/维普特官网视频.webm`} type="video/webm" />
                 </video>
+                
+                {/* 使用静态图片作为最后的备选方案 */}
+                {useFallbackImage && !videoError && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center">
+                    <Image 
+                      src="/images/poster/video-poster.jpg" 
+                      alt="智能客服展示" 
+                      fill
+                      className="object-cover"
+                      priority
+                      onError={() => {
+                        console.error("备选图片也加载失败");
+                        // 如果图片也失败，则隐藏整个模块
+                        setVideoError(true);
+                      }}
+                    />
+                  </div>
+                )}
                 
                 {/* 添加调试信息，仅在开发环境显示 */}
                 {process.env.NODE_ENV === 'development' && videoError && (
