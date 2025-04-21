@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
+// @ts-ignore - 忽略类型检查
 import { twMerge } from 'tailwind-merge';
 
 /**
