@@ -121,7 +121,7 @@ export function generateFallbackReply(message: string): string {
   // 简单的关键词匹配
   const lowerMessage = message.toLowerCase();
   
-  // 转人工相关请求
+  // 转人工相关请求 - 保留此逻辑用于API调用失败时的兜底
   if (lowerMessage.includes('转人工') || lowerMessage.includes('人工客服') || lowerMessage.includes('真人') || 
       lowerMessage.includes('机器人') || lowerMessage.includes('换人')) {
     return '您好，我就是真人客服，正在为您服务。请问有什么可以帮助您的呢？';
