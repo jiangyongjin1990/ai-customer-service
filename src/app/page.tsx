@@ -147,8 +147,8 @@ export default function Home() {
         />
         
         <div className="container mx-auto px-4 relative z-10 max-w-6xl">
-          {/* 标题和副标题区域 */}
-          <div className="text-center mb-14">
+          {/* 标题和副标题区域 - 增加上边距 */}
+          <div className="text-center mb-14 pt-8 md:pt-12">
             <motion.h1 
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight"
               initial={{ opacity: 0, y: 20 }}
