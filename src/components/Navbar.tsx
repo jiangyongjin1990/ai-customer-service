@@ -100,10 +100,10 @@ const NavbarContent = () => {
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <Link href="/" className="flex items-center" onClick={handleNavLinkClick}>
                 <span className="sr-only">维普特AI</span>
-                <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold text-xl px-3 rounded-md flex items-center">
+                <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white font-bold text-xl px-3 rounded-md flex items-center">
                   维普特
                 </div>
-                <span className="ml-2 text-xl font-bold bg-gradient-to-r from-blue-500 via-violet-500 to-purple-500 bg-clip-text text-transparent">
+                <span className="ml-2 text-xl font-bold bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
                   AI
                 </span>
               </Link>
@@ -208,10 +208,10 @@ const NavbarContent = () => {
                   <div className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center">
-                        <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-[#4e90cc] to-[#9478f0] text-white font-bold text-xl px-3 rounded-md flex items-center">
+                        <div className="h-8 w-auto sm:h-10 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white font-bold text-xl px-3 rounded-md flex items-center">
                           维普特
                         </div>
-                        <span className="ml-2 text-xl font-bold bg-gradient-to-r from-[#4e90cc] via-[#7a85e0] to-[#9478f0] bg-clip-text text-transparent">
+                        <span className="ml-2 text-xl font-bold bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
                           AI
                         </span>
                       </div>
