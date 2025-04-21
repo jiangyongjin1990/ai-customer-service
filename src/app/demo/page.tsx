@@ -41,8 +41,8 @@ function ChatDemo() {
   // 顶栏和底栏高度
   const HEADER_HEIGHT = 72;
   const FOOTER_HEIGHT = 80; // 底部边距更小
-  const TOP_GAP = 22; // 调整与顶栏的间距到适中位置
-  const BOTTOM_GAP = 10; // 减少与底栏的间距
+  const TOP_GAP = 15; // 与底部间距保持一致
+  const BOTTOM_GAP = 15; // 与顶部间距保持一致
   const [mainContentHeight, setMainContentHeight] = useState(0);
 
   useEffect(() => {
