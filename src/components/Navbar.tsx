@@ -91,7 +91,7 @@ const NavbarContent = () => {
       )}
       
       <nav
-        className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-300 bg-white
+        className={`fixed w-full top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent
         ${scrolled ? 'py-2 navbar-scrolled' : 'py-4'}`}
         style={{position: 'fixed'}}
       >
